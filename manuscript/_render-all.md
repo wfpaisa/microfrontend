@@ -7584,7 +7584,7 @@ En vista del principio de responsabilidad única, no permitiría que los
 stores ligeros se accedan entre sí; en su lugar, puedes introducir un
 servicio de funcionalidad que orqueste los stores necesarios.
 
-# 13. Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo (Workspace) de Nx {#13-extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx}
+# 13. Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo (Workspace) de Nx
 
 Nx es bastante popular cuando se trata de grandes aplicaciones
 empresariales basadas en Angular. Gracias a su concepto de plugins, Nx
