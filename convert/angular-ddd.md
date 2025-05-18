@@ -1,368 +1,202 @@
 # Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
 
-- [Introducción](#introducción)
-  - [Estructura de Este
-    Libro](#estructura-de-este-libro)
-  - [Formaciones y
-    Consultoría](#formaciones-y-consultoría)
-  - [¡Ayuda a Mejorar este
-    Libro!](#ayuda-a-mejorar-este-libro)
+- 00 [Introducción](#introducción)
+  - [Estructura de Este Libro](#estructura-de-este-libro)
+  - [Formaciones y Consultoría](#formaciones-y-consultoría)
+  - [¡Ayuda a Mejorar este Libro!](#ayuda-a-mejorar-este-libro)
   - [Agradecimientos](#agradecimientos)
-- [Diseño Estratégico Guiado por el
-  Dominio](#diseño-estratégico-guiado-por-el-dominio)
-  - [¿Qué es el Diseño Guiado por el
-    Dominio?](#qué-es-el-diseño-guiado-por-el-dominio)
-  - [Encontrando Dominios con Diseño
-    Estratégico](#encontrando-dominios-con-diseño-estratégico)
-  - [Los Dominios se Modelan por
-    Separado](#los-dominios-se-modelan-por-separado)
-  - [Mapeo de Contextos
-    (Context-Mapping)](#mapeo-de-contextos-context-mapping)
-  - [Subdominios vs. Contextos
-    Delimitados](#subdominios-vs-contextos-delimitados)
-  - [Topologías de Equipos y Diseño
-    Estratégico](#topologías-de-equipos-y-diseño-estratégico)
+- 01 [Diseño Estratégico Guiado por el Dominio](#diseño-estratégico-guiado-por-el-dominio)
+  - [¿Qué es el Diseño Guiado por el Dominio?](#qué-es-el-diseño-guiado-por-el-dominio)
+  - [Encontrando Dominios con Diseño Estratégico](#encontrando-dominios-con-diseño-estratégico)
+  - [Los Dominios se Modelan por Separado](#los-dominios-se-modelan-por-separado)
+  - [Mapeo de Contextos (Context-Mapping)](#mapeo-de-contextos-context-mapping)
+  - [Subdominios vs. Contextos Delimitados](#subdominios-vs-contextos-delimitados)
+  - [Topologías de Equipos y Diseño Estratégico](#topologías-de-equipos-y-diseño-estratégico)
   - [Conclusión](#conclusión)
-- [Arquitecturas con Sheriff y Componentes Independientes
-  (Standalone)](#arquitecturas-con-sheriff-y-componentes-independientes-standalone)
-  - [La Matriz de
-    Arquitectura](#la-matriz-de-arquitectura)
-  - [Estructura del Proyecto para la Matriz de
-    Arquitectura](#estructura-del-proyecto-para-la-matriz-de-arquitectura)
-  - [Aplicando tu Arquitectura con
-    Sheriff](#aplicando-tu-arquitectura-con-sheriff)
-  - [Mapeos de Rutas
-    Ligeros](#mapeos-de-rutas-ligeros)
+- 02 [Arquitecturas con Sheriff y Componentes Independientes (Standalone)](#arquitecturas-con-sheriff-y-componentes-independientes-standalone)
+  - [La Matriz de Arquitectura](#la-matriz-de-arquitectura)
+  - [Estructura del Proyecto para la Matriz de Arquitectura](#estructura-del-proyecto-para-la-matriz-de-arquitectura)
+  - [Aplicando tu Arquitectura con Sheriff](#aplicando-tu-arquitectura-con-sheriff)
+  - [Mapeos de Rutas Ligeros](#mapeos-de-rutas-ligeros)
   - [Conclusión](#conclusión-1)
-- [Rendimiento de Compilación con
-  Nx](#rendimiento-de-compilación-con-nx)
-  - [Compilaciones Incrementales -- Primeros
-    Pasos](#compilaciones-incrementales--primeros-pasos)
-  - [Más cómodo y más potente:
-    Nx](#más-cómodo-y-más-potente-nx)
-  - [Compilaciones Incrementales con
-    Nx](#compilaciones-incrementales-con-nx)
-  - [Nota al Margen: Micro
-    Frontends](#nota-al-margen-micro-frontends)
-  - [Caché Distribuida con Nx
-    Cloud](#caché-distribuida-con-nx-cloud)
-  - [Aún Más Rápido: Paralelización con Nx
-    Cloud](#aún-más-rápido-paralelización-con-nx-cloud)
+- 03 [Rendimiento de Compilación con Nx](#rendimiento-de-compilación-con-nx)
+  - [Compilaciones Incrementales -- Primeros Pasos](#compilaciones-incrementales--primeros-pasos)
+  - [Más cómodo y más potente: Nx](#más-cómodo-y-más-potente-nx)
+  - [Compilaciones Incrementales con Nx](#compilaciones-incrementales-con-nx)
+  - [Nota al Margen: Micro Frontends](#nota-al-margen-micro-frontends)
+  - [Caché Distribuida con Nx Cloud](#caché-distribuida-con-nx-cloud)
+  - [Aún Más Rápido: Paralelización con Nx Cloud](#aún-más-rápido-paralelización-con-nx-cloud)
   - [Conclusión](#conclusión-2)
-- [Nx & Sheriff - Amigos para toda la
-  vida](#nx--sheriff---amigos-para-toda-la-vida)
-  - [Límites de Módulo en
-    Nx](#límites-de-módulo-en-nx)
-    - [Etiquetado de Aplicaciones y
-      Librerías](#etiquetado-de-aplicaciones-y-librerías)
-    - [Definición de Límites de
-      Módulo](#definición-de-límites-de-módulo)
-    - [Hacer Cumplir los Límites de
-      Módulo](#hacer-cumplir-los-límites-de-módulo)
-    - [Tu Arquitectura con Solo Presionar un
-      Botón](#tu-arquitectura-con-solo-presionar-un-botón)
-  - [Recapitulación: Diferentes Tipos de
-    Límites](#recapitulación-diferentes-tipos-de-límites)
-  - [Opciones con
-    Sheriff](#opciones-con-sheriff)
-    - [Aplicación por
-      Dominio](#aplicación-por-dominio)
-    - [Librería por
-      Dominio](#librería-por-dominio)
+- 03a [Nx & Sheriff - Amigos para toda la vida](#nx--sheriff---amigos-para-toda-la-vida)
+  - [Límites de Módulo en Nx](#límites-de-módulo-en-nx)
+    - [Etiquetado de Aplicaciones y Librerías](#etiquetado-de-aplicaciones-y-librerías)
+    - [Definición de Límites de Módulo](#definición-de-límites-de-módulo)
+    - [Hacer Cumplir los Límites de Módulo](#hacer-cumplir-los-límites-de-módulo)
+    - [Tu Arquitectura con Solo Presionar un Botón](#tu-arquitectura-con-solo-presionar-un-botón)
+  - [Recapitulación: Diferentes Tipos de Límites](#recapitulación-diferentes-tipos-de-límites)
+  - [Opciones con Sheriff](#opciones-con-sheriff)
+    - [Aplicación por Dominio](#aplicación-por-dominio)
+    - [Librería por Dominio](#librería-por-dominio)
   - [Conclusión](#conclusión-3)
-- [De Dominios a Micro
-  Frontends](#de-dominios-a-micro-frontends)
-  - [Monolitos de
-    Despliegue](#monolitos-de-despliegue)
+- 04 [De Dominios a Micro Frontends](#de-dominios-a-micro-frontends)
+  - [Monolitos de Despliegue](#monolitos-de-despliegue)
   - [Micro Frontends](#micro-frontends)
-  - [Composición de UI con
-    Hipervínculos](#composición-de-ui-con-hipervínculos)
-  - [Composición de UI con un
-    Shell](#composición-de-ui-con-un-shell)
-  - [El Héroe: Module
-    Federation](#el-héroe-module-federation)
-  - [Encontrando una
-    Solución](#encontrando-una-solución)
-  - [Consecuencias de los Micro
-    Frontends](#consecuencias-de-los-micro-frontends)
+  - [Composición de UI con Hipervínculos](#composición-de-ui-con-hipervínculos)
+  - [Composición de UI con un Shell](#composición-de-ui-con-un-shell)
+  - [El Héroe: Module Federation](#el-héroe-module-federation)
+  - [Encontrando una Solución](#encontrando-una-solución)
+  - [Consecuencias de los Micro Frontends](#consecuencias-de-los-micro-frontends)
   - [Conclusión](#conclusión-4)
-- [La Revolución de los Micro Frontends: Usando Module Federation con
-  Angular](#la-revolución-de-los-micro-frontends-usando-module-federation-con-angular)
+- 05 [La Revolución de los Micro Frontends: Usando Module Federation con Angular](#la-revolución-de-los-micro-frontends-usando-module-federation-con-angular)
   - [Ejemplo](#ejemplo)
-  - [Activando Module Federation para Proyectos
-    Angular](#activando-module-federation-para-proyectos-angular)
-  - [El Shell (también conocido como
-    Host)](#el-shell-también-conocido-como-host)
-  - [El Micro Frontend (también conocido como
-    Remoto)](#el-micro-frontend-también-conocido-como-remoto)
+  - [Activando Module Federation para Proyectos Angular](#activando-module-federation-para-proyectos-angular)
+  - [El Shell (también conocido como Host)](#el-shell-también-conocido-como-host)
+  - [El Micro Frontend (también conocido como Remoto)](#el-micro-frontend-también-conocido-como-remoto)
   - [Probándolo](#probándolo)
-  - [Un Detalle
-    Adicional](#un-detalle-adicional)
-  - [Más Detalles: Compartiendo
-    Dependencias](#más-detalles-compartiendo-dependencias)
+  - [Un Detalle Adicional](#un-detalle-adicional)
+  - [Más Detalles: Compartiendo Dependencias](#más-detalles-compartiendo-dependencias)
   - [Más Sobre Esto](#más-sobre-esto)
-  - [Conclusión y
-    Evaluación](#conclusión-y-evaluación)
-- [Federación Dinámica de
-  Módulos](#federación-dinámica-de-módulos)
-  - [Una Solución Dinámica
-    Simple](#una-solución-dinámica-simple)
-    - [Añadiendo Federación de
-      Módulos](#añadiendo-federación-de-módulos)
-    - [Generando un
-      Manifiesto](#generando-un-manifiesto)
-    - [Cargando el
-      Manifiesto](#cargando-el-manifiesto)
-    - [Cargando los Micro
-      Frontends](#cargando-los-micro-frontends)
-    - [Configurando los Micro
-      Frontends](#configurando-los-micro-frontends)
+  - [Conclusión y Evaluación](#conclusión-y-evaluación)
+- 06 [Federación Dinámica de Módulos](#federación-dinámica-de-módulos)
+  - [Una Solución Dinámica Simple](#una-solución-dinámica-simple)
+    - [Añadiendo Federación de Módulos](#añadiendo-federación-de-módulos)
+    - [Generando un Manifiesto](#generando-un-manifiesto)
+    - [Cargando el Manifiesto](#cargando-el-manifiesto)
+    - [Cargando los Micro Frontends](#cargando-los-micro-frontends)
+    - [Configurando los Micro Frontends](#configurando-los-micro-frontends)
     - [Probándolo](#probándolo-1)
-  - [Haciéndolo \"Dinámico
-    Dinámico\"](#haciéndolo-dinámico-dinámico)
-    - [Añadiendo Metadatos Personalizados al
-      Manifiesto](#añadiendo-metadatos-personalizados-al-manifiesto)
-    - [Tipos para Configuración
-      Personalizada](#tipos-para-configuración-personalizada)
-    - [Creando Rutas
-      Dinámicamente](#creando-rutas-dinámicamente)
+  - [Haciéndolo \"Dinámico Dinámico\"](#haciéndolo-dinámico-dinámico)
+    - [Añadiendo Metadatos Personalizados al Manifiesto](#añadiendo-metadatos-personalizados-al-manifiesto)
+    - [Tipos para Configuración Personalizada](#tipos-para-configuración-personalizada)
+    - [Creando Rutas Dinámicamente](#creando-rutas-dinámicamente)
     - [Probándolo](#probándolo-2)
-  - [Algunos Detalles
-    Más](#algunos-detalles-más)
+  - [Algunos Detalles Más](#algunos-detalles-más)
   - [Conclusión](#conclusión-5)
-- [Sistemas de Plugins con Module Federation: Construyendo un
-  Diseñador de Flujos de Trabajo
-  Extensible](#sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible)
-  - [Construyendo los
-    Plugins](#construyendo-los-plugins)
-  - [Cargando los Plugins en el Diseñador de Flujos de
-    Trabajo](#cargando-los-plugins-en-el-diseñador-de-flujos-de-trabajo)
-  - [Proporcionando Metadatos sobre los
-    Plugins](#proporcionando-metadatos-sobre-los-plugins)
-  - [Creando Dinámicamente el Componente del
-    Plugin](#creando-dinámicamente-el-componente-del-plugin)
+- 07 [Sistemas de Plugins con Module Federation: Construyendo un Diseñador de Flujos de Trabajo Extensible](#sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible)
+  - [Construyendo los Plugins](#construyendo-los-plugins)
+  - [Cargando los Plugins en el Diseñador de Flujos de Trabajo](#cargando-los-plugins-en-el-diseñador-de-flujos-de-trabajo)
+  - [Proporcionando Metadatos sobre los Plugins](#proporcionando-metadatos-sobre-los-plugins)
+  - [Creando Dinámicamente el Componente del Plugin](#creando-dinámicamente-el-componente-del-plugin)
   - [Conectando Todo](#conectando-todo)
   - [Conclusión](#conclusión-6)
-- [Usando Module Federation con Monorepos Nx y
-  Angular](#usando-module-federation-con-monorepos-nx-y-angular)
-  - [Múltiples Repos vs.
-    Monorepos](#múltiples-repos-vs-monorepos)
-  - [Múltiples Repositorios: Micro Frontends al Pie de la
-    Letra](#múltiples-repositorios-micro-frontends-al-pie-de-la-letra)
-  - [Micro Frontends con
-    Monorepos](#micro-frontends-con-monorepos)
-  - [Ejemplo de
-    Monorepo](#ejemplo-de-monorepo)
-  - [La Librería
-    Compartida](#la-librería-compartida)
-  - [La Configuración de Module
-    Federation](#la-configuración-de-module-federation)
+- 08 [Usando Module Federation con Monorepos Nx y Angular](#usando-module-federation-con-monorepos-nx-y-angular)
+  - [Múltiples Repos vs. Monorepos](#múltiples-repos-vs-monorepos)
+  - [Múltiples Repositorios: Micro Frontends al Pie de la Letra](#múltiples-repositorios-micro-frontends-al-pie-de-la-letra)
+  - [Micro Frontends con Monorepos](#micro-frontends-con-monorepos)
+  - [Ejemplo de Monorepo](#ejemplo-de-monorepo)
+  - [La Librería Compartida](#la-librería-compartida)
+  - [La Configuración de Module Federation](#la-configuración-de-module-federation)
   - [Probándolo](#probándolo-3)
-  - [Aislando Micro
-    Frontends](#aislando-micro-frontends)
-  - [Compilaciones
-    Incrementales](#compilaciones-incrementales)
+  - [Aislando Micro Frontends](#aislando-micro-frontends)
+  - [Compilaciones Incrementales](#compilaciones-incrementales)
   - [Desplegando](#desplegando)
   - [Conclusión](#conclusión-7)
-- [Manejo de Desajustes de Versión en Module
-  Federation](#manejo-de-desajustes-de-versión-en-module-federation)
-  - [Ejemplo Utilizado
-    Aquí](#ejemplo-utilizado-aquí)
-  - [Versionado Semántico por
-    Defecto](#versionado-semántico-por-defecto)
-  - [Módulos de Respaldo para Versiones
-    Incompatibles](#módulos-de-respaldo-para-versiones-incompatibles)
-  - [Diferencias con Dynamic Module
-    Federation](#diferencias-con-dynamic-module-federation)
+- 09 [Manejo de Desajustes de Versión en Module Federation](#manejo-de-desajustes-de-versión-en-module-federation)
+  - [Ejemplo Utilizado Aquí](#ejemplo-utilizado-aquí)
+  - [Versionado Semántico por Defecto](#versionado-semántico-por-defecto)
+  - [Módulos de Respaldo para Versiones Incompatibles](#módulos-de-respaldo-para-versiones-incompatibles)
+  - [Diferencias con Dynamic Module Federation](#diferencias-con-dynamic-module-federation)
   - [Singletons](#singletons)
-  - [Aceptar un Rango de
-    Versiones](#aceptar-un-rango-de-versiones)
+  - [Aceptar un Rango de Versiones](#aceptar-un-rango-de-versiones)
   - [Conclusión](#conclusión-8)
-- [Micro Frontends Multimarco y Multiversión con Module
-  Federation](#micro-frontends-multimarco-y-multiversión-con-module-federation)
-  - [¿Patrón o
-    Antipatrón?](#patrón-o-antipatrón)
-  - [¿Micro Frontends como Web
-    Components?](#micro-frontends-como-web-components)
-  - [¿También necesitamos Module
-    Federation?](#también-necesitamos-module-federation)
-  - [Implementación en 4
-    pasos](#implementación-en-4-pasos)
-    - [Paso 1: Envuelve tu Micro Frontend en un Web
-      Component](#paso-1-envuelve-tu-micro-frontend-en-un-web-component)
-    - [Paso 2: Expón tu Web Component vía Module
-      Federation](#paso-2-expón-tu-web-component-vía-module-federation)
-    - [Paso 3: Realiza Ajustes para
-      Angular](#paso-3-realiza-ajustes-para-angular)
-    - [Paso 4: Carga los Micro Frontends en el
-      Shell](#paso-4-carga-los-micro-frontends-en-el-shell)
+- 10 [Micro Frontends Multimarco y Multiversión con Module Federation](#micro-frontends-multimarco-y-multiversión-con-module-federation)
+  - [¿Patrón o Antipatrón?](#patrón-o-antipatrón)
+  - [¿Micro Frontends como Web Components?](#micro-frontends-como-web-components)
+  - [¿También necesitamos Module Federation?](#también-necesitamos-module-federation)
+  - [Implementación en 4 pasos](#implementación-en-4-pasos)
+    - [Paso 1: Envuelve tu Micro Frontend en un Web Component](#paso-1-envuelve-tu-micro-frontend-en-un-web-component)
+    - [Paso 2: Expón tu Web Component vía Module Federation](#paso-2-expón-tu-web-component-vía-module-federation)
+    - [Paso 3: Realiza Ajustes para Angular](#paso-3-realiza-ajustes-para-angular)
+    - [Paso 4: Carga los Micro Frontends en el Shell](#paso-4-carga-los-micro-frontends-en-el-shell)
     - [Resultado](#resultado)
-- [Obstáculos con Module Federation y
-  Angular](#obstáculos-con-module-federation-y-angular)
-  - [\"No se especificó la versión requerida\" y Puntos de Entrada
-    Secundarios](#no-se-especificó-la-versión-requerida-y-puntos-de-entrada-secundarios)
-  - [Desajustes de Versión No Evidentes: Problemas con Dependencias
-    Peer](#desajustes-de-versión-no-evidentes-problemas-con-dependencias-peer)
-  - [Problemas al Compartir Código y
-    Datos](#problemas-al-compartir-código-y-datos)
-  - [NullInjectorError: Se espera un servicio en el Ámbito Padre
-    (Ámbito
-    Raíz)](#nullinjectorerror-se-espera-un-servicio-en-el-ámbito-padre-ámbito-raíz)
-  - [Varios Ámbitos
-    Raíz](#varios-ámbitos-raíz)
-  - [Diferentes Versiones de
-    Angular](#diferentes-versiones-de-angular)
-  - [Bonus: Múltiples
-    Bundles](#bonus-múltiples-bundles)
+- 11 [Obstáculos con Module Federation y Angular](#obstáculos-con-module-federation-y-angular)
+  - [\"No se especificó la versión requerida\" y Puntos de Entrada Secundarios](#no-se-especificó-la-versión-requerida-y-puntos-de-entrada-secundarios)
+  - [Desajustes de Versión No Evidentes: Problemas con Dependencias Peer](#desajustes-de-versión-no-evidentes-problemas-con-dependencias-peer)
+  - [Problemas al Compartir Código y Datos](#problemas-al-compartir-código-y-datos)
+  - [NullInjectorError: Se espera un servicio en el Ámbito Padre (Ámbito Raíz)](#nullinjectorerror-se-espera-un-servicio-en-el-ámbito-padre-ámbito-raíz)
+  - [Varios Ámbitos Raíz](#varios-ámbitos-raíz)
+  - [Diferentes Versiones de Angular](#diferentes-versiones-de-angular)
+  - [Bonus: Múltiples Bundles](#bonus-múltiples-bundles)
   - [Conclusión](#conclusión-9)
-- [Federación de Módulos con Componentes Independientes de
-  Angular](#federación-de-módulos-con-componentes-independientes-de-angular)
-  - [Configuraciones del Enrutador vs. Componentes
-    Independientes](#configuraciones-del-enrutador-vs-componentes-independientes)
-  - [Situación Inicial: Nuestro Micro
-    Frontend](#situación-inicial-nuestro-micro-frontend)
-  - [Activando la Federación de
-    Módulos](#activando-la-federación-de-módulos)
+- 12 [Federación de Módulos con Componentes Independientes de Angular](#federación-de-módulos-con-componentes-independientes-de-angular)
+  - [Configuraciones del Enrutador vs. Componentes Independientes](#configuraciones-del-enrutador-vs-componentes-independientes)
+  - [Situación Inicial: Nuestro Micro Frontend](#situación-inicial-nuestro-micro-frontend)
+  - [Activando la Federación de Módulos](#activando-la-federación-de-módulos)
   - [Shell Estático](#shell-estático)
-  - [Alternativa: Shell
-    Dinámico](#alternativa-shell-dinámico)
-  - [Bonus: Carga
-    Programática](#bonus-carga-programática)
-- [De Module Federation a esbuild y Native
-  Federation](#de-module-federation-a-esbuild-y-native-federation)
-  - [Native Federation con
-    esbuild](#native-federation-con-esbuild)
-  - [Native Federation: Configurando un Micro
-    Frontend](#native-federation-configurando-un-micro-frontend)
-  - [Native Federation: Configurando un
-    Shell](#native-federation-configurando-un-shell)
-  - [Exponiendo una Configuración de Enrutador (Router
-    Config)](#exponiendo-una-configuración-de-enrutador-router-config)
-  - [Comunicación entre Micro
-    Frontends](#comunicación-entre-micro-frontends)
+  - [Alternativa: Shell Dinámico](#alternativa-shell-dinámico)
+  - [Bonus: Carga Programática](#bonus-carga-programática)
+- 12a [De Module Federation a esbuild y Native Federation](#de-module-federation-a-esbuild-y-native-federation)
+  - [Native Federation con esbuild](#native-federation-con-esbuild)
+  - [Native Federation: Configurando un Micro Frontend](#native-federation-configurando-un-micro-frontend)
+  - [Native Federation: Configurando un Shell](#native-federation-configurando-un-shell)
+  - [Exponiendo una Configuración de Enrutador (Router Config)](#exponiendo-una-configuración-de-enrutador-router-config)
+  - [Comunicación entre Micro Frontends](#comunicación-entre-micro-frontends)
   - [Conclusión](#conclusión-10)
-- [El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 +
-  n
-  Sabores](#el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores)
-  - [Obteniendo el
-    Paquete](#obteniendo-el-paquete)
-  - [Sabor 1: Ligero con
-    signalState](#sabor-1-ligero-con-signalstate)
-    - [Seleccionando y Computando
-      Señales](#seleccionando-y-computando-señales)
-    - [Actualizando el
-      Estado](#actualizando-el-estado)
-  - [Efectos
-    Secundarios](#efectos-secundarios)
-    - [Desacoplando la Intención de la
-      Ejecución](#desacoplando-la-intención-de-la-ejecución)
-  - [Sabor 2: Potente con
-    signalStore](#sabor-2-potente-con-signalstore)
-    - [Seleccionando y Computando
-      Señales](#seleccionando-y-computando-señales-1)
-    - [Métodos para Actualizar Estado y Efectos
-      Secundarios](#métodos-para-actualizar-estado-y-efectos-secundarios)
-    - [Consumiendo el
-      Store](#consumiendo-el-store)
+- 12b [El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 + n Sabores](#el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores)
+  - [Obteniendo el Paquete](#obteniendo-el-paquete)
+  - [Sabor 1: Ligero con signalState](#sabor-1-ligero-con-signalstate)
+    - [Seleccionando y Computando Señales](#seleccionando-y-computando-señales)
+    - [Actualizando el Estado](#actualizando-el-estado)
+  - [Efectos Secundarios](#efectos-secundarios)
+    - [Desacoplando la Intención de la Ejecución](#desacoplando-la-intención-de-la-ejecución)
+  - [Sabor 2: Potente con signalStore](#sabor-2-potente-con-signalstore)
+    - [Seleccionando y Computando Señales](#seleccionando-y-computando-señales-1)
+    - [Métodos para Actualizar Estado y Efectos Secundarios](#métodos-para-actualizar-estado-y-efectos-secundarios)
+    - [Consumiendo el Store](#consumiendo-el-store)
     - [Hooks](#hooks)
     - [rxMethod](#rxmethod)
-  - [Características Personalizadas - n Sabores
-    Adicionales](#características-personalizadas---n-sabores-adicionales)
-    - [Definiendo Características
-      Personalizadas](#definiendo-características-personalizadas)
-    - [Usando Características
-      Personalizadas](#usando-características-personalizadas)
-  - [Sabor 3: Características Incorporadas como Gestión de
-    Entidades](#sabor-3-características-incorporadas-como-gestión-de-entidades)
+  - [Características Personalizadas - n Sabores Adicionales](#características-personalizadas---n-sabores-adicionales)
+    - [Definiendo Características Personalizadas](#definiendo-características-personalizadas)
+    - [Usando Características Personalizadas](#usando-características-personalizadas)
+  - [Sabor 3: Características Incorporadas como Gestión de Entidades](#sabor-3-características-incorporadas-como-gestión-de-entidades)
   - [Conclusión](#conclusión-11)
-- [Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando
-  tu Aplicación Con NGRX Signal Store y Funcionalidades
-  Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas)
+- 12c [Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando tu Aplicación Con NGRX Signal Store y Funcionalidades Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas)
   - [Objetivo](#objetivo)
-  - [Funcionalidad Personalizada
-    DataService](#funcionalidad-personalizada-dataservice)
-  - [Implementando una Funcionalidad Personalizada
-    Genérica](#implementando-una-funcionalidad-personalizada-genérica)
-  - [Proporcionando un Servicio de Datos
-    Adecuado](#proporcionando-un-servicio-de-datos-adecuado)
-  - [Funcionalidad de
-    Deshacer/Rehacer](#funcionalidad-de-deshacerrehacer)
-  - [Usando el Store en un
-    Componente](#usando-el-store-en-un-componente)
-  - [Conclusión y
-    Perspectivas](#conclusión-y-perspectivas)
-- [Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas
-  Flexibles y con Seguridad de
-  Tipos](#análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos)
-  - [Una Primera Extensión
-    Sencilla](#una-primera-extensión-sencilla)
-  - [Ahora Empieza de Verdad: El
-    Tipado](#ahora-empieza-de-verdad-el-tipado)
-  - [Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan
-    Juntos?](#tipado-y-propiedades-dinámicas--cómo-funcionan-juntos)
-  - [Más Ejemplos: CRUD y
-    Deshacer/Rehacer](#más-ejemplos-crud-y-deshacerrehacer)
-  - [Extensiones Listas para Usar (Out of the
-    Box)](#extensiones-listas-para-usar-out-of-the-box)
+  - [Funcionalidad Personalizada DataService](#funcionalidad-personalizada-dataservice)
+  - [Implementando una Funcionalidad Personalizada Genérica](#implementando-una-funcionalidad-personalizada-genérica)
+  - [Proporcionando un Servicio de Datos Adecuado](#proporcionando-un-servicio-de-datos-adecuado)
+  - [Funcionalidad de Deshacer/Rehacer](#funcionalidad-de-deshacerrehacer)
+  - [Usando el Store en un Componente](#usando-el-store-en-un-componente)
+  - [Conclusión y Perspectivas](#conclusión-y-perspectivas)
+- 12d [Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas Flexibles y con Seguridad de Tipos](#análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos)
+  - [Una Primera Extensión Sencilla](#una-primera-extensión-sencilla)
+  - [Ahora Empieza de Verdad: El Tipado](#ahora-empieza-de-verdad-el-tipado)
+  - [Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan Juntos?](#tipado-y-propiedades-dinámicas--cómo-funcionan-juntos)
+  - [Más Ejemplos: CRUD y Deshacer/Rehacer](#más-ejemplos-crud-y-deshacerrehacer)
+  - [Extensiones Listas para Usar (Out of the Box)](#extensiones-listas-para-usar-out-of-the-box)
   - [Conclusión](#conclusión-12)
-- [El NGRX Signal Store y Tu
-  Arquitectura](#el-ngrx-signal-store-y-tu-arquitectura)
+- 12e [El NGRX Signal Store y Tu Arquitectura](#el-ngrx-signal-store-y-tu-arquitectura)
   - [¿Dónde Colocarlo?](#dónde-colocarlo)
-  - [Combinando el Signal Store con el Store NGRX
-    Tradicional](#combinando-el-signal-store-con-el-store-ngrx-tradicional)
-  - [Lo Mejor de Ambos Mundos a Través de Funcionalidades
-    Personalizadas](#lo-mejor-de-ambos-mundos-a-través-de-funcionalidades-personalizadas)
-  - [¿Qué Tan Grande Debería Ser un Signal
-    Store?](#qué-tan-grande-debería-ser-un-signal-store)
-  - [¿Puede un Signal Store Acceder a Otros Signal
-    Stores?](#puede-un-signal-store-acceder-a-otros-signal-stores)
-  - [Previniendo Ciclos, Redundancias e
-    Inconsistencias](#previniendo-ciclos-redundancias-e-inconsistencias)
+  - [Combinando el Signal Store con el Store NGRX Tradicional](#combinando-el-signal-store-con-el-store-ngrx-tradicional)
+  - [Lo Mejor de Ambos Mundos a Través de Funcionalidades Personalizadas](#lo-mejor-de-ambos-mundos-a-través-de-funcionalidades-personalizadas)
+  - [¿Qué Tan Grande Debería Ser un Signal Store?](#qué-tan-grande-debería-ser-un-signal-store)
+  - [¿Puede un Signal Store Acceder a Otros Signal Stores?](#puede-un-signal-store-acceder-a-otros-signal-stores)
+  - [Previniendo Ciclos, Redundancias e Inconsistencias](#previniendo-ciclos-redundancias-e-inconsistencias)
   - [Conclusión](#conclusión-13)
-- [Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo
-  (Workspace) de
-  Nx](#extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx)
-  - [Creando un Plugin de Espacio de Trabajo con un
-    Generador](#creando-un-plugin-de-espacio-de-trabajo-con-un-generador)
-  - [Plantillas para
-    Generadores](#plantillas-para-generadores)
-  - [Implementando un
-    Generador](#implementando-un-generador)
-  - [Verdaderos Tesoros: Métodos de Ayuda para Generadores en
-    Nx](#verdaderos-tesoros-métodos-de-ayuda-para-generadores-en-nx)
-  - [Probando los
-    Generadores](#probando-los-generadores)
-  - [Probando
-    Generadores](#probando-generadores)
-  - [Exportando Plugins vía
-    NPM](#exportando-plugins-vía-npm)
+- 13 [Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo (Workspace) de Nx](#extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx)
+  - [Creando un Plugin de Espacio de Trabajo con un Generador](#creando-un-plugin-de-espacio-de-trabajo-con-un-generador)
+  - [Plantillas para Generadores](#plantillas-para-generadores)
+  - [Implementando un Generador](#implementando-un-generador)
+  - [Verdaderos Tesoros: Métodos de Ayuda para Generadores en Nx](#verdaderos-tesoros-métodos-de-ayuda-para-generadores-en-nx)
+  - [Probando los Generadores](#probando-los-generadores)
+  - [Probando Generadores](#probando-generadores)
+  - [Exportando Plugins vía NPM](#exportando-plugins-vía-npm)
   - [Conclusión](#conclusión-14)
-- [Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven
-  Design)](#bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design)
-  - [DDD en Pocas
-    Palabras](#ddd-en-pocas-palabras)
-    - [Diseño
-      Estratégico](#diseño-estratégico)
+- 13a [Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven Design)](#bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design)
+  - [DDD en Pocas Palabras](#ddd-en-pocas-palabras)
+    - [Diseño Estratégico](#diseño-estratégico)
     - [Diseño Táctico](#diseño-táctico)
-    - [Desarrollos Recientes en
-      DDD](#desarrollos-recientes-en-ddd)
+    - [Desarrollos Recientes en DDD](#desarrollos-recientes-en-ddd)
     - [Más sobre DDD](#más-sobre-ddd)
   - [¿Cómo Definir DDD?](#cómo-definir-ddd)
-  - [¿Cuándo Podemos Llamarlo
-    DDD?](#cuándo-podemos-llamarlo-ddd)
-  - [¿Cuál es el Núcleo de DDD y Por Qué la Gente Tuvo una Impresión
-    Equivocada al
-    Respecto?](#cuál-es-el-núcleo-de-ddd-y-por-qué-la-gente-tuvo-una-impresión-equivocada-al-respecto)
-  - [¿Es el Diseño Táctico Orientado a Objetos? ¿Hay Lugar para la
-    PF (Programación
-    Funcional)?](#es-el-diseño-táctico-orientado-a-objetos-hay-lugar-para-la-pf-programación-funcional)
-  - [Otras Adaptaciones del Diseño
-    Táctico](#otras-adaptaciones-del-diseño-táctico)
+  - [¿Cuándo Podemos Llamarlo DDD?](#cuándo-podemos-llamarlo-ddd)
+  - [¿Cuál es el Núcleo de DDD y Por Qué la Gente Tuvo una Impresión Equivocada al Respecto?](#cuál-es-el-núcleo-de-ddd-y-por-qué-la-gente-tuvo-una-impresión-equivocada-al-respecto)
+  - [¿Es el Diseño Táctico Orientado a Objetos? ¿Hay Lugar para la PF (Programación Funcional)?](#es-el-diseño-táctico-orientado-a-objetos-hay-lugar-para-la-pf-programación-funcional)
+  - [Otras Adaptaciones del Diseño Táctico](#otras-adaptaciones-del-diseño-táctico)
   - [Conclusión](#conclusión-15)
-- [Literatura](#literatura)
-- [Acerca del Autor](#acerca-del-autor)
-- [Capacitaciones y
-  Consultoría](#capacitaciones-y-consultoría)
+- 14 [Literatura](#literatura)
+- 15 [Acerca del Autor](#acerca-del-autor)
+- 16 [Capacitaciones y Consultoría](#capacitaciones-y-consultoría)
 
 # Introducción
 
@@ -5047,7 +4881,7 @@ El Micro Frontend utilizado aquí es una aplicación Angular simple que
 inicializa un Componente Independiente:
 
 ```typescript
-// projects/mfe1/src/main.ts
+// projects/mfe1/src/bootstrap.ts
 
 import { environment } from "./environments/environment";
 import { enableProdMode, importProvidersFrom } from "@angular/core";
