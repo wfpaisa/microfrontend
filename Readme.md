@@ -1,5 +1,5 @@
 Traducción del libro al español. (Autogenerada con IA)
-(más información en la carpeta: convert)
+(más información en la carpeta: convert) [Ver online](https://github.com/wfpaisa/ddd-Angular/blob/master/manuscript/_render-all.md)
 
 - Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
 - Manfred Steyer
