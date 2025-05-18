@@ -527,7 +527,7 @@ libro:
   Shekhovtsov](https://twitter.com/valorkin) me ayudó a usar la
   integración de Angular CLI/webpack 5 para esto.
 
-# 01. Diseño Estratégico Guiado por el Dominio {#01-diseño-estratégico-guiado-por-el-dominio}
+# 01. Diseño Estratégico Guiado por el Dominio
 
 Para que las aplicaciones a escala empresarial sean mantenibles,
 necesitan ser subdivididas en partes pequeñas, menos complejas y
@@ -698,7 +698,7 @@ los cambios disruptivos (breaking changes) cuando evolucionen partes
 individuales de nuestro sistema. Por lo tanto, es bueno evaluar primero
 si una dependencia adicional es realmente necesaria.
 
-## Subdominios vs. Contextos Delimitados {#subdominios-vs-contextos-delimitados}
+## Subdominios vs. Contextos Delimitados
 
 Los Subdominios y los Contextos Delimitados son dos caras de la misma
 moneda: mientras que el término Subdominio se refiere a un área del
@@ -747,7 +747,7 @@ mapa de contextos muestra cómo interactúan esos dominios.
 En el próximo capítulo, veremos cómo podemos implementar esos dominios
 con Angular utilizando un monorepo basado en [Nx](https://nx.dev/).
 
-# 02. Arquitecturas con Sheriff y Componentes Independientes (Standalone) {#02-arquitecturas-con-sheriff-y-componentes-independientes-standalone}
+# 02. Arquitecturas con Sheriff y Componentes Independientes (Standalone)
 
 En el capítulo anterior, he mostrado cómo definir tu Diseño Estratégico.
 Este capítulo destaca la implementación de tu Diseño Estratégico basado
@@ -1062,7 +1062,7 @@ de compilación Nx.
 📁 [Código Fuente](https://github.com/manfredsteyer/modern-arc.git) (ver
 diferentes ramas)
 
-## Compilaciones Incrementales -- Primeros Pasos {#compilaciones-incrementales--primeros-pasos}
+## Compilaciones Incrementales -- Primeros Pasos
 
 Las compilaciones incrementales consisten en reconstruir solo las partes
 modificadas del repositorio y, por lo tanto, permiten acelerar
@@ -1606,7 +1606,7 @@ es donde entra Sheriff: permite definir límites de módulo a nivel de
 carpeta, mientras que Nx establece límites a nivel de aplicación y
 librería.
 
-# 04. De Dominios a Micro Frontends {#04-de-dominios-a-micro-frontends}
+# 04. De Dominios a Micro Frontends
 
 Supongamos que has identificado los subdominios para tu sistema. La
 siguiente pregunta es cómo implementarlos.
@@ -1824,7 +1824,7 @@ optimizado puede ser la elección correcta.
 Se trata de conocer tus objetivos arquitectónicos y de evaluar las
 consecuencias de los candidatos arquitectónicos.
 
-# 05. La Revolución de los Micro Frontends: Usando Module Federation con Angular {#05-la-revolución-de-los-micro-frontends-usando-module-federation-con-angular}
+# 05. La Revolución de los Micro Frontends: Usando Module Federation con Angular
 
 En el pasado, al implementar Micro Frontends, había que recurrir a
 algunos trucos. Una razón es seguramente que las herramientas de
@@ -2219,7 +2219,7 @@ de Angular completamente diferentes no funcionen juntos en tiempo de
 ejecución. Dichos casos deben evitarse con convenciones o al menos
 reconocerse lo antes posible con pruebas de integración.
 
-# 06. Federación Dinámica de Módulos {#06-federación-dinámica-de-módulos}
+# 06. Federación Dinámica de Módulos
 
 En el capítulo anterior, he mostrado cómo usar la Federación de Módulos
 de webpack para cargar Micro Frontends compilados por separado en un
@@ -2682,7 +2682,7 @@ webpack. Para facilitar un poco su uso, el plugin
 `@angular-architects/module-federation` lo envuelve elegantemente en
 algunas funciones de conveniencia.
 
-# 07. Sistemas de Plugins con Module Federation: Construyendo un Diseñador de Flujos de Trabajo Extensible {#07-sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible}
+# 07. Sistemas de Plugins con Module Federation: Construyendo un Diseñador de Flujos de Trabajo Extensible
 
 En el capítulo anterior, mostré cómo usar Dynamic Module Federation.
 Esto nos permite cargar Micro Frontends \-- o remotos, que es el término
@@ -2966,7 +2966,7 @@ permite extender una solución existente por parte de terceros. También
 parece ser una buena opción para aplicaciones SaaS, que necesitan
 adaptarse a las necesidades de diferentes clientes.
 
-# 08. Usando Module Federation con Monorepos Nx y Angular {#08-usando-module-federation-con-monorepos-nx-y-angular}
+# 08. Usando Module Federation con Monorepos Nx y Angular
 
 Aunque suene contradictorio, la combinación de Micro Frontends y
 Monorepos puede ser bastante tentadora: Sin **conflictos de versión**
@@ -2991,7 +2991,7 @@ repositorio](https://github.com/manfredsteyer/nx-module-federation-demo).
 > Shekhovtsov](https://twitter.com/valorkin) quien me ayudó a usar la
 > integración de Angular CLI/webpack 5 para esto.
 
-## Múltiples Repos vs. Monorepos {#múltiples-repos-vs-monorepos}
+## Múltiples Repos vs. Monorepos
 
 Lo sé, la discusión sobre usar múltiples repos vs. monorepos puede ser
 bastante emocional. Diferentes personas han tenido diferentes
@@ -3504,7 +3504,7 @@ paquetes (bundles).
 Ambos funcionan, sin embargo, ambos tienen diferentes consecuencias.
 Depende de ti evaluar estas consecuencias para tu proyecto específico.
 
-# 09. Manejo de Desajustes de Versión en Module Federation {#09-manejo-de-desajustes-de-versión-en-module-federation}
+# 09. Manejo de Desajustes de Versión en Module Federation
 
 Webpack Module Federation facilita la carga de código compilado por
 separado, como los micro frontends. Incluso nos permite compartir
@@ -3806,7 +3806,7 @@ definiendo un rango de versiones usando `requestedVersion`. Incluso
 puedes definir varios ámbitos (scopes) para escenarios avanzados donde
 cada uno puede obtener su propia versión.
 
-# 10. Micro Frontends Multimarco y Multiversión con Module Federation {#10-micro-frontends-multimarco-y-multiversión-con-module-federation}
+# 10. Micro Frontends Multimarco y Multiversión con Module Federation
 
 La mayoría de los artículos sobre Module Federation asumen que tienes
 solo una versión de tu Framework principal, por ejemplo, Angular. Sin
@@ -4305,7 +4305,7 @@ soportados: ninguno de los frameworks ha sido probado oficialmente junto
 con otros frameworks u otras versiones de sí mismo en la misma pestaña
 del navegador.
 
-# 11. Obstáculos con Module Federation y Angular {#11-obstáculos-con-module-federation-y-angular}
+# 11. Obstáculos con Module Federation y Angular
 
 ¡En este capítulo, voy a destruir mi ejemplo de Module Federation! Sin
 embargo, no tienes que preocuparte: es por una muy buena razón. El
@@ -5031,7 +5031,7 @@ Independientes](images/new-result.png)
 > fuente](https://github.com/manfredsteyer/module-federation-plugin-example/tree/standalone-solution)
 > (rama: standalone-solution).
 
-## Configuraciones del Enrutador vs. Componentes Independientes {#configuraciones-del-enrutador-vs-componentes-independientes}
+## Configuraciones del Enrutador vs. Componentes Independientes
 
 En general, podríamos cargar directamente Componentes Independientes
 mediante la Federación de Módulos. Si bien una integración tan detallada
@@ -7130,7 +7130,7 @@ El tipo `SignalStoreFeature` sin parámetros de tipo utiliza tipos más
 generales para `Input` y `Output` que no asumen nombres o tipos de datos
 específicos.
 
-## Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan Juntos? {#tipado-y-propiedades-dinámicas--cómo-funcionan-juntos}
+## Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan Juntos?
 
 Ahora que la estructura básica del tipado está establecida, podemos
 extenderla con nombres de propiedad configurables. Siguiendo el ejemplo
@@ -7897,7 +7897,7 @@ generadores son solo funciones que pueden llamarse fácilmente entre sí.
 Esto significa que las funcionalidades existentes se pueden orquestar
 para crear otras nuevas.
 
-# 13a. Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven Design) {#13a-bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design}
+# 13a. Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven Design)
 
 Han pasado algo más de 20 años desde la publicación del revolucionario
 libro de Eric Evans [Domain-Driven Design: Tackling Complexity in the
