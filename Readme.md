@@ -1,4 +1,5 @@
 Traducción del libro al español. (Autogenerada con IA)
+(más información en la carpeta: convert)
 
 - Enterprise Angular: Micro Frontends and
 - Moduliths with Angular
@@ -23,4 +24,13 @@ pandoc \
 
 # Convertir a mas formatos
 ebook-convert angular-ddd.epub angular-ddd.azw3
+
+# auto generar 1 markdow
+pandoc \
+         -f gfm+attributes \
+         --metadata-file=metadata.yaml \
+         --toc \
+         -s \
+         -o convert/angular-ddd.md \
+         $(awk '{print "manuscript/"$0}' manuscript/book.txt)
 ```
