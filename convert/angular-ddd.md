@@ -277,7 +277,7 @@
   - [Conclusión](#conclusión-11)
 - [Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando
   tu Aplicación Con NGRX Signal Store y Funcionalidades
-  Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas)ades-personalizadas}
+  Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas)
   - [Objetivo](#objetivo)
   - [Funcionalidad Personalizada
     DataService](#funcionalidad-personalizada-dataservice)
