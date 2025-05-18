@@ -1048,7 +1048,7 @@ arquitecturas son los tiempos de compilación y prueba incrementados.
 Este problema se puede resolver con compilaciones y pruebas
 incrementales. El próximo capítulo aborda esto.
 
-# 03. Rendimiento de Compilación con Nx {#03-rendimiento-de-compilación-con-nx}
+# 03. Rendimiento de Compilación con Nx
 
 Hasta ahora, hemos sentado las bases para una arquitectura Angular
 mantenible. Hemos estado pensando en la división de dominios (domain
