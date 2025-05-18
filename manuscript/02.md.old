@@ -1,4 +1,4 @@
-# Implementing Strategic Design with Nx Monorepos
+# 02. Implementing Strategic Design with Nx Monorepos
 
 In the previous chapter, I presented strategic design which allows to subdivide a software system into loosely coupled (sub-)domains. This chapter explores these domains' implementation with Angular and an [Nx](https://nx.dev/)-based monorepo.
 
