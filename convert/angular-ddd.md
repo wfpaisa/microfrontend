@@ -1,373 +1,368 @@
----
-author: Manfred Steyer
-date: 2025-05-16
-lang: es-ES
-title: Enterprise Angular
----
+# Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
 
--   [Introducción](#introducción){#toc-introducción}
-    -   [Estructura de Este
-        Libro](#estructura-de-este-libro){#toc-estructura-de-este-libro}
-    -   [Formaciones y
-        Consultoría](#formaciones-y-consultoría){#toc-formaciones-y-consultoría}
-    -   [¡Ayuda a Mejorar este
-        Libro!](#ayuda-a-mejorar-este-libro){#toc-ayuda-a-mejorar-este-libro}
-    -   [Agradecimientos](#agradecimientos){#toc-agradecimientos}
--   [Diseño Estratégico Guiado por el
-    Dominio](#diseño-estratégico-guiado-por-el-dominio){#toc-diseño-estratégico-guiado-por-el-dominio}
-    -   [¿Qué es el Diseño Guiado por el
-        Dominio?](#qué-es-el-diseño-guiado-por-el-dominio){#toc-qué-es-el-diseño-guiado-por-el-dominio}
-    -   [Encontrando Dominios con Diseño
-        Estratégico](#encontrando-dominios-con-diseño-estratégico){#toc-encontrando-dominios-con-diseño-estratégico}
-    -   [Los Dominios se Modelan por
-        Separado](#los-dominios-se-modelan-por-separado){#toc-los-dominios-se-modelan-por-separado}
-    -   [Mapeo de Contextos
-        (Context-Mapping)](#mapeo-de-contextos-context-mapping){#toc-mapeo-de-contextos-context-mapping}
-    -   [Subdominios vs. Contextos
-        Delimitados](#subdominios-vs-contextos-delimitados){#toc-subdominios-vs-contextos-delimitados}
-    -   [Topologías de Equipos y Diseño
-        Estratégico](#topologías-de-equipos-y-diseño-estratégico){#toc-topologías-de-equipos-y-diseño-estratégico}
-    -   [Conclusión](#conclusión){#toc-conclusión}
--   [Arquitecturas con Sheriff y Componentes Independientes
-    (Standalone)](#arquitecturas-con-sheriff-y-componentes-independientes-standalone){#toc-arquitecturas-con-sheriff-y-componentes-independientes-standalone}
-    -   [La Matriz de
-        Arquitectura](#la-matriz-de-arquitectura){#toc-la-matriz-de-arquitectura}
-    -   [Estructura del Proyecto para la Matriz de
-        Arquitectura](#estructura-del-proyecto-para-la-matriz-de-arquitectura){#toc-estructura-del-proyecto-para-la-matriz-de-arquitectura}
-    -   [Aplicando tu Arquitectura con
-        Sheriff](#aplicando-tu-arquitectura-con-sheriff){#toc-aplicando-tu-arquitectura-con-sheriff}
-    -   [Mapeos de Rutas
-        Ligeros](#mapeos-de-rutas-ligeros){#toc-mapeos-de-rutas-ligeros}
-    -   [Conclusión](#conclusión-1){#toc-conclusión-1}
--   [Rendimiento de Compilación con
-    Nx](#rendimiento-de-compilación-con-nx){#toc-rendimiento-de-compilación-con-nx}
-    -   [Compilaciones Incrementales -- Primeros
-        Pasos](#compilaciones-incrementales--primeros-pasos){#toc-compilaciones-incrementales--primeros-pasos}
-    -   [Más cómodo y más potente:
-        Nx](#más-cómodo-y-más-potente-nx){#toc-más-cómodo-y-más-potente-nx}
-    -   [Compilaciones Incrementales con
-        Nx](#compilaciones-incrementales-con-nx){#toc-compilaciones-incrementales-con-nx}
-    -   [Nota al Margen: Micro
-        Frontends](#nota-al-margen-micro-frontends){#toc-nota-al-margen-micro-frontends}
-    -   [Caché Distribuida con Nx
-        Cloud](#caché-distribuida-con-nx-cloud){#toc-caché-distribuida-con-nx-cloud}
-    -   [Aún Más Rápido: Paralelización con Nx
-        Cloud](#aún-más-rápido-paralelización-con-nx-cloud){#toc-aún-más-rápido-paralelización-con-nx-cloud}
-    -   [Conclusión](#conclusión-2){#toc-conclusión-2}
--   [Nx & Sheriff - Amigos para toda la
-    vida](#nx--sheriff---amigos-para-toda-la-vida){#toc-nx--sheriff---amigos-para-toda-la-vida}
-    -   [Límites de Módulo en
-        Nx](#límites-de-módulo-en-nx){#toc-límites-de-módulo-en-nx}
-        -   [Etiquetado de Aplicaciones y
-            Librerías](#etiquetado-de-aplicaciones-y-librerías){#toc-etiquetado-de-aplicaciones-y-librerías}
-        -   [Definición de Límites de
-            Módulo](#definición-de-límites-de-módulo){#toc-definición-de-límites-de-módulo}
-        -   [Hacer Cumplir los Límites de
-            Módulo](#hacer-cumplir-los-límites-de-módulo){#toc-hacer-cumplir-los-límites-de-módulo}
-        -   [Tu Arquitectura con Solo Presionar un
-            Botón](#tu-arquitectura-con-solo-presionar-un-botón){#toc-tu-arquitectura-con-solo-presionar-un-botón}
-    -   [Recapitulación: Diferentes Tipos de
-        Límites](#recapitulación-diferentes-tipos-de-límites){#toc-recapitulación-diferentes-tipos-de-límites}
-    -   [Opciones con
-        Sheriff](#opciones-con-sheriff){#toc-opciones-con-sheriff}
-        -   [Aplicación por
-            Dominio](#aplicación-por-dominio){#toc-aplicación-por-dominio}
-        -   [Librería por
-            Dominio](#librería-por-dominio){#toc-librería-por-dominio}
-    -   [Conclusión](#conclusión-3){#toc-conclusión-3}
--   [De Dominios a Micro
-    Frontends](#de-dominios-a-micro-frontends){#toc-de-dominios-a-micro-frontends}
-    -   [Monolitos de
-        Despliegue](#monolitos-de-despliegue){#toc-monolitos-de-despliegue}
-    -   [Micro Frontends](#micro-frontends){#toc-micro-frontends}
-    -   [Composición de UI con
-        Hipervínculos](#composición-de-ui-con-hipervínculos){#toc-composición-de-ui-con-hipervínculos}
-    -   [Composición de UI con un
-        Shell](#composición-de-ui-con-un-shell){#toc-composición-de-ui-con-un-shell}
-    -   [El Héroe: Module
-        Federation](#el-héroe-module-federation){#toc-el-héroe-module-federation}
-    -   [Encontrando una
-        Solución](#encontrando-una-solución){#toc-encontrando-una-solución}
-    -   [Consecuencias de los Micro
-        Frontends](#consecuencias-de-los-micro-frontends){#toc-consecuencias-de-los-micro-frontends}
-    -   [Conclusión](#conclusión-4){#toc-conclusión-4}
--   [La Revolución de los Micro Frontends: Usando Module Federation con
-    Angular](#la-revolución-de-los-micro-frontends-usando-module-federation-con-angular){#toc-la-revolución-de-los-micro-frontends-usando-module-federation-con-angular}
-    -   [Ejemplo](#ejemplo){#toc-ejemplo}
-    -   [Activando Module Federation para Proyectos
-        Angular](#activando-module-federation-para-proyectos-angular){#toc-activando-module-federation-para-proyectos-angular}
-    -   [El Shell (también conocido como
-        Host)](#el-shell-también-conocido-como-host){#toc-el-shell-también-conocido-como-host}
-    -   [El Micro Frontend (también conocido como
-        Remoto)](#el-micro-frontend-también-conocido-como-remoto){#toc-el-micro-frontend-también-conocido-como-remoto}
-    -   [Probándolo](#probándolo){#toc-probándolo}
-    -   [Un Detalle
-        Adicional](#un-detalle-adicional){#toc-un-detalle-adicional}
-    -   [Más Detalles: Compartiendo
-        Dependencias](#más-detalles-compartiendo-dependencias){#toc-más-detalles-compartiendo-dependencias}
-    -   [Más Sobre Esto](#más-sobre-esto){#toc-más-sobre-esto}
-    -   [Conclusión y
-        Evaluación](#conclusión-y-evaluación){#toc-conclusión-y-evaluación}
--   [Federación Dinámica de
-    Módulos](#federación-dinámica-de-módulos){#toc-federación-dinámica-de-módulos}
-    -   [Una Solución Dinámica
-        Simple](#una-solución-dinámica-simple){#toc-una-solución-dinámica-simple}
-        -   [Añadiendo Federación de
-            Módulos](#añadiendo-federación-de-módulos){#toc-añadiendo-federación-de-módulos}
-        -   [Generando un
-            Manifiesto](#generando-un-manifiesto){#toc-generando-un-manifiesto}
-        -   [Cargando el
-            Manifiesto](#cargando-el-manifiesto){#toc-cargando-el-manifiesto}
-        -   [Cargando los Micro
-            Frontends](#cargando-los-micro-frontends){#toc-cargando-los-micro-frontends}
-        -   [Configurando los Micro
-            Frontends](#configurando-los-micro-frontends){#toc-configurando-los-micro-frontends}
-        -   [Probándolo](#probándolo-1){#toc-probándolo-1}
-    -   [Haciéndolo \"Dinámico
-        Dinámico\"](#haciéndolo-dinámico-dinámico){#toc-haciéndolo-dinámico-dinámico}
-        -   [Añadiendo Metadatos Personalizados al
-            Manifiesto](#añadiendo-metadatos-personalizados-al-manifiesto){#toc-añadiendo-metadatos-personalizados-al-manifiesto}
-        -   [Tipos para Configuración
-            Personalizada](#tipos-para-configuración-personalizada){#toc-tipos-para-configuración-personalizada}
-        -   [Creando Rutas
-            Dinámicamente](#creando-rutas-dinámicamente){#toc-creando-rutas-dinámicamente}
-        -   [Probándolo](#probándolo-2){#toc-probándolo-2}
-    -   [Algunos Detalles
-        Más](#algunos-detalles-más){#toc-algunos-detalles-más}
-    -   [Conclusión](#conclusión-5){#toc-conclusión-5}
--   [Sistemas de Plugins con Module Federation: Construyendo un
-    Diseñador de Flujos de Trabajo
-    Extensible](#sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible){#toc-sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible}
-    -   [Construyendo los
-        Plugins](#construyendo-los-plugins){#toc-construyendo-los-plugins}
-    -   [Cargando los Plugins en el Diseñador de Flujos de
-        Trabajo](#cargando-los-plugins-en-el-diseñador-de-flujos-de-trabajo){#toc-cargando-los-plugins-en-el-diseñador-de-flujos-de-trabajo}
-    -   [Proporcionando Metadatos sobre los
-        Plugins](#proporcionando-metadatos-sobre-los-plugins){#toc-proporcionando-metadatos-sobre-los-plugins}
-    -   [Creando Dinámicamente el Componente del
-        Plugin](#creando-dinámicamente-el-componente-del-plugin){#toc-creando-dinámicamente-el-componente-del-plugin}
-    -   [Conectando Todo](#conectando-todo){#toc-conectando-todo}
-    -   [Conclusión](#conclusión-6){#toc-conclusión-6}
--   [Usando Module Federation con Monorepos Nx y
-    Angular](#usando-module-federation-con-monorepos-nx-y-angular){#toc-usando-module-federation-con-monorepos-nx-y-angular}
-    -   [Múltiples Repos vs.
-        Monorepos](#múltiples-repos-vs-monorepos){#toc-múltiples-repos-vs-monorepos}
-    -   [Múltiples Repositorios: Micro Frontends al Pie de la
-        Letra](#múltiples-repositorios-micro-frontends-al-pie-de-la-letra){#toc-múltiples-repositorios-micro-frontends-al-pie-de-la-letra}
-    -   [Micro Frontends con
-        Monorepos](#micro-frontends-con-monorepos){#toc-micro-frontends-con-monorepos}
-    -   [Ejemplo de
-        Monorepo](#ejemplo-de-monorepo){#toc-ejemplo-de-monorepo}
-    -   [La Librería
-        Compartida](#la-librería-compartida){#toc-la-librería-compartida}
-    -   [La Configuración de Module
-        Federation](#la-configuración-de-module-federation){#toc-la-configuración-de-module-federation}
-    -   [Probándolo](#probándolo-3){#toc-probándolo-3}
-    -   [Aislando Micro
-        Frontends](#aislando-micro-frontends){#toc-aislando-micro-frontends}
-    -   [Compilaciones
-        Incrementales](#compilaciones-incrementales){#toc-compilaciones-incrementales}
-    -   [Desplegando](#desplegando){#toc-desplegando}
-    -   [Conclusión](#conclusión-7){#toc-conclusión-7}
--   [Manejo de Desajustes de Versión en Module
-    Federation](#manejo-de-desajustes-de-versión-en-module-federation){#toc-manejo-de-desajustes-de-versión-en-module-federation}
-    -   [Ejemplo Utilizado
-        Aquí](#ejemplo-utilizado-aquí){#toc-ejemplo-utilizado-aquí}
-    -   [Versionado Semántico por
-        Defecto](#versionado-semántico-por-defecto){#toc-versionado-semántico-por-defecto}
-    -   [Módulos de Respaldo para Versiones
-        Incompatibles](#módulos-de-respaldo-para-versiones-incompatibles){#toc-módulos-de-respaldo-para-versiones-incompatibles}
-    -   [Diferencias con Dynamic Module
-        Federation](#diferencias-con-dynamic-module-federation){#toc-diferencias-con-dynamic-module-federation}
-    -   [Singletons](#singletons){#toc-singletons}
-    -   [Aceptar un Rango de
-        Versiones](#aceptar-un-rango-de-versiones){#toc-aceptar-un-rango-de-versiones}
-    -   [Conclusión](#conclusión-8){#toc-conclusión-8}
--   [Micro Frontends Multimarco y Multiversión con Module
-    Federation](#micro-frontends-multimarco-y-multiversión-con-module-federation){#toc-micro-frontends-multimarco-y-multiversión-con-module-federation}
-    -   [¿Patrón o
-        Antipatrón?](#patrón-o-antipatrón){#toc-patrón-o-antipatrón}
-    -   [¿Micro Frontends como Web
-        Components?](#micro-frontends-como-web-components){#toc-micro-frontends-como-web-components}
-    -   [¿También necesitamos Module
-        Federation?](#también-necesitamos-module-federation){#toc-también-necesitamos-module-federation}
-    -   [Implementación en 4
-        pasos](#implementación-en-4-pasos){#toc-implementación-en-4-pasos}
-        -   [Paso 1: Envuelve tu Micro Frontend en un Web
-            Component](#paso-1-envuelve-tu-micro-frontend-en-un-web-component){#toc-paso-1-envuelve-tu-micro-frontend-en-un-web-component}
-        -   [Paso 2: Expón tu Web Component vía Module
-            Federation](#paso-2-expón-tu-web-component-vía-module-federation){#toc-paso-2-expón-tu-web-component-vía-module-federation}
-        -   [Paso 3: Realiza Ajustes para
-            Angular](#paso-3-realiza-ajustes-para-angular){#toc-paso-3-realiza-ajustes-para-angular}
-        -   [Paso 4: Carga los Micro Frontends en el
-            Shell](#paso-4-carga-los-micro-frontends-en-el-shell){#toc-paso-4-carga-los-micro-frontends-en-el-shell}
-        -   [Resultado](#resultado){#toc-resultado}
--   [Obstáculos con Module Federation y
-    Angular](#obstáculos-con-module-federation-y-angular){#toc-obstáculos-con-module-federation-y-angular}
-    -   [\"No se especificó la versión requerida\" y Puntos de Entrada
-        Secundarios](#no-se-especificó-la-versión-requerida-y-puntos-de-entrada-secundarios){#toc-no-se-especificó-la-versión-requerida-y-puntos-de-entrada-secundarios}
-    -   [Desajustes de Versión No Evidentes: Problemas con Dependencias
-        Peer](#desajustes-de-versión-no-evidentes-problemas-con-dependencias-peer){#toc-desajustes-de-versión-no-evidentes-problemas-con-dependencias-peer}
-    -   [Problemas al Compartir Código y
-        Datos](#problemas-al-compartir-código-y-datos){#toc-problemas-al-compartir-código-y-datos}
-    -   [NullInjectorError: Se espera un servicio en el Ámbito Padre
-        (Ámbito
-        Raíz)](#nullinjectorerror-se-espera-un-servicio-en-el-ámbito-padre-ámbito-raíz){#toc-nullinjectorerror-se-espera-un-servicio-en-el-ámbito-padre-ámbito-raíz}
-    -   [Varios Ámbitos
-        Raíz](#varios-ámbitos-raíz){#toc-varios-ámbitos-raíz}
-    -   [Diferentes Versiones de
-        Angular](#diferentes-versiones-de-angular){#toc-diferentes-versiones-de-angular}
-    -   [Bonus: Múltiples
-        Bundles](#bonus-múltiples-bundles){#toc-bonus-múltiples-bundles}
-    -   [Conclusión](#conclusión-9){#toc-conclusión-9}
--   [Federación de Módulos con Componentes Independientes de
-    Angular](#federación-de-módulos-con-componentes-independientes-de-angular){#toc-federación-de-módulos-con-componentes-independientes-de-angular}
-    -   [Configuraciones del Enrutador vs. Componentes
-        Independientes](#configuraciones-del-enrutador-vs-componentes-independientes){#toc-configuraciones-del-enrutador-vs-componentes-independientes}
-    -   [Situación Inicial: Nuestro Micro
-        Frontend](#situación-inicial-nuestro-micro-frontend){#toc-situación-inicial-nuestro-micro-frontend}
-    -   [Activando la Federación de
-        Módulos](#activando-la-federación-de-módulos){#toc-activando-la-federación-de-módulos}
-    -   [Shell Estático](#shell-estático){#toc-shell-estático}
-    -   [Alternativa: Shell
-        Dinámico](#alternativa-shell-dinámico){#toc-alternativa-shell-dinámico}
-    -   [Bonus: Carga
-        Programática](#bonus-carga-programática){#toc-bonus-carga-programática}
--   [De Module Federation a esbuild y Native
-    Federation](#de-module-federation-a-esbuild-y-native-federation){#toc-de-module-federation-a-esbuild-y-native-federation}
-    -   [Native Federation con
-        esbuild](#native-federation-con-esbuild){#toc-native-federation-con-esbuild}
-    -   [Native Federation: Configurando un Micro
-        Frontend](#native-federation-configurando-un-micro-frontend){#toc-native-federation-configurando-un-micro-frontend}
-    -   [Native Federation: Configurando un
-        Shell](#native-federation-configurando-un-shell){#toc-native-federation-configurando-un-shell}
-    -   [Exponiendo una Configuración de Enrutador (Router
-        Config)](#exponiendo-una-configuración-de-enrutador-router-config){#toc-exponiendo-una-configuración-de-enrutador-router-config}
-    -   [Comunicación entre Micro
-        Frontends](#comunicación-entre-micro-frontends){#toc-comunicación-entre-micro-frontends}
-    -   [Conclusión](#conclusión-10){#toc-conclusión-10}
--   [El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 +
-    n
-    Sabores](#el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores){#toc-el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores}
-    -   [Obteniendo el
-        Paquete](#obteniendo-el-paquete){#toc-obteniendo-el-paquete}
-    -   [Sabor 1: Ligero con
-        signalState](#sabor-1-ligero-con-signalstate){#toc-sabor-1-ligero-con-signalstate}
-        -   [Seleccionando y Computando
-            Señales](#seleccionando-y-computando-señales){#toc-seleccionando-y-computando-señales}
-        -   [Actualizando el
-            Estado](#actualizando-el-estado){#toc-actualizando-el-estado}
-    -   [Efectos
-        Secundarios](#efectos-secundarios){#toc-efectos-secundarios}
-        -   [Desacoplando la Intención de la
-            Ejecución](#desacoplando-la-intención-de-la-ejecución){#toc-desacoplando-la-intención-de-la-ejecución}
-    -   [Sabor 2: Potente con
-        signalStore](#sabor-2-potente-con-signalstore){#toc-sabor-2-potente-con-signalstore}
-        -   [Seleccionando y Computando
-            Señales](#seleccionando-y-computando-señales-1){#toc-seleccionando-y-computando-señales-1}
-        -   [Métodos para Actualizar Estado y Efectos
-            Secundarios](#métodos-para-actualizar-estado-y-efectos-secundarios){#toc-métodos-para-actualizar-estado-y-efectos-secundarios}
-        -   [Consumiendo el
-            Store](#consumiendo-el-store){#toc-consumiendo-el-store}
-        -   [Hooks](#hooks){#toc-hooks}
-        -   [rxMethod](#rxmethod){#toc-rxmethod}
-    -   [Características Personalizadas - n Sabores
-        Adicionales](#características-personalizadas---n-sabores-adicionales){#toc-características-personalizadas---n-sabores-adicionales}
-        -   [Definiendo Características
-            Personalizadas](#definiendo-características-personalizadas){#toc-definiendo-características-personalizadas}
-        -   [Usando Características
-            Personalizadas](#usando-características-personalizadas){#toc-usando-características-personalizadas}
-    -   [Sabor 3: Características Incorporadas como Gestión de
-        Entidades](#sabor-3-características-incorporadas-como-gestión-de-entidades){#toc-sabor-3-características-incorporadas-como-gestión-de-entidades}
-    -   [Conclusión](#conclusión-11){#toc-conclusión-11}
--   [Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando
-    tu Aplicación Con NGRX Signal Store y Funcionalidades
-    Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas){#toc-trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas}
-    -   [Objetivo](#objetivo){#toc-objetivo}
-    -   [Funcionalidad Personalizada
-        DataService](#funcionalidad-personalizada-dataservice){#toc-funcionalidad-personalizada-dataservice}
-    -   [Implementando una Funcionalidad Personalizada
-        Genérica](#implementando-una-funcionalidad-personalizada-genérica){#toc-implementando-una-funcionalidad-personalizada-genérica}
-    -   [Proporcionando un Servicio de Datos
-        Adecuado](#proporcionando-un-servicio-de-datos-adecuado){#toc-proporcionando-un-servicio-de-datos-adecuado}
-    -   [Funcionalidad de
-        Deshacer/Rehacer](#funcionalidad-de-deshacerrehacer){#toc-funcionalidad-de-deshacerrehacer}
-    -   [Usando el Store en un
-        Componente](#usando-el-store-en-un-componente){#toc-usando-el-store-en-un-componente}
-    -   [Conclusión y
-        Perspectivas](#conclusión-y-perspectivas){#toc-conclusión-y-perspectivas}
--   [Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas
-    Flexibles y con Seguridad de
-    Tipos](#análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos){#toc-análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos}
-    -   [Una Primera Extensión
-        Sencilla](#una-primera-extensión-sencilla){#toc-una-primera-extensión-sencilla}
-    -   [Ahora Empieza de Verdad: El
-        Tipado](#ahora-empieza-de-verdad-el-tipado){#toc-ahora-empieza-de-verdad-el-tipado}
-    -   [Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan
-        Juntos?](#tipado-y-propiedades-dinámicas--cómo-funcionan-juntos){#toc-tipado-y-propiedades-dinámicas--cómo-funcionan-juntos}
-    -   [Más Ejemplos: CRUD y
-        Deshacer/Rehacer](#más-ejemplos-crud-y-deshacerrehacer){#toc-más-ejemplos-crud-y-deshacerrehacer}
-    -   [Extensiones Listas para Usar (Out of the
-        Box)](#extensiones-listas-para-usar-out-of-the-box){#toc-extensiones-listas-para-usar-out-of-the-box}
-    -   [Conclusión](#conclusión-12){#toc-conclusión-12}
--   [El NGRX Signal Store y Tu
-    Arquitectura](#el-ngrx-signal-store-y-tu-arquitectura){#toc-el-ngrx-signal-store-y-tu-arquitectura}
-    -   [¿Dónde Colocarlo?](#dónde-colocarlo){#toc-dónde-colocarlo}
-    -   [Combinando el Signal Store con el Store NGRX
-        Tradicional](#combinando-el-signal-store-con-el-store-ngrx-tradicional){#toc-combinando-el-signal-store-con-el-store-ngrx-tradicional}
-    -   [Lo Mejor de Ambos Mundos a Través de Funcionalidades
-        Personalizadas](#lo-mejor-de-ambos-mundos-a-través-de-funcionalidades-personalizadas){#toc-lo-mejor-de-ambos-mundos-a-través-de-funcionalidades-personalizadas}
-    -   [¿Qué Tan Grande Debería Ser un Signal
-        Store?](#qué-tan-grande-debería-ser-un-signal-store){#toc-qué-tan-grande-debería-ser-un-signal-store}
-    -   [¿Puede un Signal Store Acceder a Otros Signal
-        Stores?](#puede-un-signal-store-acceder-a-otros-signal-stores){#toc-puede-un-signal-store-acceder-a-otros-signal-stores}
-    -   [Previniendo Ciclos, Redundancias e
-        Inconsistencias](#previniendo-ciclos-redundancias-e-inconsistencias){#toc-previniendo-ciclos-redundancias-e-inconsistencias}
-    -   [Conclusión](#conclusión-13){#toc-conclusión-13}
--   [Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo
-    (Workspace) de
-    Nx](#extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx){#toc-extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx}
-    -   [Creando un Plugin de Espacio de Trabajo con un
-        Generador](#creando-un-plugin-de-espacio-de-trabajo-con-un-generador){#toc-creando-un-plugin-de-espacio-de-trabajo-con-un-generador}
-    -   [Plantillas para
-        Generadores](#plantillas-para-generadores){#toc-plantillas-para-generadores}
-    -   [Implementando un
-        Generador](#implementando-un-generador){#toc-implementando-un-generador}
-    -   [Verdaderos Tesoros: Métodos de Ayuda para Generadores en
-        Nx](#verdaderos-tesoros-métodos-de-ayuda-para-generadores-en-nx){#toc-verdaderos-tesoros-métodos-de-ayuda-para-generadores-en-nx}
-    -   [Probando los
-        Generadores](#probando-los-generadores){#toc-probando-los-generadores}
-    -   [Probando
-        Generadores](#probando-generadores){#toc-probando-generadores}
-    -   [Exportando Plugins vía
-        NPM](#exportando-plugins-vía-npm){#toc-exportando-plugins-vía-npm}
-    -   [Conclusión](#conclusión-14){#toc-conclusión-14}
--   [Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven
-    Design)](#bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design){#toc-bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design}
-    -   [DDD en Pocas
-        Palabras](#ddd-en-pocas-palabras){#toc-ddd-en-pocas-palabras}
-        -   [Diseño
-            Estratégico](#diseño-estratégico){#toc-diseño-estratégico}
-        -   [Diseño Táctico](#diseño-táctico){#toc-diseño-táctico}
-        -   [Desarrollos Recientes en
-            DDD](#desarrollos-recientes-en-ddd){#toc-desarrollos-recientes-en-ddd}
-        -   [Más sobre DDD](#más-sobre-ddd){#toc-más-sobre-ddd}
-    -   [¿Cómo Definir DDD?](#cómo-definir-ddd){#toc-cómo-definir-ddd}
-    -   [¿Cuándo Podemos Llamarlo
-        DDD?](#cuándo-podemos-llamarlo-ddd){#toc-cuándo-podemos-llamarlo-ddd}
-    -   [¿Cuál es el Núcleo de DDD y Por Qué la Gente Tuvo una Impresión
-        Equivocada al
-        Respecto?](#cuál-es-el-núcleo-de-ddd-y-por-qué-la-gente-tuvo-una-impresión-equivocada-al-respecto){#toc-cuál-es-el-núcleo-de-ddd-y-por-qué-la-gente-tuvo-una-impresión-equivocada-al-respecto}
-    -   [¿Es el Diseño Táctico Orientado a Objetos? ¿Hay Lugar para la
-        PF (Programación
-        Funcional)?](#es-el-diseño-táctico-orientado-a-objetos-hay-lugar-para-la-pf-programación-funcional){#toc-es-el-diseño-táctico-orientado-a-objetos-hay-lugar-para-la-pf-programación-funcional}
-    -   [Otras Adaptaciones del Diseño
-        Táctico](#otras-adaptaciones-del-diseño-táctico){#toc-otras-adaptaciones-del-diseño-táctico}
-    -   [Conclusión](#conclusión-15){#toc-conclusión-15}
--   [Literatura](#literatura){#toc-literatura}
--   [Acerca del Autor](#acerca-del-autor){#toc-acerca-del-autor}
--   [Capacitaciones y
-    Consultoría](#capacitaciones-y-consultoría){#toc-capacitaciones-y-consultoría}
+- [Introducción](#introducción)
+  - [Estructura de Este
+    Libro](#estructura-de-este-libro)
+  - [Formaciones y
+    Consultoría](#formaciones-y-consultoría)
+  - [¡Ayuda a Mejorar este
+    Libro!](#ayuda-a-mejorar-este-libro)
+  - [Agradecimientos](#agradecimientos)
+- [Diseño Estratégico Guiado por el
+  Dominio](#diseño-estratégico-guiado-por-el-dominio)
+  - [¿Qué es el Diseño Guiado por el
+    Dominio?](#qué-es-el-diseño-guiado-por-el-dominio)
+  - [Encontrando Dominios con Diseño
+    Estratégico](#encontrando-dominios-con-diseño-estratégico)
+  - [Los Dominios se Modelan por
+    Separado](#los-dominios-se-modelan-por-separado)
+  - [Mapeo de Contextos
+    (Context-Mapping)](#mapeo-de-contextos-context-mapping)
+  - [Subdominios vs. Contextos
+    Delimitados](#subdominios-vs-contextos-delimitados)
+  - [Topologías de Equipos y Diseño
+    Estratégico](#topologías-de-equipos-y-diseño-estratégico)
+  - [Conclusión](#conclusión)
+- [Arquitecturas con Sheriff y Componentes Independientes
+  (Standalone)](#arquitecturas-con-sheriff-y-componentes-independientes-standalone)
+  - [La Matriz de
+    Arquitectura](#la-matriz-de-arquitectura)
+  - [Estructura del Proyecto para la Matriz de
+    Arquitectura](#estructura-del-proyecto-para-la-matriz-de-arquitectura)
+  - [Aplicando tu Arquitectura con
+    Sheriff](#aplicando-tu-arquitectura-con-sheriff)
+  - [Mapeos de Rutas
+    Ligeros](#mapeos-de-rutas-ligeros)
+  - [Conclusión](#conclusión-1)
+- [Rendimiento de Compilación con
+  Nx](#rendimiento-de-compilación-con-nx)
+  - [Compilaciones Incrementales -- Primeros
+    Pasos](#compilaciones-incrementales--primeros-pasos)
+  - [Más cómodo y más potente:
+    Nx](#más-cómodo-y-más-potente-nx)
+  - [Compilaciones Incrementales con
+    Nx](#compilaciones-incrementales-con-nx)
+  - [Nota al Margen: Micro
+    Frontends](#nota-al-margen-micro-frontends)
+  - [Caché Distribuida con Nx
+    Cloud](#caché-distribuida-con-nx-cloud)
+  - [Aún Más Rápido: Paralelización con Nx
+    Cloud](#aún-más-rápido-paralelización-con-nx-cloud)
+  - [Conclusión](#conclusión-2)
+- [Nx & Sheriff - Amigos para toda la
+  vida](#nx--sheriff---amigos-para-toda-la-vida)
+  - [Límites de Módulo en
+    Nx](#límites-de-módulo-en-nx)
+    - [Etiquetado de Aplicaciones y
+      Librerías](#etiquetado-de-aplicaciones-y-librerías)
+    - [Definición de Límites de
+      Módulo](#definición-de-límites-de-módulo)
+    - [Hacer Cumplir los Límites de
+      Módulo](#hacer-cumplir-los-límites-de-módulo)
+    - [Tu Arquitectura con Solo Presionar un
+      Botón](#tu-arquitectura-con-solo-presionar-un-botón)
+  - [Recapitulación: Diferentes Tipos de
+    Límites](#recapitulación-diferentes-tipos-de-límites)
+  - [Opciones con
+    Sheriff](#opciones-con-sheriff)
+    - [Aplicación por
+      Dominio](#aplicación-por-dominio)
+    - [Librería por
+      Dominio](#librería-por-dominio)
+  - [Conclusión](#conclusión-3)
+- [De Dominios a Micro
+  Frontends](#de-dominios-a-micro-frontends)
+  - [Monolitos de
+    Despliegue](#monolitos-de-despliegue)
+  - [Micro Frontends](#micro-frontends)
+  - [Composición de UI con
+    Hipervínculos](#composición-de-ui-con-hipervínculos)
+  - [Composición de UI con un
+    Shell](#composición-de-ui-con-un-shell)
+  - [El Héroe: Module
+    Federation](#el-héroe-module-federation)
+  - [Encontrando una
+    Solución](#encontrando-una-solución)
+  - [Consecuencias de los Micro
+    Frontends](#consecuencias-de-los-micro-frontends)
+  - [Conclusión](#conclusión-4)
+- [La Revolución de los Micro Frontends: Usando Module Federation con
+  Angular](#la-revolución-de-los-micro-frontends-usando-module-federation-con-angular)
+  - [Ejemplo](#ejemplo)
+  - [Activando Module Federation para Proyectos
+    Angular](#activando-module-federation-para-proyectos-angular)
+  - [El Shell (también conocido como
+    Host)](#el-shell-también-conocido-como-host)
+  - [El Micro Frontend (también conocido como
+    Remoto)](#el-micro-frontend-también-conocido-como-remoto)
+  - [Probándolo](#probándolo)
+  - [Un Detalle
+    Adicional](#un-detalle-adicional)
+  - [Más Detalles: Compartiendo
+    Dependencias](#más-detalles-compartiendo-dependencias)
+  - [Más Sobre Esto](#más-sobre-esto)
+  - [Conclusión y
+    Evaluación](#conclusión-y-evaluación)
+- [Federación Dinámica de
+  Módulos](#federación-dinámica-de-módulos)
+  - [Una Solución Dinámica
+    Simple](#una-solución-dinámica-simple)
+    - [Añadiendo Federación de
+      Módulos](#añadiendo-federación-de-módulos)
+    - [Generando un
+      Manifiesto](#generando-un-manifiesto)
+    - [Cargando el
+      Manifiesto](#cargando-el-manifiesto)
+    - [Cargando los Micro
+      Frontends](#cargando-los-micro-frontends)
+    - [Configurando los Micro
+      Frontends](#configurando-los-micro-frontends)
+    - [Probándolo](#probándolo-1)
+  - [Haciéndolo \"Dinámico
+    Dinámico\"](#haciéndolo-dinámico-dinámico)
+    - [Añadiendo Metadatos Personalizados al
+      Manifiesto](#añadiendo-metadatos-personalizados-al-manifiesto)
+    - [Tipos para Configuración
+      Personalizada](#tipos-para-configuración-personalizada)
+    - [Creando Rutas
+      Dinámicamente](#creando-rutas-dinámicamente)
+    - [Probándolo](#probándolo-2)
+  - [Algunos Detalles
+    Más](#algunos-detalles-más)
+  - [Conclusión](#conclusión-5)
+- [Sistemas de Plugins con Module Federation: Construyendo un
+  Diseñador de Flujos de Trabajo
+  Extensible](#sistemas-de-plugins-con-module-federation-construyendo-un-diseñador-de-flujos-de-trabajo-extensible)
+  - [Construyendo los
+    Plugins](#construyendo-los-plugins)
+  - [Cargando los Plugins en el Diseñador de Flujos de
+    Trabajo](#cargando-los-plugins-en-el-diseñador-de-flujos-de-trabajo)
+  - [Proporcionando Metadatos sobre los
+    Plugins](#proporcionando-metadatos-sobre-los-plugins)
+  - [Creando Dinámicamente el Componente del
+    Plugin](#creando-dinámicamente-el-componente-del-plugin)
+  - [Conectando Todo](#conectando-todo)
+  - [Conclusión](#conclusión-6)
+- [Usando Module Federation con Monorepos Nx y
+  Angular](#usando-module-federation-con-monorepos-nx-y-angular)
+  - [Múltiples Repos vs.
+    Monorepos](#múltiples-repos-vs-monorepos)
+  - [Múltiples Repositorios: Micro Frontends al Pie de la
+    Letra](#múltiples-repositorios-micro-frontends-al-pie-de-la-letra)
+  - [Micro Frontends con
+    Monorepos](#micro-frontends-con-monorepos)
+  - [Ejemplo de
+    Monorepo](#ejemplo-de-monorepo)
+  - [La Librería
+    Compartida](#la-librería-compartida)
+  - [La Configuración de Module
+    Federation](#la-configuración-de-module-federation)
+  - [Probándolo](#probándolo-3)
+  - [Aislando Micro
+    Frontends](#aislando-micro-frontends)
+  - [Compilaciones
+    Incrementales](#compilaciones-incrementales)
+  - [Desplegando](#desplegando)
+  - [Conclusión](#conclusión-7)
+- [Manejo de Desajustes de Versión en Module
+  Federation](#manejo-de-desajustes-de-versión-en-module-federation)
+  - [Ejemplo Utilizado
+    Aquí](#ejemplo-utilizado-aquí)
+  - [Versionado Semántico por
+    Defecto](#versionado-semántico-por-defecto)
+  - [Módulos de Respaldo para Versiones
+    Incompatibles](#módulos-de-respaldo-para-versiones-incompatibles)
+  - [Diferencias con Dynamic Module
+    Federation](#diferencias-con-dynamic-module-federation)
+  - [Singletons](#singletons)
+  - [Aceptar un Rango de
+    Versiones](#aceptar-un-rango-de-versiones)
+  - [Conclusión](#conclusión-8)
+- [Micro Frontends Multimarco y Multiversión con Module
+  Federation](#micro-frontends-multimarco-y-multiversión-con-module-federation)
+  - [¿Patrón o
+    Antipatrón?](#patrón-o-antipatrón)
+  - [¿Micro Frontends como Web
+    Components?](#micro-frontends-como-web-components)
+  - [¿También necesitamos Module
+    Federation?](#también-necesitamos-module-federation)
+  - [Implementación en 4
+    pasos](#implementación-en-4-pasos)
+    - [Paso 1: Envuelve tu Micro Frontend en un Web
+      Component](#paso-1-envuelve-tu-micro-frontend-en-un-web-component)
+    - [Paso 2: Expón tu Web Component vía Module
+      Federation](#paso-2-expón-tu-web-component-vía-module-federation)
+    - [Paso 3: Realiza Ajustes para
+      Angular](#paso-3-realiza-ajustes-para-angular)
+    - [Paso 4: Carga los Micro Frontends en el
+      Shell](#paso-4-carga-los-micro-frontends-en-el-shell)
+    - [Resultado](#resultado)
+- [Obstáculos con Module Federation y
+  Angular](#obstáculos-con-module-federation-y-angular)
+  - [\"No se especificó la versión requerida\" y Puntos de Entrada
+    Secundarios](#no-se-especificó-la-versión-requerida-y-puntos-de-entrada-secundarios)
+  - [Desajustes de Versión No Evidentes: Problemas con Dependencias
+    Peer](#desajustes-de-versión-no-evidentes-problemas-con-dependencias-peer)
+  - [Problemas al Compartir Código y
+    Datos](#problemas-al-compartir-código-y-datos)
+  - [NullInjectorError: Se espera un servicio en el Ámbito Padre
+    (Ámbito
+    Raíz)](#nullinjectorerror-se-espera-un-servicio-en-el-ámbito-padre-ámbito-raíz)
+  - [Varios Ámbitos
+    Raíz](#varios-ámbitos-raíz)
+  - [Diferentes Versiones de
+    Angular](#diferentes-versiones-de-angular)
+  - [Bonus: Múltiples
+    Bundles](#bonus-múltiples-bundles)
+  - [Conclusión](#conclusión-9)
+- [Federación de Módulos con Componentes Independientes de
+  Angular](#federación-de-módulos-con-componentes-independientes-de-angular)
+  - [Configuraciones del Enrutador vs. Componentes
+    Independientes](#configuraciones-del-enrutador-vs-componentes-independientes)
+  - [Situación Inicial: Nuestro Micro
+    Frontend](#situación-inicial-nuestro-micro-frontend)
+  - [Activando la Federación de
+    Módulos](#activando-la-federación-de-módulos)
+  - [Shell Estático](#shell-estático)
+  - [Alternativa: Shell
+    Dinámico](#alternativa-shell-dinámico)
+  - [Bonus: Carga
+    Programática](#bonus-carga-programática)
+- [De Module Federation a esbuild y Native
+  Federation](#de-module-federation-a-esbuild-y-native-federation)
+  - [Native Federation con
+    esbuild](#native-federation-con-esbuild)
+  - [Native Federation: Configurando un Micro
+    Frontend](#native-federation-configurando-un-micro-frontend)
+  - [Native Federation: Configurando un
+    Shell](#native-federation-configurando-un-shell)
+  - [Exponiendo una Configuración de Enrutador (Router
+    Config)](#exponiendo-una-configuración-de-enrutador-router-config)
+  - [Comunicación entre Micro
+    Frontends](#comunicación-entre-micro-frontends)
+  - [Conclusión](#conclusión-10)
+- [El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 +
+  n
+  Sabores](#el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores)
+  - [Obteniendo el
+    Paquete](#obteniendo-el-paquete)
+  - [Sabor 1: Ligero con
+    signalState](#sabor-1-ligero-con-signalstate)
+    - [Seleccionando y Computando
+      Señales](#seleccionando-y-computando-señales)
+    - [Actualizando el
+      Estado](#actualizando-el-estado)
+  - [Efectos
+    Secundarios](#efectos-secundarios)
+    - [Desacoplando la Intención de la
+      Ejecución](#desacoplando-la-intención-de-la-ejecución)
+  - [Sabor 2: Potente con
+    signalStore](#sabor-2-potente-con-signalstore)
+    - [Seleccionando y Computando
+      Señales](#seleccionando-y-computando-señales-1)
+    - [Métodos para Actualizar Estado y Efectos
+      Secundarios](#métodos-para-actualizar-estado-y-efectos-secundarios)
+    - [Consumiendo el
+      Store](#consumiendo-el-store)
+    - [Hooks](#hooks)
+    - [rxMethod](#rxmethod)
+  - [Características Personalizadas - n Sabores
+    Adicionales](#características-personalizadas---n-sabores-adicionales)
+    - [Definiendo Características
+      Personalizadas](#definiendo-características-personalizadas)
+    - [Usando Características
+      Personalizadas](#usando-características-personalizadas)
+  - [Sabor 3: Características Incorporadas como Gestión de
+    Entidades](#sabor-3-características-incorporadas-como-gestión-de-entidades)
+  - [Conclusión](#conclusión-11)
+- [Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando
+  tu Aplicación Con NGRX Signal Store y Funcionalidades
+  Personalizadas](#trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas)ades-personalizadas}
+  - [Objetivo](#objetivo)
+  - [Funcionalidad Personalizada
+    DataService](#funcionalidad-personalizada-dataservice)
+  - [Implementando una Funcionalidad Personalizada
+    Genérica](#implementando-una-funcionalidad-personalizada-genérica)
+  - [Proporcionando un Servicio de Datos
+    Adecuado](#proporcionando-un-servicio-de-datos-adecuado)
+  - [Funcionalidad de
+    Deshacer/Rehacer](#funcionalidad-de-deshacerrehacer)
+  - [Usando el Store en un
+    Componente](#usando-el-store-en-un-componente)
+  - [Conclusión y
+    Perspectivas](#conclusión-y-perspectivas)
+- [Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas
+  Flexibles y con Seguridad de
+  Tipos](#análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos)
+  - [Una Primera Extensión
+    Sencilla](#una-primera-extensión-sencilla)
+  - [Ahora Empieza de Verdad: El
+    Tipado](#ahora-empieza-de-verdad-el-tipado)
+  - [Tipado y Propiedades Dinámicas -- ¿Cómo Funcionan
+    Juntos?](#tipado-y-propiedades-dinámicas--cómo-funcionan-juntos)
+  - [Más Ejemplos: CRUD y
+    Deshacer/Rehacer](#más-ejemplos-crud-y-deshacerrehacer)
+  - [Extensiones Listas para Usar (Out of the
+    Box)](#extensiones-listas-para-usar-out-of-the-box)
+  - [Conclusión](#conclusión-12)
+- [El NGRX Signal Store y Tu
+  Arquitectura](#el-ngrx-signal-store-y-tu-arquitectura)
+  - [¿Dónde Colocarlo?](#dónde-colocarlo)
+  - [Combinando el Signal Store con el Store NGRX
+    Tradicional](#combinando-el-signal-store-con-el-store-ngrx-tradicional)
+  - [Lo Mejor de Ambos Mundos a Través de Funcionalidades
+    Personalizadas](#lo-mejor-de-ambos-mundos-a-través-de-funcionalidades-personalizadas)
+  - [¿Qué Tan Grande Debería Ser un Signal
+    Store?](#qué-tan-grande-debería-ser-un-signal-store)
+  - [¿Puede un Signal Store Acceder a Otros Signal
+    Stores?](#puede-un-signal-store-acceder-a-otros-signal-stores)
+  - [Previniendo Ciclos, Redundancias e
+    Inconsistencias](#previniendo-ciclos-redundancias-e-inconsistencias)
+  - [Conclusión](#conclusión-13)
+- [Extra: Automatiza tu Arquitectura con Plugins de Espacio de Trabajo
+  (Workspace) de
+  Nx](#extra-automatiza-tu-arquitectura-con-plugins-de-espacio-de-trabajo-workspace-de-nx)
+  - [Creando un Plugin de Espacio de Trabajo con un
+    Generador](#creando-un-plugin-de-espacio-de-trabajo-con-un-generador)
+  - [Plantillas para
+    Generadores](#plantillas-para-generadores)
+  - [Implementando un
+    Generador](#implementando-un-generador)
+  - [Verdaderos Tesoros: Métodos de Ayuda para Generadores en
+    Nx](#verdaderos-tesoros-métodos-de-ayuda-para-generadores-en-nx)
+  - [Probando los
+    Generadores](#probando-los-generadores)
+  - [Probando
+    Generadores](#probando-generadores)
+  - [Exportando Plugins vía
+    NPM](#exportando-plugins-vía-npm)
+  - [Conclusión](#conclusión-14)
+- [Bonus: El Núcleo del Diseño Guiado por el Dominio (Domain-Driven
+  Design)](#bonus-el-núcleo-del-diseño-guiado-por-el-dominio-domain-driven-design)
+  - [DDD en Pocas
+    Palabras](#ddd-en-pocas-palabras)
+    - [Diseño
+      Estratégico](#diseño-estratégico)
+    - [Diseño Táctico](#diseño-táctico)
+    - [Desarrollos Recientes en
+      DDD](#desarrollos-recientes-en-ddd)
+    - [Más sobre DDD](#más-sobre-ddd)
+  - [¿Cómo Definir DDD?](#cómo-definir-ddd)
+  - [¿Cuándo Podemos Llamarlo
+    DDD?](#cuándo-podemos-llamarlo-ddd)
+  - [¿Cuál es el Núcleo de DDD y Por Qué la Gente Tuvo una Impresión
+    Equivocada al
+    Respecto?](#cuál-es-el-núcleo-de-ddd-y-por-qué-la-gente-tuvo-una-impresión-equivocada-al-respecto)
+  - [¿Es el Diseño Táctico Orientado a Objetos? ¿Hay Lugar para la
+    PF (Programación
+    Funcional)?](#es-el-diseño-táctico-orientado-a-objetos-hay-lugar-para-la-pf-programación-funcional)
+  - [Otras Adaptaciones del Diseño
+    Táctico](#otras-adaptaciones-del-diseño-táctico)
+  - [Conclusión](#conclusión-15)
+- [Literatura](#literatura)
+- [Acerca del Autor](#acerca-del-autor)
+- [Capacitaciones y
+  Consultoría](#capacitaciones-y-consultoría)
 
 # Introducción
 
@@ -404,7 +399,7 @@ aplicaciones a escala empresarial!
 Este libro está subdividido en 20 capítulos agrupados en cuatro partes
 que discuten diferentes aspectos de tu arquitectura.
 
-*Parte 1: Diseño Estratégico con Nx y Sheriff*
+_Parte 1: Diseño Estratégico con Nx y Sheriff_
 
 Esta parte introduce una arquitectura de referencia que actúa como la
 teoría principal de nuestro trabajo. Esta arquitectura puede adaptarse a
@@ -413,13 +408,13 @@ un monorepo Nx y Sheriff.
 
 Capítulos en la parte 1:
 
--   Diseño Estratégico Guiado por el Dominio
--   Arquitecturas con Sheriff y Componentes Independientes (Standalone
-    Components)
--   Rendimiento de Compilación con Nx
--   Nx & Sheriff - Amigos para Siempre
+- Diseño Estratégico Guiado por el Dominio
+- Arquitecturas con Sheriff y Componentes Independientes (Standalone
+  Components)
+- Rendimiento de Compilación con Nx
+- Nx & Sheriff - Amigos para Siempre
 
-*Parte 2: Micro Frontends con Federation*
+_Parte 2: Micro Frontends con Federation_
 
 Aquí discutimos cómo diferentes dominios pueden ser implementados usando
 Micro Frontends. Para esto, analizamos varios aspectos de Module
@@ -428,22 +423,22 @@ herramientas.
 
 Capítulos en la parte 2:
 
--   De Dominios a Micro Frontends
--   La Revolución de los Micro Frontends: Usando Module Federation con
-    Angular
--   Module Federation Dinámica
--   Sistemas de Plugins con Module Federation: Construyendo un Diseñador
-    de Flujos de Trabajo Extensible
--   Usando Module Federation con Monorepos Nx y Angular
--   Manejo de Desajustes de Versión en Module Federation
--   Micro Frontends Multi-Framework y Multi-Versión con Module
-    Federation
--   Errores Comunes con Module Federation y Angular
--   Module Federation con los Componentes Independientes (Standalone
-    Components) de Angular
--   De Module Federation a esbuild y Native Federation
+- De Dominios a Micro Frontends
+- La Revolución de los Micro Frontends: Usando Module Federation con
+  Angular
+- Module Federation Dinámica
+- Sistemas de Plugins con Module Federation: Construyendo un Diseñador
+  de Flujos de Trabajo Extensible
+- Usando Module Federation con Monorepos Nx y Angular
+- Manejo de Desajustes de Versión en Module Federation
+- Micro Frontends Multi-Framework y Multi-Versión con Module
+  Federation
+- Errores Comunes con Module Federation y Angular
+- Module Federation con los Componentes Independientes (Standalone
+  Components) de Angular
+- De Module Federation a esbuild y Native Federation
 
-*Parte 3: Gestión de Estado con la nueva NGRX Signal Store*
+_Parte 3: Gestión de Estado con la nueva NGRX Signal Store_
 
 La mayoría de las aplicaciones Angular necesitan preservar algún estado.
 La nueva NGRX Signal Store es una solución de gestión de estado ligera y
@@ -453,22 +448,22 @@ y cómo se ajusta a tu arquitectura.
 
 Capítulos en la parte 3:
 
--   La nueva NGRX Signal Store para Angular: 3 + n Sabores
--   Más Inteligente, No Más Difícil: Simplificando tu Aplicación con
-    NGRX Signal Store y Características Personalizadas
--   Profundización en NGRX Signal Store: Extensiones Personalizadas
-    Flexibles y Seguras en Tipos
--   La NGRX Signal Store y Tu Arquitectura
+- La nueva NGRX Signal Store para Angular: 3 + n Sabores
+- Más Inteligente, No Más Difícil: Simplificando tu Aplicación con
+  NGRX Signal Store y Características Personalizadas
+- Profundización en NGRX Signal Store: Extensiones Personalizadas
+  Flexibles y Seguras en Tipos
+- La NGRX Signal Store y Tu Arquitectura
 
-*Parte 4: Capítulos Adicionales*
+_Parte 4: Capítulos Adicionales_
 
 Los capítulos adicionales proporcionan algunas ideas y perspectivas
 adicionales para tus arquitecturas.
 
 Capítulos en la parte 4:
 
--   Automatiza tu Arquitectura con Plugins de Espacio de Trabajo Nx
--   El Núcleo del Diseño Guiado por el Dominio
+- Automatiza tu Arquitectura con Plugins de Espacio de Trabajo Nx
+- El Núcleo del Diseño Guiado por el Dominio
 
 ## Formaciones y Consultoría
 
@@ -476,20 +471,20 @@ Si tú y tu equipo necesitáis soporte o formaciones sobre Angular,
 estaremos encantados de ayudar con talleres y consultoría (presencial o
 remota). Además de otros tipos de talleres, ofrecemos los siguientes:
 
--   Angular Avanzado: Soluciones Empresariales y Arquitectura
--   Angular Esencial: Bloques de Construcción y Conceptos
--   Taller de Arquitectura Angular
--   Taller de Pruebas en Angular (Cypress, Jest, etc.)
--   Taller de Rendimiento en Angular
--   Taller de Sistemas de Diseño en Angular (Figma, Storybook, etc.)
--   Angular: Arquitecturas Reactivas (RxJS y NGRX)
--   Taller de Revisión de Angular
--   Taller de Actualización de Angular
+- Angular Avanzado: Soluciones Empresariales y Arquitectura
+- Angular Esencial: Bloques de Construcción y Conceptos
+- Taller de Arquitectura Angular
+- Taller de Pruebas en Angular (Cypress, Jest, etc.)
+- Taller de Rendimiento en Angular
+- Taller de Sistemas de Diseño en Angular (Figma, Storybook, etc.)
+- Angular: Arquitecturas Reactivas (RxJS y NGRX)
+- Taller de Revisión de Angular
+- Taller de Actualización de Angular
 
 Por favor, encuentra [la lista completa de nuestras ofertas
 aquí](https://www.angulararchitects.io/en/angular-workshops/).
 
-![Taller Avanzado de Angular](images/ad.png) (Taller de Arquitectura
+![Taller Avanzado de Angular](../manuscript/images/ad.png) (Taller de Arquitectura
 Angular, Avanzado)
 
 Ofrecemos nuestros servicios en varias modalidades: **remoto** o
@@ -510,23 +505,23 @@ libro](https://github.com/manfredsteyer/ddd-bk).
 Quiero agradecer a varias personas que me han ayudado a escribir este
 libro:
 
--   La maravillosa gente de [Nrwl.io](https://nrwl.io/) que proporciona
-    la herramienta de código abierto [Nx](https://nx.dev/angular)
-    utilizada en los estudios de caso aquí y descrita en los siguientes
-    capítulos.
--   [Thomas Burleson](https://twitter.com/thomasburleson?lang=de) quien
-    hizo un excelente trabajo describiendo el concepto de fachadas
-    (facades). Thomas contribuyó al capítulo sobre diseño táctico que
-    explora las fachadas.
--   Las mentes maestras [Zack
-    Jackson](https://twitter.com/ScriptedAlchemy) y [Jack
-    Herrington](https://twitter.com/jherr) me ayudaron a entender la API
-    para Dynamic Module Federation.
--   El increíble [Tobias Koppers](https://twitter.com/wSokra) me dio
-    valiosas perspectivas sobre este tema y
--   El único e inigualable [Dmitriy
-    Shekhovtsov](https://twitter.com/valorkin) me ayudó a usar la
-    integración de Angular CLI/webpack 5 para esto.
+- La maravillosa gente de [Nrwl.io](https://nrwl.io/) que proporciona
+  la herramienta de código abierto [Nx](https://nx.dev/angular)
+  utilizada en los estudios de caso aquí y descrita en los siguientes
+  capítulos.
+- [Thomas Burleson](https://twitter.com/thomasburleson?lang=de) quien
+  hizo un excelente trabajo describiendo el concepto de fachadas
+  (facades). Thomas contribuyó al capítulo sobre diseño táctico que
+  explora las fachadas.
+- Las mentes maestras [Zack
+  Jackson](https://twitter.com/ScriptedAlchemy) y [Jack
+  Herrington](https://twitter.com/jherr) me ayudaron a entender la API
+  para Dynamic Module Federation.
+- El increíble [Tobias Koppers](https://twitter.com/wSokra) me dio
+  valiosas perspectivas sobre este tema y
+- El único e inigualable [Dmitriy
+  Shekhovtsov](https://twitter.com/valorkin) me ayudó a usar la
+  integración de Angular CLI/webpack 5 para esto.
 
 # Diseño Estratégico Guiado por el Dominio
 
@@ -567,26 +562,24 @@ automatizados por tu sistema. Por ejemplo, un sistema de adquisiciones
 electrónicas (e-procurement) que gestiona la adquisición de material de
 oficina podría soportar los siguientes dos procesos:
 
-::: {width="66%"}
-![](images/2019-03-04-10-09-15.png)
-:::
+![](../manuscript/images/2019-03-04-10-09-15.png)
 
 Para utilizar estos procesos en la identificación de diferentes
 dominios, podemos usar varias heurísticas:
 
--   **Estructura Organizacional:** Diferentes roles o diferentes
-    divisiones que son responsables de varios pasos del proceso son un
-    indicador de la existencia de varios subdominios.
--   **Vocabulario**: Si el mismo término se usa de manera diferente o
-    tiene una importancia significativamente diferente, podríamos tener
-    diferentes subdominios.
--   **Eventos Pivote (Pivotal Events)**: Los Eventos Pivote son puntos
-    en el proceso donde se completa una tarea (o subtarea)
-    significativa. Después de tal evento, muy a menudo, el proceso
-    continúa en otro momento y/o lugar y/o con otros roles. Si nuestro
-    proceso fuera una película, tendríamos un cambio de escena después
-    de tal evento. Tales eventos son probablemente límites entre
-    subdominios.
+- **Estructura Organizacional:** Diferentes roles o diferentes
+  divisiones que son responsables de varios pasos del proceso son un
+  indicador de la existencia de varios subdominios.
+- **Vocabulario**: Si el mismo término se usa de manera diferente o
+  tiene una importancia significativamente diferente, podríamos tener
+  diferentes subdominios.
+- **Eventos Pivote (Pivotal Events)**: Los Eventos Pivote son puntos
+  en el proceso donde se completa una tarea (o subtarea)
+  significativa. Después de tal evento, muy a menudo, el proceso
+  continúa en otro momento y/o lugar y/o con otros roles. Si nuestro
+  proceso fuera una película, tendríamos un cambio de escena después
+  de tal evento. Tales eventos son probablemente límites entre
+  subdominios.
 
 Cada una de estas heurísticas te da candidatos para dividir tu proceso
 en subdominios. Sin embargo, es tu tarea decidir con qué candidatos
@@ -616,7 +609,7 @@ dominios. Por ejemplo, mientras que la descripción de un producto es muy
 detallada en el catálogo, el proceso de aprobación solo necesita unos
 pocos datos clave:
 
-![](images/2019-03-04-10-15-14.png)
+![](../manuscript/images/2019-03-04-10-15-14.png)
 
 En DDD, distinguimos entre estas dos formas de un producto. Creamos
 diferentes modelos que son tan concretos y significativos como sea
@@ -650,9 +643,7 @@ autodescriptivo y reduce el riesgo de malentendidos.
 
 En nuestro caso de estudio, podemos encontrar los siguientes dominios:
 
-::: {width="66%"}
-![](images/2019-03-04-14-15-10.png)
-:::
+![](../manuscript/images/2019-03-04-14-15-10.png)
 
 Aunque estos dominios deberían ser lo más autónomos posible, todavía
 tienen que interactuar ocasionalmente. Supongamos que el dominio de
@@ -662,9 +653,7 @@ dominio de `Catálogo` (Catalogue) y un sistema ERP conectado.
 Para definir cómo interactúan estos dominios, creamos un mapa de
 contextos:
 
-::: {width="66%"}
-![](images/2019-03-04-10-26-54.png)
-:::
+![](../manuscript/images/2019-03-04-10-26-54.png)
 
 En principio, `Pedidos` podría tener acceso completo a `Catálogo`. En
 este caso, sin embargo, los dominios ya no estarían desacoplados y un
@@ -693,9 +682,7 @@ Otra estrategia que quiero destacar aquí es `Vías Separadas` (Separate
 Ways). Tareas específicas, como calcular el IVA, podrían implementarse
 por separado en varios dominios:
 
-::: {width="66%"}
-![](images/2019-03-04-13-59-17.png)
-:::
+![](../manuscript/images/2019-03-04-13-59-17.png)
 
 A primera vista, esto parece extraño porque conduce a redundancias de
 código y, por lo tanto, rompe el principio DRY (no te repitas). Sin
@@ -738,13 +725,13 @@ delimitado que refleja un subdominio en el sentido de DDD.
 
 Además de esto, existen varios otros posibles planos de fractura:
 
--   Cumplimiento Normativo
--   Cadencia de Cambio
--   Ubicación del Equipo
--   Riesgo
--   Aislamiento de Rendimiento
--   Tecnología
--   Personas de Usuario (User Personas)
+- Cumplimiento Normativo
+- Cadencia de Cambio
+- Ubicación del Equipo
+- Riesgo
+- Aislamiento de Rendimiento
+- Tecnología
+- Personas de Usuario (User Personas)
 
 ## Conclusión
 
@@ -775,7 +762,7 @@ capítulo.
 Para implementar nuestro diseño estratégico, tiene sentido subdividir
 aún más los dominios individuales en diferentes módulos:
 
-![Matriz de Arquitectura](images/matrix.png)
+![Matriz de Arquitectura](../manuscript/images/matrix.png)
 
 Esta matriz es a menudo el punto de partida de nuestros proyectos y
 puede adaptarse a las necesidades individuales. Cada celda resulta en un
@@ -784,35 +771,35 @@ módulo en el código fuente.
 sugiere las siguientes categorías (originalmente para bibliotecas),
 entre otras, que han demostrado ser útiles en nuestro trabajo diario:
 
--   **feature:** Un módulo de característica implementa un caso de uso
-    con los llamados componentes inteligentes (smart components). Debido
-    a su enfoque en una característica, dichos componentes no son muy
-    reutilizables. Los Componentes Inteligentes se comunican con el
-    backend. Típicamente, en Angular, esta comunicación ocurre a través
-    de un store o servicios.
--   **ui:** Los módulos UI contienen los llamados componentes tontos
-    (dumb) o de presentación (presentational components). Estos son
-    componentes reutilizables que apoyan la implementación de
-    características individuales pero no las conocen directamente. La
-    implementación de un sistema de diseño consiste en tales
-    componentes. Sin embargo, los módulos UI también pueden contener
-    componentes técnicos generales que se utilizan en todos los casos de
-    uso. Un ejemplo de esto sería un componente de ticket, que asegura
-    que los tickets se presenten de la misma manera en diferentes
-    características. Dichos componentes usualmente solo se comunican con
-    su entorno a través de propiedades y eventos. No obtienen acceso al
-    backend ni a un store fuera del módulo.
--   **data:** Los módulos de datos contienen el modelo de dominio
-    respectivo (en realidad, la vista del lado del cliente de este) y
-    los servicios que operan sobre él. Dichos servicios validan, por
-    ejemplo, Entidades y se comunican con el backend. La gestión del
-    estado (state management), incluida la provisión de modelos de vista
-    (view models), también puede acomodarse en módulos de datos. Esto es
-    particularmente útil cuando múltiples características en el mismo
-    dominio se basan en los mismos datos.
--   **util:** Funciones auxiliares generales, etc., se pueden encontrar
-    en módulos de utilidad. Ejemplos de esto son el registro (logging),
-    la autenticación o el trabajo con valores de fecha.
+- **feature:** Un módulo de característica implementa un caso de uso
+  con los llamados componentes inteligentes (smart components). Debido
+  a su enfoque en una característica, dichos componentes no son muy
+  reutilizables. Los Componentes Inteligentes se comunican con el
+  backend. Típicamente, en Angular, esta comunicación ocurre a través
+  de un store o servicios.
+- **ui:** Los módulos UI contienen los llamados componentes tontos
+  (dumb) o de presentación (presentational components). Estos son
+  componentes reutilizables que apoyan la implementación de
+  características individuales pero no las conocen directamente. La
+  implementación de un sistema de diseño consiste en tales
+  componentes. Sin embargo, los módulos UI también pueden contener
+  componentes técnicos generales que se utilizan en todos los casos de
+  uso. Un ejemplo de esto sería un componente de ticket, que asegura
+  que los tickets se presenten de la misma manera en diferentes
+  características. Dichos componentes usualmente solo se comunican con
+  su entorno a través de propiedades y eventos. No obtienen acceso al
+  backend ni a un store fuera del módulo.
+- **data:** Los módulos de datos contienen el modelo de dominio
+  respectivo (en realidad, la vista del lado del cliente de este) y
+  los servicios que operan sobre él. Dichos servicios validan, por
+  ejemplo, Entidades y se comunican con el backend. La gestión del
+  estado (state management), incluida la provisión de modelos de vista
+  (view models), también puede acomodarse en módulos de datos. Esto es
+  particularmente útil cuando múltiples características en el mismo
+  dominio se basan en los mismos datos.
+- **util:** Funciones auxiliares generales, etc., se pueden encontrar
+  en módulos de utilidad. Ejemplos de esto son el registro (logging),
+  la autenticación o el trabajo con valores de fecha.
 
 Otro aspecto especial de la implementación en el código es el área
 compartida (shared), que ofrece código para todos los dominios. Esta
@@ -824,13 +811,13 @@ sobre dónde encontrar o colocar ciertas secciones de código. Además, se
 pueden introducir dos reglas simples pero efectivas sobre la base de
 esta matriz:
 
--   En términos de diseño estratégico, cada dominio solo puede
-    comunicarse con sus propios módulos. Una excepción es el área
-    compartida (shared) a la que cada dominio tiene acceso.
+- En términos de diseño estratégico, cada dominio solo puede
+  comunicarse con sus propios módulos. Una excepción es el área
+  compartida (shared) a la que cada dominio tiene acceso.
 
--   Cada módulo solo puede acceder a módulos en capas inferiores de la
-    matriz. Cada categoría de módulo se convierte en una capa en este
-    sentido.
+- Cada módulo solo puede acceder a módulos en capas inferiores de la
+  matriz. Cada categoría de módulo se convierte en una capa en este
+  sentido.
 
 Ambas reglas apoyan el desacoplamiento de los módulos o dominios
 individuales y ayudan a evitar ciclos.
@@ -848,10 +835,8 @@ La matriz de arquitectura se puede mapear en el código fuente en forma
 de carpetas: Cada dominio tiene su propia carpeta, que a su vez tiene
 una subcarpeta para cada uno de sus módulos:
 
-::: {width="50"}
 ![Estructura de Carpetas para la Matriz de
-Arquitectura](images/folder-structure-02.png)
-:::
+Arquitectura](../manuscript/images/folder-structure-02.png)
 
 Los nombres de los módulos llevan como prefijo el nombre de la categoría
 de módulo respectiva. Esto significa que se puede ver a primera vista
@@ -861,9 +846,9 @@ como componentes, directivas, pipes o servicios.
 
 El uso de módulos de Angular ya no es necesario desde la introducción de
 los componentes independientes (standalone components) (directivas y
-pipes). En su lugar, la bandera *standalone* se establece en *true:*
+pipes). En su lugar, la bandera _standalone_ se establece en _true:_
 
-``` typescript
+```typescript
 @Component({
   selector: "app-flight-booking",
   standalone: true,
@@ -879,11 +864,11 @@ contexto de compilación. Estos son todos los demás componentes
 independientes (standalone components), directivas y pipes que se
 utilizan en la plantilla.
 
-Un *index.ts* se utiliza para definir la interfaz pública del módulo.
+Un _index.ts_ se utiliza para definir la interfaz pública del módulo.
 Este es un llamado \"barrel\" (barril) que determina qué componentes del
 módulo también pueden usarse fuera del módulo:
 
-``` typescript
+```typescript
 export * from "./flight-booking.routes";
 ```
 
@@ -897,18 +882,18 @@ tanto, menos críticos.
 
 La arquitectura discutida hasta ahora se basa en varias convenciones:
 
--   Los módulos solo pueden comunicarse con módulos del mismo dominio y
-    *shared* (compartido)
--   Los módulos solo pueden comunicarse con módulos en capas inferiores
--   Los módulos solo pueden acceder a la interfaz pública de otros
-    módulos
+- Los módulos solo pueden comunicarse con módulos del mismo dominio y
+  _shared_ (compartido)
+- Los módulos solo pueden comunicarse con módulos en capas inferiores
+- Los módulos solo pueden acceder a la interfaz pública de otros
+  módulos
 
 El proyecto de código abierto
 [Sheriff](https://github.com/softarc-consulting/sheriff) permite que
 estas convenciones se apliquen mediante linting. La violación se
 advierte con un mensaje de error en el IDE o en la consola:
 
-![Sheriff informa sobre violaciones de arquitectura](images/sheriff.png)
+![Sheriff informa sobre violaciones de arquitectura](../manuscript/images/sheriff.png)
 
 El mensaje de error en el IDE proporciona retroalimentación instantánea
 durante el desarrollo y la salida del linter en la consola se puede
@@ -919,15 +904,15 @@ código fuente que viole la arquitectura definida.
 Para configurar Sheriff, se deben obtener los siguientes dos paquetes a
 través de npm:
 
-``` javascript
+```javascript
 npm i @softarc/sheriff-core @softarc/eslint-plugin-sheriff -D
 ```
 
-El primero incluye Sheriff, el último es el puente hacia *eslint*. Para
-usar este puente, debe registrarse en el *.eslintrc.json* que se
+El primero incluye Sheriff, el último es el puente hacia _eslint_. Para
+usar este puente, debe registrarse en el _.eslintrc.json_ que se
 encuentra en la raíz del proyecto:
 
-``` json
+```json
 {
   [...],
   "overrides": [
@@ -940,16 +925,16 @@ encuentra en la raíz del proyecto:
 }
 ```
 
-Sheriff considera cualquier carpeta con un *index.ts* como un módulo.
-Por defecto, Sheriff evita que este *index.js* sea omitido (bypassed) y,
+Sheriff considera cualquier carpeta con un _index.ts_ como un módulo.
+Por defecto, Sheriff evita que este _index.js_ sea omitido (bypassed) y,
 por lo tanto, el acceso a detalles de implementación por otros módulos.
-El *sheriff.config.ts* que se configurará en la raíz del proyecto define
-categorías (*tags*) para los módulos individuales y define reglas de
-dependencia (*depRules*) basadas en ellas. A continuación se muestra una
+El _sheriff.config.ts_ que se configurará en la raíz del proyecto define
+categorías (_tags_) para los módulos individuales y define reglas de
+dependencia (_depRules_) basadas en ellas. A continuación se muestra una
 configuración de Sheriff para la matriz de arquitectura discutida
 anteriormente:
 
-``` typescript
+```typescript
 import { noDependencies, sameTag, SheriffConfig } from "@softarc/sheriff-core";
 
 export const sheriffConfig: SheriffConfig = {
@@ -1001,13 +986,13 @@ Los mapeos de rutas (path mappings) se pueden usar para evitar rutas
 relativas ilegibles dentro de las importaciones. Estos permiten, por
 ejemplo, en lugar de
 
-``` typescript
+```typescript
 import { FlightBookingFacade } from "../../data";
 ```
 
 usar lo siguiente:
 
-``` typescript
+```typescript
 import { FlightBookingFacade } from "@demo/ticketing/data";
 ```
 
@@ -1018,10 +1003,10 @@ y, por lo tanto, reflejan la posición deseada dentro de la matriz de
 arquitectura.
 
 Esta notación se puede habilitar independientemente del número de
-dominios y módulos con un único mapeo de ruta dentro de *tsconfig.json*
+dominios y módulos con un único mapeo de ruta dentro de _tsconfig.json_
 en la raíz del proyecto:
 
-``` json
+```json
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -1094,12 +1079,12 @@ Todas las aplicaciones y bibliotecas configuradas de esta manera son
 parte del mismo espacio de trabajo y repositorio. Por lo tanto, no es
 necesario distribuir las bibliotecas a través de npm:
 
-![Estructura de carpetas de una biblioteca](images/lib.png)
+![Estructura de carpetas de una biblioteca](../manuscript/images/lib.png)
 
 El archivo `public-api.ts`, a veces también llamado `index.ts`, tiene
 una tarea especial. Define la API pública de la biblioteca:
 
-``` typescript
+```typescript
 // public-api.ts
 
 export * from "./lib/auth.service";
@@ -1112,7 +1097,7 @@ bibliotecas y aplicaciones en el mismo espacio de trabajo, se debe
 configurar un mapeo de rutas correspondiente en el archivo
 `tsconfig.json` central:
 
-``` json
+```json
 […]
 "paths": {
   "@demo/auth": [
@@ -1135,7 +1120,7 @@ automáticamente.
 Una vez configurado el mapeo de rutas, las aplicaciones y bibliotecas
 individuales pueden importar las exportaciones de la API pública:
 
-``` typescript
+```typescript
 import { AuthService } from "@demo/auth";
 ```
 
@@ -1158,7 +1143,7 @@ características adicionales. Además de Angular, también admite otras
 tecnologías como React o backends basados en Node.js, e integra
 numerosas herramientas comúnmente utilizadas en el desarrollo de
 soluciones basadas en web. Ejemplos son las herramientas de prueba Jest,
-Cypress y Playwright, el servidor npm *verdaccio* y Storybook utilizado
+Cypress y Playwright, el servidor npm _verdaccio_ y Storybook utilizado
 para la documentación interactiva de componentes. Los desarrolladores no
 tienen que invertir ningún esfuerzo en configurar dichas herramientas,
 sino que pueden empezar directamente.
@@ -1181,7 +1166,7 @@ Para crear un nuevo espacio de trabajo Nx, ejecuta el siguiente comando:
 
 Para tu primer proyecto, selecciona las siguientes opciones:
 
-![Opciones para tu primer proyecto Nx](images/create-nx-workspace.png)
+![Opciones para tu primer proyecto Nx](../manuscript/images/create-nx-workspace.png)
 
 Este comando hace que npm cargue un script que configura un espacio de
 trabajo Nx con la versión actual de Nx. También hay scripts para migrar
@@ -1210,7 +1195,7 @@ Una llamada a
 
 ilustra las dependencias entre aplicaciones y bibliotecas:
 
-![Un grafo de dependencias simple](images/graph-klein.png)
+![Un grafo de dependencias simple](../manuscript/images/graph-klein.png)
 
 ## Compilaciones Incrementales con Nx
 
@@ -1236,7 +1221,7 @@ En este caso, también, Nx recurre a la caché si los archivos fuente no
 han cambiado:
 
 ![Nx permite compilaciones incrementales sin
-configuración](images/nx-build.png)
+configuración](../manuscript/images/nx-build.png)
 
 Las pruebas unitarias, las pruebas E2E y el linting también se pueden
 realizar incrementalmente de la misma manera. Nx incluso va un paso más
@@ -1275,7 +1260,7 @@ comando:
 Técnicamente, este comando activa el ejecutor de tareas (task runner)
 `nx-cloud` en el archivo `nx.json` ubicado en la raíz del proyecto:
 
-``` json
+```json
 "tasksRunnerOptions": {
   "default": {
     "runner": "nx-cloud",
@@ -1314,14 +1299,14 @@ Sin embargo, debe tenerse en cuenta que la API del ejecutor de tareas no
 es pública y, por lo tanto, puede cambiar de una versión a otra.
 
 El ejecutor de tareas para Nx Cloud también necesita configurarse con un
-token de acceso (ver arriba). Comandos como *nx build* generan un enlace
+token de acceso (ver arriba). Comandos como _nx build_ generan un enlace
 a una cuenta en la nube creada dinámicamente. Al acceder por primera
 vez, es aconsejable crear usuarios para restringir el acceso a ellos.
 También puedes encontrar un panel (dashboard) bajo este enlace que
 proporciona información sobre las compilaciones realizadas:
 
 ![El panel de Nx proporciona información sobre las compilaciones
-completadas](images/dashboard.png)
+completadas](../manuscript/images/dashboard.png)
 
 ## Aún Más Rápido: Paralelización con Nx Cloud
 
@@ -1353,7 +1338,7 @@ trabajadores ejecutan en paralelo (`parallel-commands`) en los agentes.
 Los scripts se activan cada vez que la rama principal del repositorio
 cambia, ya sea por un `push` directo o al fusionar una pull request:
 
-![Paralelización con Nx Cloud y GitHub Actions](images/dte.png)
+![Paralelización con Nx Cloud y GitHub Actions](../manuscript/images/dte.png)
 
 ## Conclusión
 
@@ -1385,7 +1370,7 @@ tus arquitecturas pueden beneficiarse de esta combinación.
 Por defecto, Nx permite hacer cumplir límites de módulo como los de
 nuestra matriz de arquitectura:
 
-![](images/matrix.png)
+![](../manuscript/images/matrix.png)
 
 Aquí, una capa técnica solo puede acceder a las capas inferiores, y
 dominios como `booking` (reservas) y `boarding` (embarque) no pueden
@@ -1400,7 +1385,7 @@ general, Nx crea un `project.json` local para cada aplicación y
 librería. Este archivo te permite etiquetar la aplicación o librería en
 cuestión:
 
-``` json
+```json
 {
   [...]
   "tags": ["domain:tickets", "type:domain-logic"]
@@ -1420,7 +1405,7 @@ dicen a Nx qué aplicaciones y librerías pueden acceder a qué otras
 librerías. Estos límites se definen usando una regla de linting en el
 `.eslintrc.json` que se encuentra en la raíz del espacio de trabajo:
 
-``` json
+```json
 "rules": {
   "@nx/enforce-module-boundaries": [
     "error",
@@ -1486,7 +1471,7 @@ asegurar que relea los archivos modificados.
 Cuando tu código fuente rompe las reglas definidas, tu IDE debería
 mostrarte un error de linting:
 
-![](images/linting-2.png)
+![](../manuscript/images/linting-2.png)
 
 Además, una llamada a `nx lint` revelará los mismos errores de linting.
 Esto permite que tus tareas de compilación verifiquen la alineación con
@@ -1503,7 +1488,7 @@ Nx](https://www.npmjs.com/package/@angular-architects/ddd). Usando este
 plugin, los siguientes comandos son todo lo que necesitas para
 configurar dos dominios con algunas características:
 
-``` bash
+```bash
 npm i @angular-architects/ddd
 ng g @angular-architects/ddd:init
 
@@ -1517,15 +1502,15 @@ ng g @angular-architects/ddd:feature manage --domain boarding --standalone
 Si visualizas esta arquitectura con el comando `nx graph`, obtienes el
 siguiente gráfico:
 
-![](images/ddd-graph.png)
+![](../manuscript/images/ddd-graph.png)
 
 ## Recapitulación: Diferentes Tipos de Límites
 
 Hasta ahora, hemos discutido cómo introducir límites en Nx. Sin embargo,
 si observamos más de cerca Nx, vemos que hay dos tipos de límites:
 
--   Límites para la modularización
--   Límites para CI/CD incremental
+- Límites para la modularización
+- Límites para CI/CD incremental
 
 Ambos tipos de límites se alinean entre sí y se implementan como
 aplicaciones y librerías.
@@ -1542,18 +1527,18 @@ es esencial para nuestra arquitectura. Por lo tanto, necesitamos
 encontrar una manera de desacoplar estos dos tipos de límites entre sí.
 Para esto, combinamos Nx con
 [Sheriff](https://github.com/softarc-consulting/sheriff) introducido en
-el capítulo *Arquitecturas con Sheriff y Componentes Independientes
-(Standalone Components)*:
+el capítulo _Arquitecturas con Sheriff y Componentes Independientes
+(Standalone Components)_:
 
--   Menos librerías, más generales (de grano grueso), definen los
-    límites para la CI/CD incremental.
+- Menos librerías, más generales (de grano grueso), definen los
+  límites para la CI/CD incremental.
 
--   Los límites habituales de grano fino para la modularización se
-    implementan a nivel de carpeta con Sheriff.
+- Los límites habituales de grano fino para la modularización se
+  implementan a nivel de carpeta con Sheriff.
 
--   Como sucede a menudo, esta es una situación de compensación:
-    Intercambiamos la posibilidad de una CI/CD incremental más detallada
-    por una estructura de proyecto simplificada.
+- Como sucede a menudo, esta es una situación de compensación:
+  Intercambiamos la posibilidad de una CI/CD incremental más detallada
+  por una estructura de proyecto simplificada.
 
 ## Opciones con Sheriff
 
@@ -1566,10 +1551,10 @@ una librería por dominio.
 El primer enfoque que quiero mencionar aquí es crear una aplicación por
 subdominio:
 
-![](images/app-per-domain.png)
+![](../manuscript/images/app-per-domain.png)
 
-Esta estrategia ya se usó en el capítulo *Arquitecturas con Sheriff y
-Componentes Independientes (Standalone Components)*.
+Esta estrategia ya se usó en el capítulo _Arquitecturas con Sheriff y
+Componentes Independientes (Standalone Components)_.
 
 Los módulos compartidos todavía se implementan como librerías separadas.
 Este enfoque es adecuado cuando optamos por varias aplicaciones que
@@ -1590,7 +1575,7 @@ Si tu aplicación está destinada a ser un monolito modular, a veces
 denominado \"Modulith\", solo podrías tener una aplicación que consta de
 varios Dominios:
 
-![](images/lib-per-domain.png)
+![](../manuscript/images/lib-per-domain.png)
 
 En este caso, poner los dominios en diferentes librerías ayuda a
 acelerar las pruebas y el linting incrementales. Sin embargo, en este
@@ -1632,7 +1617,7 @@ Micro Frontends.
 Un monolito de despliegue es una solución integrada que comprende
 diferentes dominios:
 
-![](images/02.png)
+![](../manuscript/images/02.png)
 
 Este enfoque admite una UI consistente y conduce a paquetes (bundles)
 optimizados al compilar todo junto. Un equipo responsable de un
@@ -1654,7 +1639,7 @@ superponen con los límites de tus subdominios, esto puede llevar a
 equipos más autárquicos y aplicaciones que se pueden desplegar por
 separado.
 
-![](images/03.png).
+![](../manuscript/images/03.png).
 
 Ahora tienes algo llamado Micro Frontends. Los Micro Frontends permiten
 equipos autárquicos: cada equipo puede elegir su estilo arquitectónico,
@@ -1671,7 +1656,7 @@ Si buscas aún más aislamiento entre tus subdominios y los equipos
 responsables de ellos, podrías poner cada subdominio en su propio
 repositorio individual:
 
-![](images/04.png)
+![](../manuscript/images/04.png)
 
 Sin embargo, esto tiene costos. Ahora tienes que lidiar con la
 distribución de tus bibliotecas compartidas a través de npm. Esto
@@ -1687,12 +1672,12 @@ tanto, tienes que encontrar formas de integrar las diferentes
 aplicaciones en un sistema grande. Los hipervínculos son una forma
 sencilla de lograrlo:
 
-![](images/05.png)
+![](../manuscript/images/05.png)
 
 Este enfoque se adapta bien a suites de productos como Google u Office
 365:
 
-![](images/word.png)
+![](../manuscript/images/word.png)
 
 Cada dominio es una aplicación autónoma aquí. Esta estructura funciona
 bien porque no necesitamos muchas interacciones entre los dominios. Si
@@ -1702,17 +1687,17 @@ modelo.
 
 Este enfoque tiene varias ventajas:
 
--   Es simple
--   Utiliza frameworks SPA (Single Page Application) según lo previsto
--   Obtenemos paquetes (bundles) optimizados por dominio
+- Es simple
+- Utiliza frameworks SPA (Single Page Application) según lo previsto
+- Obtenemos paquetes (bundles) optimizados por dominio
 
 Sin embargo, hay algunas desventajas:
 
--   Perdemos nuestro estado al cambiar a otra aplicación
--   Tenemos que cargar otra aplicación, lo cual queríamos evitar con las
-    SPAs
--   Tenemos que trabajar para obtener una apariencia estándar
-    (necesitamos un sistema de diseño universal).
+- Perdemos nuestro estado al cambiar a otra aplicación
+- Tenemos que cargar otra aplicación, lo cual queríamos evitar con las
+  SPAs
+- Tenemos que trabajar para obtener una apariencia estándar
+  (necesitamos un sistema de diseño universal).
 
 ## Composición de UI con un Shell
 
@@ -1720,14 +1705,14 @@ Otro enfoque muy discutido es proporcionar un shell que cargue
 diferentes aplicaciones de página única (single-page applications) bajo
 demanda:
 
-![](images/case-study-01.png)
+![](../manuscript/images/case-study-01.png)
 
 En la captura de pantalla, el shell carga el Micro Frontend con el borde
 rojo en su área de trabajo. Técnicamente, simplemente carga los paquetes
 (bundles) del Micro Frontend bajo demanda. El shell luego crea un
 elemento para el elemento raíz del Micro Frontend:
 
-``` javascript
+```javascript
 const script = document.createElement("script");
 script.src = "assets/external-dashboard-tile.bundle.js";
 document.body.appendChild(script);
@@ -1757,19 +1742,19 @@ encontrarlo [aquí](https://github.com/SAP/luigi).
 
 El enfoque del shell tiene las siguientes ventajas:
 
--   El usuario tiene una solución integrada que consta de diferentes
-    microfrontends.
--   No perdemos el estado al navegar entre dominios.
+- El usuario tiene una solución integrada que consta de diferentes
+  microfrontends.
+- No perdemos el estado al navegar entre dominios.
 
 Las desventajas son:
 
--   Si no usamos trucos específicos (descritos en el próximo capítulo),
-    cada microfrontend viene con su propia copia de Angular y los otros
-    frameworks, aumentando los tamaños de los paquetes (bundles).
--   Tenemos que implementar código de infraestructura para cargar
-    microfrontends y cambiar entre ellos.
--   Tenemos que hacer algo de trabajo para obtener una apariencia
-    estándar (necesitamos un sistema de diseño universal).
+- Si no usamos trucos específicos (descritos en el próximo capítulo),
+  cada microfrontend viene con su propia copia de Angular y los otros
+  frameworks, aumentando los tamaños de los paquetes (bundles).
+- Tenemos que implementar código de infraestructura para cargar
+  microfrontends y cambiar entre ellos.
+- Tenemos que hacer algo de trabajo para obtener una apariencia
+  estándar (necesitamos un sistema de diseño universal).
 
 ## El Héroe: Module Federation
 
@@ -1790,7 +1775,7 @@ He creado el siguiente árbol de decisiones, que también resume las ideas
 expuestas en este capítulo:
 
 ![Árbol de decisión para Micro Frontends vs. Monolitos de
-Despliegue](images/decision-tree.png)
+Despliegue](../manuscript/images/decision-tree.png)
 
 Dado que la implementación de un monolito de despliegue y el enfoque de
 hipervínculos es obvia, el próximo capítulo discute cómo implementar un
@@ -1805,12 +1790,12 @@ implementar este estilo arquitectónico.
 
 El objetivo era obtener respuestas a las siguientes preguntas:
 
--   ¿Qué beneficios observaron los profesionales y cómo califican su
-    impacto positivo?
--   ¿Qué inconvenientes observaron los profesionales y cómo califican su
-    impacto negativo?
--   ¿Cómo compensaron los profesionales los inconvenientes y cuán
-    efectivas han sido las contramedidas utilizadas?
+- ¿Qué beneficios observaron los profesionales y cómo califican su
+  impacto positivo?
+- ¿Qué inconvenientes observaron los profesionales y cómo califican su
+  impacto negativo?
+- ¿Cómo compensaron los profesionales los inconvenientes y cuán
+  efectivas han sido las contramedidas utilizadas?
 
 Estas preguntas se desglosaron en varios temas técnicos y organizativos.
 Las preguntas indagadas se subdividieron en los siguientes grupos:
@@ -1859,20 +1844,16 @@ El ejemplo utilizado aquí consiste en un shell (aplicación contenedora),
 que es capaz de cargar Micro Frontends individuales, proporcionados por
 separado, si es necesario:
 
-::: {width="66%"}
-![Shell](images/shell.png)
-:::
+![Shell](../manuscript/images/shell.png)
 
 El Micro Frontend cargado se muestra dentro del borde rojo discontinuo.
 Además, el microfrontend se puede utilizar sin el shell:
 
-::: {width="66%"}
-![Micro Frontend sin Shell](images/standalone.png)
-:::
+![Micro Frontend sin Shell](../manuscript/images/standalone.png)
 
 > [Código
 > Fuente](https://github.com/manfredsteyer/module-federation-plugin-example/tree/static)
-> (ver rama *static*)
+> (ver rama _static_)
 
 ## Activando Module Federation para Proyectos Angular
 
@@ -1887,7 +1868,7 @@ El paquete
 proporciona dicho constructor personalizado. Para comenzar, puedes
 simplemente agregarlo con \"ng add\" a tus proyectos:
 
-``` bash
+```bash
 ng add @angular-architects/module-federation \
   --project shell --port 4200 --type host
 
@@ -1898,7 +1879,7 @@ ng add @angular-architects/module-federation \
 Si usas Nx, deberías instalar la biblioteca por separado con
 `npm install`. Después de eso, puedes usar el schematic `init`:
 
-``` bash
+```bash
 npm i @angular-architects/module-federation -D
 
 ng g @angular-architects/module-federation:init \
@@ -1912,16 +1893,16 @@ ng g @angular-architects/module-federation:init \
 > 14.3 y asegura que solo se genere la configuración necesaria.
 
 Si bien es obvio que el proyecto `shell` contiene el código para el
-`shell`, `mfe1` significa *Micro Frontend 1*.
+`shell`, `mfe1` significa _Micro Frontend 1_.
 
 El comando mostrado hace varias cosas:
 
--   Generar el esqueleto de un `webpack.config.js` para usar Module
-    Federation.
--   Instalar un constructor personalizado que hace que webpack dentro
-    del CLI use el `webpack.config.js` generado.
--   Asignar un nuevo puerto para `ng serve` para que varios proyectos
-    puedan servirse simultáneamente.
+- Generar el esqueleto de un `webpack.config.js` para usar Module
+  Federation.
+- Instalar un constructor personalizado que hace que webpack dentro
+  del CLI use el `webpack.config.js` generado.
+- Asignar un nuevo puerto para `ng serve` para que varios proyectos
+  puedan servirse simultáneamente.
 
 Por favor, ten en cuenta que el `webpack.config.js` es solo una
 configuración **parcial** de webpack. Solo contiene lo necesario para
@@ -1934,7 +1915,7 @@ Comencemos con el shell, que también se llamaría el host en Module
 Federation. Utiliza el enrutador para cargar de forma diferida (lazy
 load) un `FlightModule`:
 
-``` typescript
+```typescript
 export const APP_ROUTES: Routes = [
   {
     path: "",
@@ -1954,7 +1935,7 @@ dentro del shell. Es solo una ruta virtual que apunta a otro proyecto.
 Para facilitar al compilador de TypeScript, necesitamos una definición
 de tipos (typing) para ello:
 
-``` typescript
+```typescript
 // decl.d.ts
 declare module "mfe1/Module";
 ```
@@ -1963,7 +1944,7 @@ Además, necesitamos decirle a webpack que todas las rutas que comiencen
 con `mfe1` apuntan a otro proyecto. Esto se puede hacer en el
 `webpack.config.js` generado:
 
-``` typescript
+```typescript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -2023,11 +2004,11 @@ problemas.
 
 ## El Micro Frontend (también conocido como Remoto)
 
-El Micro Frontend, también conocido como *remoto* en términos de Module
+El Micro Frontend, también conocido como _remoto_ en términos de Module
 Federation, se parece a una aplicación Angular ordinaria. Tiene rutas
 definidas dentro del `AppModule`:
 
-``` typescript
+```typescript
 export const APP_ROUTES: Routes = [
   { path: "", component: HomeComponent, pathMatch: "full" },
 ];
@@ -2035,7 +2016,7 @@ export const APP_ROUTES: Routes = [
 
 Además, hay un `FlightsModule`:
 
-``` typescript
+```typescript
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(FLIGHTS_ROUTES)],
   declarations: [FlightsSearchComponent],
@@ -2045,7 +2026,7 @@ export class FlightsModule {}
 
 Este módulo tiene algunas rutas propias:
 
-``` typescript
+```typescript
 export const FLIGHTS_ROUTES: Routes = [
   {
     path: "flights-search",
@@ -2058,7 +2039,7 @@ Para hacer posible cargar el `FlightsModule` en el shell, también
 necesitamos exponerlo a través de la configuración de webpack del
 remoto:
 
-``` javascript
+```javascript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -2089,7 +2070,7 @@ compartidas con el shell.
 
 Para probar todo, solo necesitamos iniciar el shell y el Micro Frontend:
 
-``` bash
+```bash
 ng serve shell -o
 ng serve mfe1 -o
 ```
@@ -2097,21 +2078,21 @@ ng serve mfe1 -o
 Luego, al hacer clic en `Flights` en el shell, se carga el Micro
 Frontend:
 
-![Shell](images/new-result.png)
+![Shell](../manuscript/images/new-result.png)
 
 **Consejo:** También puedes usar el script de npm `run:all` que el
 plugin instala con sus schematics `ng-add` e `init`:
 
-``` bash
+```bash
 npm run run:all
 ```
 
-![script run:all](images/run-all.png)
+![script run:all](../manuscript/images/run-all.png)
 
 Para iniciar solo algunas aplicaciones, agrega sus nombres como
 argumentos de línea de comandos:
 
-``` bash
+```bash
 npm run run:all shell mfe1
 ```
 
@@ -2122,7 +2103,7 @@ Ok, eso funcionó bastante bien. Pero, ¿has echado un vistazo a tu
 
 Simplemente se ve así:
 
-``` typescript
+```typescript
 import("./bootstrap").catch((err) => console.error(err));
 ```
 
@@ -2153,7 +2134,7 @@ defecto, terminan en paquetes separados que necesitan ser cargados, es
 posible que desees optimizar este comportamiento cambiando de `shareAll`
 al ayudante `share`:
 
-``` javascript
+```javascript
 // Importar share en lugar de shareAll:
 const {
   share,
@@ -2194,7 +2175,7 @@ Angular y grandes soluciones empresariales e industriales en nuestro
 [Taller Online
 Avanzado](https://www.angulararchitects.io/schulungen/advanced-angular-enterprise-anwendungen-und-architektur/):
 
-![Taller Avanzado de Angular](images/ad.png)
+![Taller Avanzado de Angular](../manuscript/images/ad.png)
 
 ¡Reserva tu
 [entrada](https://www.angulararchitects.io/en/angular-workshops/) para
@@ -2251,7 +2232,7 @@ una API Web.
 La siguiente imagen muestra la idea descrita aquí:
 
 ![El shell carga un Micro Frontend del que es informado en tiempo de
-ejecución](images/overview-cli14.png)
+ejecución](../manuscript/images/overview-cli14.png)
 
 Para todos los Micro Frontends de los que el shell es informado en
 tiempo de ejecución, muestra un elemento de menú. Al hacer clic en él,
@@ -2278,7 +2259,7 @@ Frontends llamados `mfe1` y `mfe2`. Como en el capítulo anterior,
 añadimos e inicializamos el plugin de Federación de Módulos para los
 Micro Frontends:
 
-``` bash
+```bash
 npm i -g @angular-architects/module-federation -D
 
 ng g @angular-architects/module-federation \
@@ -2295,21 +2276,21 @@ dinámico** que toma los datos clave sobre el Micro Frontend de un
 archivo JSON ---llamado el Manifiesto de Micro Frontend--- en tiempo de
 ejecución:
 
-``` bash
+```bash
 ng g @angular-architects/module-federation \
   --project shell --port 4200 --type dynamic-host
 ```
 
 Esto genera:
 
--   una configuración de webpack
--   el manifiesto y
--   algo de código en el `main.ts` cargando el manifiesto.
+- una configuración de webpack
+- el manifiesto y
+- algo de código en el `main.ts` cargando el manifiesto.
 
 El manifiesto se puede encontrar aquí:
 `projects/shell/src/assets/mf.manifest.json`. Así es como se ve:
 
-``` json
+```json
 {
   "mfe1": "http://localhost:4201/remoteEntry.js",
   "mfe2": "http://localhost:4202/remoteEntry.js"
@@ -2323,7 +2304,7 @@ coincidan.
 
 El archivo `main.ts` generado carga el manifiesto:
 
-``` typescript
+```typescript
 import { loadManifest } from "@angular-architects/module-federation";
 
 loadManifest("/assets/mf.manifest.json")
@@ -2342,7 +2323,7 @@ obtener los Micro Frontends bajo demanda.
 Para cargar los Micro Frontends descritos por el manifiesto, vamos con
 las siguientes rutas:
 
-``` typescript
+```typescript
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { loadRemoteModule } from "@angular-architects/module-federation";
@@ -2384,7 +2365,7 @@ Esperamos que ambos Micro Frontends proporcionen un NgModule con
 subrutas a través de `'./Module'`. Los NgModules se exponen a través del
 `webpack.config.js` en los Micro Frontends:
 
-``` javascript
+```javascript
 // projects/mfe1/webpack.config.js
 
 const {
@@ -2410,7 +2391,7 @@ module.exports = withModuleFederationPlugin({
 });
 ```
 
-``` javascript
+```javascript
 // projects/mfe2/webpack.config.js
 
 const {
@@ -2441,7 +2422,7 @@ module.exports = withModuleFederationPlugin({
 Para cada ruta que carga un Micro Frontend, el `AppComponent` del shell
 contiene un `routerLink`:
 
-``` html
+```html
 <!-- projects/shell/src/app/app.component.html -->
 <ul>
   <li><img src="../assets/angular.png" width="50" /></li>
@@ -2475,7 +2456,7 @@ número de Micro Frontends de antemano. Esto es lo que discutimos aquí.
 Para configurar dinámicamente las rutas, necesitamos algunos metadatos
 adicionales. Para esto, podrías querer extender el manifiesto:
 
-``` json
+```json
 {
   "mfe1": {
     "remoteEntry": "http://localhost:4201/remoteEntry.js",
@@ -2504,7 +2485,7 @@ Además de `remoteEntry`, todas las demás propiedades son
 Para representar nuestra configuración extendida, necesitamos algunos
 tipos en el código del shell:
 
-``` typescript
+```typescript
 // projects/shell/src/app/utils/config.ts
 
 import { Manifest, RemoteConfig } from "@angular-architects/module-federation";
@@ -2527,7 +2508,7 @@ el tipo `CustomManifest` el manifiesto completo.
 Ahora, necesitamos una función de utilidad que itere a través de todo el
 manifiesto y cree una ruta para cada Micro Frontend descrito allí:
 
-``` typescript
+```typescript
 // projects/shell/src/app/utils/routes.ts
 
 import { loadRemoteModule } from "@angular-architects/module-federation";
@@ -2557,7 +2538,7 @@ Esto nos da la misma estructura que configuramos directamente arriba.
 
 El `AppComponent` del shell une todo:
 
-``` typescript
+```typescript
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -2586,7 +2567,7 @@ dinámicas recuperadas se pasan al enrutador. Además, los valores de los
 pares clave/valor en el manifiesto se colocan en el campo `remotes`. Se
 usa en la plantilla para crear dinámicamente los elementos del menú:
 
-``` html
+```html
 <!-- projects/shell/src/app/app.component.html -->
 
 <ul>
@@ -2615,54 +2596,54 @@ Hasta ahora, hemos utilizado las funciones de alto nivel proporcionadas
 por el plugin. Sin embargo, para los casos en los que necesites más
 control, también existen algunas alternativas de bajo nivel:
 
--   `loadManifest(...)`: La función `loadManifest` utilizada
-    anteriormente proporciona un segundo parámetro llamado
-    `skipRemoteEntries`. Establécelo en `true` para evitar la carga de
-    los puntos de entrada. En este caso, solo se carga el manifiesto:
+- `loadManifest(...)`: La función `loadManifest` utilizada
+  anteriormente proporciona un segundo parámetro llamado
+  `skipRemoteEntries`. Establécelo en `true` para evitar la carga de
+  los puntos de entrada. En este caso, solo se carga el manifiesto:
 
-    ``` typescript
-    loadManifest("/assets/mf.manifest.json", true)
-        .catch(...)
-        .then(...)
-        .catch(...)
-    ```
+  ```typescript
+  loadManifest("/assets/mf.manifest.json", true)
+      .catch(...)
+      .then(...)
+      .catch(...)
+  ```
 
--   `setManifest(...)`: Esta función permite establecer directamente el
-    manifiesto. Resulta útil si cargas los datos desde otro lugar.
+- `setManifest(...)`: Esta función permite establecer directamente el
+  manifiesto. Resulta útil si cargas los datos desde otro lugar.
 
--   `loadRemoteEntry(...)`: Esta función permite cargar directamente el
-    punto de entrada remoto. Es útil si no usas el manifiesto:
+- `loadRemoteEntry(...)`: Esta función permite cargar directamente el
+  punto de entrada remoto. Es útil si no usas el manifiesto:
 
-    ``` typescript
-    Promise.all([
-      loadRemoteEntry({
-        type: "module",
-        remoteEntry: "http://localhost:4201/remoteEntry.js",
-      }),
-      loadRemoteEntry({
-        type: "module",
-        remoteEntry: "http://localhost:4202/remoteEntry.js",
-      }),
-    ])
-      .catch((err) => console.error(err))
-      .then((_) => import("./bootstrap"))
-      .catch((err) => console.error(err));
-    ```
+  ```typescript
+  Promise.all([
+    loadRemoteEntry({
+      type: "module",
+      remoteEntry: "http://localhost:4201/remoteEntry.js",
+    }),
+    loadRemoteEntry({
+      type: "module",
+      remoteEntry: "http://localhost:4202/remoteEntry.js",
+    }),
+  ])
+    .catch((err) => console.error(err))
+    .then((_) => import("./bootstrap"))
+    .catch((err) => console.error(err));
+  ```
 
--   `loadRemoteModule(...)`: Además, si no quieres usar el manifiesto,
-    puedes cargar directamente un Micro Frontend con `loadRemoteModule`:
+- `loadRemoteModule(...)`: Además, si no quieres usar el manifiesto,
+  puedes cargar directamente un Micro Frontend con `loadRemoteModule`:
 
-    ``` typescript
-    {
-        path: 'flights',
-        loadChildren: () =>
-            loadRemoteModule({
-                type: 'module',
-                remoteEntry: 'http://localhost:4201/remoteEntry.js',
-                exposedModule: './Module',
-            }).then((m) => m.FlightsModule),
-    },
-    ```
+  ```typescript
+  {
+      path: 'flights',
+      loadChildren: () =>
+          loadRemoteModule({
+              type: 'module',
+              remoteEntry: 'http://localhost:4201/remoteEntry.js',
+              exposedModule: './Module',
+          }).then((m) => m.FlightsModule),
+  },
+  ```
 
 En general, creo que la mayoría de la gente usará el manifiesto en el
 futuro. Incluso si uno no quiere cargarlo desde un archivo JSON con
@@ -2675,7 +2656,7 @@ por CLI 13 o superior, muy probablemente tengas que establecer esta
 propiedad en `script`. Esto también puede suceder a través del
 manifiesto:
 
-``` json
+```json
 {
   "non-cli-13-stuff": {
     "type": "script",
@@ -2711,7 +2692,7 @@ individuales. El ejemplo utilizado para esto es un diseñador de flujos
 de trabajo simple basado en plugins.
 
 ![El Diseñador de Flujos de Trabajo puede cargar tareas compiladas e
-implementadas por separado](images/workflow-result.png)
+implementadas por separado](../manuscript/images/workflow-result.png)
 
 El diseñador de flujos de trabajo actúa como un anfitrión (host) que
 carga tareas desde plugins proporcionados como remotos. Así, pueden ser
@@ -2720,7 +2701,7 @@ diseñador de flujos de trabajo, obtiene una configuración que describe
 los plugins disponibles:
 
 ![La configuración informa dónde encontrar las
-tareas](images/workflow-config.png)
+tareas](../manuscript/images/workflow-config.png)
 
 Ten en cuenta que estos plugins se proporcionan a través de diferentes
 orígenes (http://localhost:4201 y http://localhost:4202), y el diseñador
@@ -2742,7 +2723,7 @@ configuración de webpack utiliza Module Federation para exponer los
 plugins individuales como se muestra en los capítulos anteriores de este
 libro:
 
-``` javascript
+```javascript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -2786,7 +2767,7 @@ plugin `@angular-architects/module-federation`. Para cargar la tarea
 `Download` mencionada anteriormente, se puede llamar a
 `loadRemoteModule` de esta manera:
 
-``` typescript
+```typescript
 import { loadRemoteModule } from '@angular-architects/module-federation';
 
 [...]
@@ -2805,7 +2786,7 @@ de trabajo datos clave sobre los plugins. El tipo utilizado para esto se
 llama `PluginOptions` y extiende las `LoadRemoteModuleOptions` mostradas
 en la sección anterior con un `displayName` y un `componentName`:
 
-``` typescript
+```typescript
 export type PluginOptions = LoadRemoteModuleOptions & {
   displayName: string;
   componentName: string;
@@ -2822,7 +2803,7 @@ componente Angular en cuestión.
 Para cargar estos datos clave, el diseñador de flujos de trabajo utiliza
 un `LookupService`:
 
-``` typescript
+```typescript
 @Injectable({ providedIn: 'root' })
 export class LookupService {
     lookup(): Promise<PluginOptions[]> {
@@ -2853,7 +2834,7 @@ input, carga el plugin descrito mediante Dynamic Module Federation y
 muestra el componente del plugin dentro de un marcador de posición
 (placeholder):
 
-``` typescript
+```typescript
 @Component({
   standalone: true,
   selector: "plugin-proxy",
@@ -2883,7 +2864,7 @@ En versiones anteriores a Angular 13, necesitábamos usar un
 `ComponentFactoryResolver` para obtener la factoría del componente
 cargado:
 
-``` typescript
+```typescript
 // Antes de Angular 13, necesitábamos obtener una ComponentFactory
 //
 // export class PluginProxyComponent implements OnChanges {
@@ -2918,7 +2899,7 @@ array `plugins` y un array `workflow`. El primero representa las
 tareas disponibles, mientras que el segundo describe las `PluginOptions`
 de las tareas seleccionadas en la secuencia configurada:
 
-``` typescript
+```typescript
 @Component({ [...] })
 export class AppComponent implements OnInit {
 
@@ -2952,7 +2933,7 @@ Para mostrar el flujo de trabajo, el diseñador simplemente itera todos
 los elementos en el array `workflow` y crea un `plugin-proxy` para
 ellos:
 
-``` html
+```html
 <ng-container *ngFor="let p of workflow; let last = last">
   <plugin-proxy [options]="p"></plugin-proxy>
   <i *ngIf="!last" class="arrow right" style=""></i>
@@ -2966,7 +2947,7 @@ Además, para renderizar la caja de herramientas que se muestra a la
 izquierda, recorre todas las entradas en el array `plugins`. Para cada
 una de ellas muestra un hipervínculo enlazado al método `add`:
 
-``` html
+```html
 <div class="vertical-menu">
   <a href="#" class="active">Tasks</a>
   <a *ngFor="let p of plugins" (click)="add(p)">Add {{p.displayName}}</a>
@@ -3023,39 +3004,39 @@ arquitectura de software.
 
 Un enfoque tradicional usa un repositorio separado por Micro Frontend:
 
-![Un Repositorio por Micro Frontend](images/multi.png)
+![Un Repositorio por Micro Frontend](../manuscript/images/multi.png)
 
 Esto también es bastante usual para los Micro Servicios y proporciona
 las siguientes **ventajas**:
 
--   Los Micro Frontends \-- y por lo tanto los dominios de negocio
-    individuales \-- están aislados unos de otros. Como no hay
-    dependencias entre ellos, diferentes equipos pueden evolucionarlos
-    por separado.
+- Los Micro Frontends \-- y por lo tanto los dominios de negocio
+  individuales \-- están aislados unos de otros. Como no hay
+  dependencias entre ellos, diferentes equipos pueden evolucionarlos
+  por separado.
 
--   Cada equipo puede concentrarse en su Micro Frontend. Solo necesitan
-    enfocarse en su propio repositorio.
+- Cada equipo puede concentrarse en su Micro Frontend. Solo necesitan
+  enfocarse en su propio repositorio.
 
--   Cada equipo tiene la máxima cantidad de libertad en su repositorio.
-    Pueden optar por sus propias decisiones arquitectónicas, pilas
-    tecnológicas y procesos de construcción. Además, deciden por sí
-    mismos cuándo actualizar a versiones más nuevas.
+- Cada equipo tiene la máxima cantidad de libertad en su repositorio.
+  Pueden optar por sus propias decisiones arquitectónicas, pilas
+  tecnológicas y procesos de construcción. Además, deciden por sí
+  mismos cuándo actualizar a versiones más nuevas.
 
--   Cada Micro Frontend puede ser desplegado por separado.
+- Cada Micro Frontend puede ser desplegado por separado.
 
 Como esto se ajusta mejor a las ideas originales de los Micro Frontends,
 llamo a este enfoque \"Micro Frontends al pie de la letra\". Sin
 embargo, también hay algunas **desventajas**:
 
--   Necesitamos versionar y distribuir dependencias compartidas vía npm.
-    Esto puede convertirse en un trabajo adicional considerable, ya que
-    después de cada cambio necesitamos asignar una nueva versión,
-    publicarla e instalarla en los respectivos Micro Frontends.
+- Necesitamos versionar y distribuir dependencias compartidas vía npm.
+  Esto puede convertirse en un trabajo adicional considerable, ya que
+  después de cada cambio necesitamos asignar una nueva versión,
+  publicarla e instalarla en los respectivos Micro Frontends.
 
--   Como cada equipo puede usar su propia pila tecnológica, podemos
-    terminar con diferentes frameworks y diferentes versiones de ellos.
-    Esto podría llevar a conflictos de versión en el navegador y a
-    tamaños de paquete incrementados.
+- Como cada equipo puede usar su propia pila tecnológica, podemos
+  terminar con diferentes frameworks y diferentes versiones de ellos.
+  Esto podría llevar a conflictos de versión en el navegador y a
+  tamaños de paquete incrementados.
 
 Por supuesto, hay enfoques para **compensar estos inconvenientes**: Por
 ejemplo, podemos automatizar la distribución de librerías compartidas
@@ -3082,18 +3063,18 @@ secciones muestran una alternativa.
 Casi todas las desventajas mencionadas anteriormente pueden prevenirse
 poniendo todos los Micro Frontends en un único monorepo:
 
-![Micro Frontends en un monorepo](images/mono.png)
+![Micro Frontends en un monorepo](../manuscript/images/mono.png)
 
 Ahora, compartir librerías es fácil y solo hay una versión de todo, por
 lo tanto, no terminamos con conflictos de versión en el navegador.
 También podemos **mantener algunas ventajas mencionadas anteriormente**:
 
--   Los Micro Frontends pueden ser **aislados** unos de otros usando
-    reglas de **linting**. Estas previenen que un Micro Frontend dependa
-    de otros. Por lo tanto, los equipos pueden evolucionar su Micro
-    Frontend por separado.
+- Los Micro Frontends pueden ser **aislados** unos de otros usando
+  reglas de **linting**. Estas previenen que un Micro Frontend dependa
+  de otros. Por lo tanto, los equipos pueden evolucionar su Micro
+  Frontend por separado.
 
--   Los Micro Frontends todavía pueden ser **desplegados por separado.**
+- Los Micro Frontends todavía pueden ser **desplegados por separado.**
 
 Ahora, la pregunta es, ¿dónde está el truco? Bueno, la cuestión es que
 ahora estamos **renunciando** a parte de la **libertad**: Los equipos
@@ -3125,20 +3106,20 @@ tutorial](https://www.angulararchitects.io/aktuelles/tutorial-first-steps-with-n
 Para visualizar la estructura del monorepo, se puede usar la CLI de Nx
 para solicitar un gráfico de dependencias:
 
-``` bash
+```bash
 nx graph
 ```
 
 Si no tienes instalada esta CLI, puedes obtenerla fácilmente vía npm
 (`npm i -g nx`). El gráfico mostrado luce así:
 
-![Gráfico de Dependencias generado por Nx](images/graph.png)
+![Gráfico de Dependencias generado por Nx](../manuscript/images/graph.png)
 
 La `auth-lib` proporciona dos componentes. Uno para iniciar sesión de
 usuarios y el otro muestra el usuario actual. Son usados tanto por el
 `shell` como por `mfe1`:
 
-![Esquema](images/schema.png)
+![Esquema](../manuscript/images/schema.png)
 
 Además, la `auth-lib` almacena el nombre del usuario actual en un
 servicio.
@@ -3147,7 +3128,7 @@ Como es usual en los monorepos de Nx y Angular, las librerías se
 referencian con mapeos de ruta definidos en `tsconfig.base.json` (Nx) o
 `tsconfig.json` (Angular CLI):
 
-``` json
+```json
 "paths": {
     "@demo/auth-lib": [
         "libs/auth-lib/src/index.ts"
@@ -3171,7 +3152,7 @@ Antes de adentrarnos en la solución, echemos un vistazo a la `auth-lib`.
 Contiene un `AuthService` que inicia sesión del usuario y los recuerda
 usando la propiedad `_userName`:
 
-``` typescript
+```typescript
 @Injectable({
   providedIn: "root",
 })
@@ -3202,7 +3183,7 @@ iniciar sesión del usuario y un `UserComponent` mostrando el nombre del
 usuario actual. Ambos componentes están registrados con el NgModule de
 la librería:
 
-``` typescript
+```typescript
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: [AuthComponent, UserComponent],
@@ -3215,7 +3196,7 @@ Como toda librería, también tiene un archivo barril `index.ts` (a veces
 también llamado `public-api.ts`) que sirve como punto de entrada.
 Exporta todo lo que los consumidores pueden usar:
 
-``` typescript
+```typescript
 export * from "./lib/auth-lib.module";
 export * from "./lib/auth.service";
 
@@ -3241,7 +3222,7 @@ Como en el capítulo anterior, estamos usando el plugin
 para el `shell` y `mfe1`. Para esto, simplemente ejecuta los siguientes
 comandos:
 
-``` bash
+```bash
 npm i @angular-architects/module-federation -D
 
 npm g @angular-architects/module-federation:init \
@@ -3261,7 +3242,7 @@ la versión 14.3, `withModuleFederationPlugin` proporciona una propiedad
 `sharedMappings`. Aquí, podemos registrar las librerías internas del
 monorepo que queremos compartir en tiempo de ejecución:
 
-``` javascript
+```javascript
 // apps/shell/webpack.config.js
 
 const {
@@ -3288,7 +3269,7 @@ Como compartir siempre es opcional (opt-in) en Module Federation,
 también necesitamos la misma configuración en la configuración del Micro
 Frontend:
 
-``` javascript
+```javascript
 // apps/mfe1/webpack.config.js
 
 const {
@@ -3324,7 +3305,7 @@ module.exports = withModuleFederationPlugin({
 Para probar esto, simplemente inicia las dos aplicaciones. Como usamos
 Nx, esto se puede hacer con el siguiente comando:
 
-``` bash
+```bash
 nx run-many --target serve --all
 ```
 
@@ -3332,7 +3313,7 @@ El interruptor `--all` inicia todas las aplicaciones en el monorepo. En
 lugar de eso, también puedes usar el interruptor `--projects` para
 iniciar solo un subconjunto de ellas:
 
-``` bash
+```bash
 nx run-many --target serve --projects shell,mfe1
 ```
 
@@ -3357,7 +3338,7 @@ En el siguiente ejemplo, el shell intenta acceder a una librería
 perteneciente a `mfe1`:
 
 ![El linting previene el acoplamiento entre Micro
-Frontends](images/linting.png)
+Frontends](../manuscript/images/linting.png)
 
 Para hacer que estos mensajes de error aparezcan en tu IDE, necesitas
 soporte para **eslint**. Para Visual Studio Code, esto se puede instalar
@@ -3366,7 +3347,7 @@ mediante una extensión.
 Además de verificar contra las reglas de linting en tu IDE, también se
 puede llamar al linter en la línea de comandos:
 
-![Linting en la línea de comandos](images/linting-shell.png)
+![Linting en la línea de comandos](../manuscript/images/linting-shell.png)
 
 La buena noticia: Si funciona en la línea de comandos, se puede
 automatizar. Por ejemplo, tu **proceso de compilación** podría ejecutar
@@ -3380,7 +3361,7 @@ librería. Por ejemplo, el `project.json` para el shell se puede
 encontrar aquí: `apps/shell/project.json`. Al final, encuentras una
 propiedad `tag`, que he establecido en `scope:shell`:
 
-``` json
+```json
 {
     [...]
     "tags": ["scope:shell"]
@@ -3395,7 +3376,7 @@ Una vez que las etiquetas están en su lugar, puedes usarlas para definir
 **restricciones** en tu configuración **global de eslint**
 (`.eslintrc.json`):
 
-``` json
+```json
 "@nrwl/nx/enforce-module-boundaries": [
   "error",
   {
@@ -3432,7 +3413,7 @@ los capítulos sobre Diseño Estratégico.
 Para compilar todas las aplicaciones, puedes usar el comando `run-many`
 de Nx:
 
-``` bash
+```bash
 nx run-many --target build --all
 ```
 
@@ -3442,7 +3423,7 @@ aplicaciones **modificadas**. Por ejemplo, en el siguiente caso mfe1 no
 fue modificado. Por lo tanto, solo se recompila el shell:
 
 ![Nx solo recompila las aplicaciones
-modificadas](images/incremental.png)
+modificadas](../manuscript/images/incremental.png)
 
 > Usar la caché de compilación para solo recompilar las aplicaciones
 > modificadas puede **acelerar drásticamente tus tiempos de
@@ -3465,7 +3446,7 @@ modificados juntos. Afortunadamente, Nx ayuda a descubrir qué
 aplicaciones/Micro Frontends han sido modificados o **afectados por un
 cambio**:
 
-``` bash
+```bash
 nx print-affected --type app --select projects
 ```
 
@@ -3482,7 +3463,7 @@ Si quieres tener una representación **gráfica** de las partes
 modificadas de tu monorepo, puedes solicitar un gráfico de dependencias
 con el siguiente comando:
 
-``` bash
+```bash
 nx affected:graph
 ```
 
@@ -3490,13 +3471,13 @@ Suponiendo que cambiamos la librería `domain-logic` usada por `mfe1`, el
 resultado se vería así:
 
 ![El gráfico de dependencias muestra los proyectos
-afectados](images/affected-dep-graph.png)
+afectados](../manuscript/images/affected-dep-graph.png)
 
 Por defecto, los comandos mostrados **comparan** tu directorio de
 trabajo actual con la **rama principal**. Sin embargo, puedes usar estos
 comandos con los interruptores `--base` y `--head`.
 
-``` bash
+```bash
 nx print-affected --type app --select projects --base branch-or-commit-a --head branch-or-commit-b
 ```
 
@@ -3548,16 +3529,14 @@ bibliotecas compartidas, utilizo una aplicación shell simple conocida de
 otras partes de este libro. Es capaz de cargar micro frontends en su
 área de trabajo:
 
-::: {width="66%"}
-![Shell cargando microfrontends](images/static-all-1-0-0.png)
-:::
+![Shell cargando microfrontends](../manuscript/images/static-all-1-0-0.png)
 
 El micro frontend está enmarcado con la línea discontinua roja.
 
 Para compartir bibliotecas, tanto el shell como el micro frontend usan
 la siguiente configuración en sus configuraciones de webpack:
 
-``` javascript
+```javascript
 new ModuleFederationPlugin({
    [...],
    shared: ["rxjs", "useless-lib"]
@@ -3591,14 +3570,12 @@ situaciones.
 Para nuestra primera variación, supongamos que nuestro `package.json`
 apunta a las siguientes versiones:
 
--   **Shell:** useless-lib@\^1.0.0
--   **MFE1:** useless-lib@\^1.0.1
+- **Shell:** useless-lib@\^1.0.0
+- **MFE1:** useless-lib@\^1.0.1
 
 Esto lleva al siguiente resultado:
 
-::: {width="66%"}
-![](images/static-1-0-0-vs-1-0-1.png)
-:::
+![](../manuscript/images/static-1-0-0-vs-1-0-1.png)
 
 Module Federation decide optar por la versión `1.0.1` ya que esta es la
 versión más alta compatible con ambas aplicaciones según el versionado
@@ -3610,8 +3587,8 @@ menores y de parche superiores).
 Ahora, supongamos que hemos ajustado nuestras dependencias en
 `package.json` de esta manera:
 
--   **Shell:** useless-lib@\~1.0.0
--   **MFE1:** <useless-lib@1.1.0>
+- **Shell:** useless-lib@\~1.0.0
+- **MFE1:** <useless-lib@1.1.0>
 
 Ambas versiones no son compatibles entre sí (`~1.0.0` significa que solo
 una versión de parche superior es aceptable, pero no una versión menor
@@ -3619,9 +3596,7 @@ superior).
 
 Esto lleva al siguiente resultado:
 
-::: {width="66%"}
-![Usando Módulo de Respaldo](images/static-1-0-0-vs-1-1-0.png)
-:::
+![Usando Módulo de Respaldo](../manuscript/images/static-1-0-0-vs-1-1-0.png)
 
 Esto muestra que Module Federation usa diferentes versiones para ambas
 aplicaciones. En nuestro caso, cada aplicación recurre a su propia
@@ -3639,8 +3614,8 @@ inicialización.
 Para explicar esta diferencia, supongamos que el shell está cargando el
 micro frontend dinámicamente y que tenemos las siguientes versiones:
 
--   **Shell:** useless-lib@\^1.0.0
--   **MFE1:** useless-lib@\^1.0.1
+- **Shell:** useless-lib@\^1.0.0
+- **MFE1:** useless-lib@\^1.0.1
 
 Mientras que en el caso de Module Federation clásico (estático), ambas
 aplicaciones acordarían usar la versión `1.0.1` durante la fase de
@@ -3648,10 +3623,8 @@ inicialización, aquí, en el caso de module federation dinámico, el shell
 ni siquiera conoce el micro frontend en esta fase. Por lo tanto, solo
 puede elegir su propia versión:
 
-::: {width="66%"}
 ![Microfrontend dinámico recurre a su propia
-versión](images/dynamic-1-0-0-vs-1-0-1.png)
-:::
+versión](../manuscript/images/dynamic-1-0-0-vs-1-0-1.png)
 
 Si hubiera otros remotos estáticos (por ejemplo, micro frontends), el
 shell también podría elegir una de sus versiones según el versionado
@@ -3664,15 +3637,13 @@ Por lo tanto, el micro frontend recurre a su propia versión `1.0.1`.
 Por el contrario, supongamos que el shell tiene la versión compatible
 más alta:
 
--   **Shell:** useless-lib@\^1.1.0
--   **MFE1:** useless-lib@\^1.0.1
+- **Shell:** useless-lib@\^1.1.0
+- **MFE1:** useless-lib@\^1.0.1
 
 En este caso, el micro frontend decidiría usar la ya cargada:
 
-::: {width="66%"}
 ![Microfrontend dinámico usa la versión ya
-cargada](images/dynamic-1-1-0-vs-1-0-1.png)
-:::
+cargada](../manuscript/images/dynamic-1-1-0-vs-1-0-1.png)
 
 En resumen, en general, es una buena idea asegurarse de que su shell
 proporcione las versiones compatibles más altas al cargar remotos
@@ -3705,13 +3676,13 @@ recurra a una versión adicional de la biblioteca.
 
 Para esto, consideremos el siguiente desajuste de versión:
 
--   **Shell:** useless-lib@\^2.0.0
--   **MFE1:** useless-lib@\^1.1.0
+- **Shell:** useless-lib@\^2.0.0
+- **MFE1:** useless-lib@\^1.1.0
 
 Consideremos también que hemos configurado `useless-lib` como un
 singleton:
 
-``` javascript
+```javascript
 // Shell
 shared: {
   "rxjs": {},
@@ -3730,7 +3701,7 @@ la propiedad singleton en cada configuración. Por lo tanto, también
 estoy ajustando la configuración de Module Federation del microfrontend
 en consecuencia:
 
-``` javascript
+```javascript
 // MFE1
 shared: {
     "rxjs": {},
@@ -3745,10 +3716,8 @@ Federation decide cargar solo la biblioteca disponible más alta de la
 que tiene conocimiento durante la fase de inicialización. En nuestro
 caso, esta es la versión `2.0.0`:
 
-::: {width="66%"}
 ![Module Federation solo carga la versión más alta para los
-singletons](images/static-singleton-warning.png)
-:::
+singletons](../manuscript/images/static-singleton-warning.png)
 
 Sin embargo, como la versión `2.0.0` no es compatible con la versión
 `1.1.0` según el versionado semántico, obtenemos una advertencia. Si
@@ -3761,7 +3730,7 @@ En este último caso, podría ser beneficioso fallar rápidamente al
 detectar el desajuste lanzando una excepción. Para que Module Federation
 se comporte de esta manera, establecemos `strictVersion` en `true`:
 
-``` javascript
+```javascript
 // MFE1
 shared: {
   "rxjs": {},
@@ -3774,11 +3743,9 @@ shared: {
 
 El resultado de esto se ve así en tiempo de ejecución:
 
-::: {width="66%"}
 ![Los desajustes de versión con respecto a los singletons usando
 strictVersion hacen que la aplicación
-falle](images/static-singleton-strict-error.png)
-:::
+falle](../manuscript/images/static-singleton-strict-error.png)
 
 ## Aceptar un Rango de Versiones
 
@@ -3790,13 +3757,13 @@ Federation acepte un rango de versiones definido.
 Para explorar esta opción, supongamos una vez más el siguiente desajuste
 de versión:
 
--   **Shell:** useless-lib@\^2.0.0
--   **MFE1:** useless-lib@\^1.1.0
+- **Shell:** useless-lib@\^2.0.0
+- **MFE1:** useless-lib@\^1.1.0
 
 Ahora, podemos usar la opción `requiredVersion` para `useless-lib` al
 configurar el microfrontend:
 
-``` javascript
+```javascript
 // MFE1
 shared: {
   "rxjs": {},
@@ -3812,10 +3779,8 @@ Según esto, también aceptamos todo lo que tenga `2` como versión mayor.
 Por lo tanto, podemos usar la versión `2.0.0` proporcionada por el shell
 para el micro frontend:
 
-::: {width="66%"}
 ![Aceptando versiones incompatibles definiendo un rango de
-versiones](images/singleton-requiredversion.png)
-:::
+versiones](../manuscript/images/singleton-requiredversion.png)
 
 ## Conclusión
 
@@ -3846,23 +3811,23 @@ versiones o diferentes frameworks? No te preocupes, te tenemos cubierto.
 Este capítulo utiliza un ejemplo para explicar cómo desarrollar tal
 escenario en 4 pasos.
 
-![Ejemplo](images/multi-example.gif)
+![Ejemplo](../manuscript/images/multi-example.gif)
 
 Por favor, encuentra la demostración en vivo y el código fuente aquí:
 
--   [Ejemplo en vivo](https://red-ocean-0fe4c4610.azurestaticapps.net)
--   [Código Fuente del
-    Shell](https://github.com/manfredsteyer/multi-framework-version)
--   [Código Fuente para Micro
-    Frontend](https://github.com/manfredsteyer/angular-app1)
--   [Código Fuente para Micro Frontend con
-    Enrutamiento](https://github.com/manfredsteyer/angular3-app)
--   [Código Fuente para Micro Frontend con
-    Vue](https://github.com/manfredsteyer/vue-js)
--   [Código Fuente para Micro Frontend con
-    React](https://github.com/manfredsteyer/react-app)
--   [Código Fuente para Micro Frontend con
-    AngularJS](https://github.com/manfredsteyer/angularjs-app)
+- [Ejemplo en vivo](https://red-ocean-0fe4c4610.azurestaticapps.net)
+- [Código Fuente del
+  Shell](https://github.com/manfredsteyer/multi-framework-version)
+- [Código Fuente para Micro
+  Frontend](https://github.com/manfredsteyer/angular-app1)
+- [Código Fuente para Micro Frontend con
+  Enrutamiento](https://github.com/manfredsteyer/angular3-app)
+- [Código Fuente para Micro Frontend con
+  Vue](https://github.com/manfredsteyer/vue-js)
+- [Código Fuente para Micro Frontend con
+  React](https://github.com/manfredsteyer/react-app)
+- [Código Fuente para Micro Frontend con
+  AngularJS](https://github.com/manfredsteyer/angularjs-app)
 
 ## ¿Patrón o Antipatrón?
 
@@ -3907,15 +3872,15 @@ arquitectura** específicos, adelante.
 Aunque no es 100% necesario, puede ser una buena idea envolver (wrap)
 tus Micro Frontends en Web Components.
 
-![Micro Frontends envueltos en Web Components](images/wrapping-wc.png)
+![Micro Frontends envueltos en Web Components](../manuscript/images/wrapping-wc.png)
 
 Esto trae varias ventajas:
 
--   Abstraer las diferencias entre frameworks
--   Montar/Desmontar Web Components es fácil
--   El Shadow DOM ayuda a aislar los estilos CSS
--   Los Eventos Personalizados (Custom Events) y Propiedades
-    (Properties) permiten la comunicación
+- Abstraer las diferencias entre frameworks
+- Montar/Desmontar Web Components es fácil
+- El Shadow DOM ayuda a aislar los estilos CSS
+- Los Eventos Personalizados (Custom Events) y Propiedades
+  (Properties) permiten la comunicación
 
 Las dos primeras opciones se correlacionan entre sí. Necesitamos mostrar
 y ocultar nuestros Micro Frontends bajo demanda, por ejemplo, al activar
@@ -3964,7 +3929,7 @@ Cargar los Micro Frontends discutidos con Module Federation nos da lo
 mejor de ambos mundos. Podemos compartir bibliotecas cuando sea posible
 y cargar las nuestras cuando no:
 
-![Lo Mejor de Ambos Mundos](images/venn.png)
+![Lo Mejor de Ambos Mundos](../manuscript/images/venn.png)
 
 ## Implementación en 4 pasos
 
@@ -3977,13 +3942,13 @@ Para envolver Micro Frontends basados en Angular en un Web Component,
 puedes usar Angular Elements, proporcionado por el equipo de Angular.
 Instálalo vía npm:
 
-``` bash
+```bash
 npm i @angular/elements
 ```
 
 Después de instalarlo, ajusta tu `AppModule` de la siguiente manera:
 
-``` typescript
+```typescript
 import { createCustomElement } from '@angular/elements';
 [...]
 
@@ -4008,16 +3973,16 @@ export class AppModule implements DoBoostrap {
 
 Esto hace varias cosas:
 
--   Al optar por un array `bootstrap` vacío, Angular no iniciará
-    directamente ningún componente al arrancar. Sin embargo, en tales
-    casos, Angular nos exige colocar una lógica de inicio personalizada
-    en el método `ngDoBootstrap` descrito por la interfaz `DoBoostrap`.
--   `ngDoBootstrap` usa `createCustomElement` de Angular Elements para
-    envolver tu `AppComponent` en un Web Component. Para que funcione
-    con la Inyección de Dependencias (DI), también necesitas pasar el
-    `Injector` actual.
--   El método `customElements.define` registra el Web Component con el
-    nombre `angular1-element` en el navegador.
+- Al optar por un array `bootstrap` vacío, Angular no iniciará
+  directamente ningún componente al arrancar. Sin embargo, en tales
+  casos, Angular nos exige colocar una lógica de inicio personalizada
+  en el método `ngDoBootstrap` descrito por la interfaz `DoBoostrap`.
+- `ngDoBootstrap` usa `createCustomElement` de Angular Elements para
+  envolver tu `AppComponent` en un Web Component. Para que funcione
+  con la Inyección de Dependencias (DI), también necesitas pasar el
+  `Injector` actual.
+- El método `customElements.define` registra el Web Component con el
+  nombre `angular1-element` en el navegador.
 
 El resultado de esto es que el navegador montará la Aplicación en cada
 etiqueta `angular1-element` que aparezca en tu aplicación.
@@ -4026,7 +3991,7 @@ Si tu framework no soporta directamente web components, también puedes
 envolver tu aplicación manualmente. Por ejemplo, un componente React
 podría envolverse de la siguiente manera:
 
-``` typescript
+```typescript
 // app.js
 import React from "react";
 import ReactDOM from "react-dom";
@@ -4055,14 +4020,14 @@ los Web Components que los envuelven vía Module Federation. Para esto,
 añade el paquete `@angular-architects/module-federation` a tu Micro
 Frontend basado en Angular:
 
-``` bash
+```bash
 ng add @angular-architects/module-federation
 ```
 
 Esto instala e inicializa el paquete. Si usas Nx y Angular, es más usual
 hacer ambos pasos por separado:
 
-``` bash
+```bash
 npm i @angular-architects/module-federation -D
 
 ng g @angular-architects/module-federation:init
@@ -4078,7 +4043,7 @@ carga el resto de la aplicación.
 Por esta razón, el Micro Frontend basado en React discutido
 anteriormente usa el siguiente `index.js` como punto de entrada:
 
-``` typescript
+```typescript
 // index.js
 import("./app");
 ```
@@ -4087,7 +4052,7 @@ De manera similar, `@angular-architects/module-federation` mueve el
 código de inicio de `main.ts` a un `bootstrap.ts` recién creado y lo
 importa:
 
-``` typescript
+```typescript
 // main.ts
 import("./bootstrap");
 ```
@@ -4098,7 +4063,7 @@ cargar las dependencias compartidas.
 Después de configurar Module Federation, expón el envoltorio basado en
 Web Component vía la configuración de webpack:
 
-``` typescript
+```typescript
 // webpack.config.js
 [...]
 module.exports = {
@@ -4166,7 +4131,7 @@ Simplemente instálalo
 Micro Frontends como en tu shell. Luego, inicia tu shell y tus Micro
 Frontends con su método `bootstrap` en lugar del de Angular:
 
-``` typescript
+```typescript
 // main.ts
 import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
@@ -4184,14 +4149,14 @@ bootstrap(AppModule, {
 También, habilita Module Federation en tu shell. Si es un shell basado
 en Angular, añade el plugin `@angular-architects/module-federation`:
 
-``` bash
+```bash
 ng add @angular-architects/module-federation
 ```
 
 Como se mencionó anteriormente, en el caso de Nx y Angular, realiza la
 instalación e inicialización por separado:
 
-``` bash
+```bash
 npm i @angular-architects/module-federation -D
 ng g @angular-architects/module-federation:init --type host
 ```
@@ -4203,7 +4168,7 @@ ng g @angular-architects/module-federation:init --type host
 Para este ejemplo, no necesitamos ajustar el `webpack.config.js`
 generado:
 
-``` typescript
+```typescript
 // webpack.config.js
 const {
   shareAll,
@@ -4227,7 +4192,7 @@ son necesarias aquí.
 Después de esto, todo lo que necesitas es una ruta de carga diferida
 (lazy route), cargando los Micro Frontends en cuestión:
 
-``` javascript
+```javascript
 import { WebComponentWrapper, WebComponentWrapperOptions }
   from '@angular-architects/module-federation-tools';
 
@@ -4262,7 +4227,7 @@ El componente envoltorio también crea un elemento HTML con el nombre
 Si cargas un Micro Frontend compilado con Angular 13 o superior,
 necesitas establecer la propiedad `type` en `module`:
 
-``` typescript
+```typescript
 export const APP_ROUTES: Routes = [
     [...]
     {
@@ -4290,7 +4255,7 @@ shell que el Micro Frontend añadirá más segmentos a la URL. Para esto,
 puedes usar el comparador `startsWith` también proporcionado por
 `@angular-architects/module-federation-tools`:
 
-``` typescript
+```typescript
 import {
     startsWith,
     WebComponentWrapper,
@@ -4323,7 +4288,7 @@ añadirla dinámicamente.
 El resultado de este esfuerzo es una aplicación que consta de diferentes
 frameworks o versiones de frameworks:
 
-![Ejemplo](images/multi-example.gif)
+![Ejemplo](../manuscript/images/multi-example.gif)
 
 Siempre que es posible, el framework se comparte. De lo contrario,
 Module Federation carga una nueva versión del framework. Otra ventaja de
@@ -4360,7 +4325,7 @@ Para el primer obstáculo del que quiero hablar, echemos un vistazo al
 `webpack.config.js` de nuestro `shell`. Además, simplifiquemos el nodo
 `shared` de la siguiente manera:
 
-``` typescript
+```typescript
 shared: {
   "@angular/core": { singleton: true, strictVersion: true },
   "@angular/common": { singleton: true, strictVersion: true },
@@ -4401,7 +4366,7 @@ secundarios, por ejemplo, `@angular/material`.
 Para evitar esta situación, puedes asignar versiones a todas las
 bibliotecas compartidas manualmente:
 
-``` typescript
+```typescript
 shared: {
   "@angular/core": {
     singleton: true,
@@ -4433,7 +4398,7 @@ viene con una función auxiliar de aspecto poco espectacular llamada
 `shared`. Si tu `webpack.config.js` fue generado con esta o una versión
 más reciente, ya utiliza esta función auxiliar.
 
-``` typescript
+```typescript
 [...]
 
 const mf = require("@angular-architects/module-federation/webpack");
@@ -4492,7 +4457,7 @@ advertencias de dependencia peer.
 
 En mi caso, esto se hace de la siguiente manera:
 
-``` bash
+```bash
 npm i @angular/material@10
 npm i @angular/cdk@10
 ```
@@ -4500,7 +4465,7 @@ npm i @angular/cdk@10
 Ahora, cambiemos al `FlightModule` del Micro Frontend (`mfe1`) para
 importar el `MatSnackBarModule`:
 
-``` typescript
+```typescript
 [...]
 import { MatSnackBarModule  } from '@angular/material/snack-bar';
 [...]
@@ -4521,7 +4486,7 @@ export class FlightsModule { }
 Para usar el snack bar en el `FlightsSearchComponent`, inyéctalo en su
 constructor y llama a su método `open`:
 
-``` typescript
+```typescript
 [...]
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -4540,7 +4505,7 @@ Además, para este experimento, asegúrate de que el `webpack.config.js`
 en el proyecto `mfe1` **no** defina las versiones de las dependencias
 compartidas:
 
-``` typescript
+```typescript
 shared: {
   "@angular/core": { singleton: true, strictVersion: true },
   "@angular/common": { singleton: true, strictVersion: true },
@@ -4568,7 +4533,7 @@ Para resolver esto, puedes establecer las versiones manualmente o usando
 la función auxiliar `share` que utiliza la versión encontrada en el
 `package.json` de tu proyecto:
 
-``` typescript
+```typescript
 [...]
 
 const mf = require("@angular-architects/module-federation/webpack");
@@ -4613,7 +4578,7 @@ En nuestro ejemplo, el `shell` y el micro frontend `mfe1` comparten la
 lo tanto, el `shell` puede establecer el nombre de usuario y el `mfe1`
 cargado de forma diferida puede acceder a él:
 
-![Compartiendo Nombre de Usuario](images/sharing-via-auth-lib.png)
+![Compartiendo Nombre de Usuario](../manuscript/images/sharing-via-auth-lib.png)
 
 Si `auth-lib` fuera un paquete npm tradicional, podríamos simplemente
 registrarlo como una biblioteca compartida con module federation. Sin
@@ -4624,7 +4589,7 @@ fuente.
 Para hacer que esta carpeta parezca un paquete npm, hay un mapeo de ruta
 para ella en el `tsconfig.json`:
 
-``` json
+```json
 "paths": {
   "auth-lib": [
     "projects/auth-lib/src/public-api.ts"
@@ -4642,7 +4607,7 @@ como para prevenir problemas con el compilador de Angular,
 `@angular-architects/module-federation` proporciona una propiedad de
 configuración llamada:
 
-``` typescript
+```typescript
 module.exports = withModuleFederationPlugin({
 
     // Paquetes compartidos:
@@ -4667,14 +4632,14 @@ Sin embargo, hay una constelación con el mismo problema subyacente que
 es todo menos obvia. Para construir esta situación, agreguemos otra
 biblioteca a nuestro monorepo:
 
-``` bash
+```bash
 ng g lib other-lib
 ```
 
 Además, asegúrate de que tengamos un mapeo de ruta para ella apuntando a
 su código fuente:
 
-``` json
+```json
 "paths": {
   "other-lib": [
     "projects/other-lib/src/public-api.ts"
@@ -4685,7 +4650,7 @@ su código fuente:
 Supongamos que también queremos almacenar el nombre de usuario actual en
 esta biblioteca:
 
-``` typescript
+```typescript
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -4701,7 +4666,7 @@ export class OtherLibService {
 
 Y supongamos también que el `AuthLibService` delega en esta propiedad:
 
-``` typescript
+```typescript
 import { Injectable } from "@angular/core";
 import { OtherLibService } from "other-lib";
 
@@ -4734,7 +4699,7 @@ export class AuthLibService {
 
 El `AppComponent` del shell simplemente llama al método `login`:
 
-``` typescript
+```typescript
 import { Component } from "@angular/core";
 import { AuthLibService } from "auth-lib";
 
@@ -4754,7 +4719,7 @@ export class AppComponent {
 Sin embargo, ahora el Micro Frontend tiene tres formas de obtener el
 nombre de usuario definido:
 
-``` typescript
+```typescript
 import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { AuthLibService } from "auth-lib";
@@ -4779,7 +4744,7 @@ Sin embargo, si solo compartimos `auth-lib` **pero no** `other-lib`,
 obtenemos el siguiente resultado:
 
 {width:66%} ![Problema al compartir
-bibliotecas](images/sharing-issue.png)
+bibliotecas](../manuscript/images/sharing-issue.png)
 
 Como `other-lib` no se comparte, tanto `auth-lib` como el micro frontend
 obtienen su propia versión de ella. Por lo tanto, tenemos dos instancias
@@ -4794,11 +4759,11 @@ paquetes npm tradicionales!).
 Esto también es válido para los puntos de entrada secundarios a los que
 pertenecen nuestras bibliotecas compartidas.
 
-*Pista:* `@angular-architects/module-federation` viene con una función
+_Pista:_ `@angular-architects/module-federation` viene con una función
 auxiliar `shareAll` para compartir todas las dependencias definidas en
 el `package.json` de tu proyecto:
 
-``` typescript
+```typescript
 shared: {
   ...shareAll({
       singleton: true,
@@ -4813,7 +4778,7 @@ prototipos. Además, puedes hacer que `share` y `shareAll` incluyan todos
 los puntos de entrada secundarios utilizando la propiedad
 `includeSecondaries`:
 
-``` typescript
+```typescript
 shared: share({
     "@angular/common": {
         singleton: true,
@@ -4832,7 +4797,7 @@ shared: share({
 Bien, la última sección fue un poco difícil. Por lo tanto, continuemos
 con una más fácil. Quizás hayas visto un error como este:
 
-``` bash
+```bash
 ERROR Error: Uncaught (in promise): NullInjectorError: R3InjectorError(FlightsModule)[HttpClient -> HttpClient -> HttpClient -> HttpClient]:
   NullInjectorError: No provider for HttpClient!
 NullInjectorError: R3InjectorError(FlightsModule)[HttpClient -> HttpClient -> HttpClient -> HttpClient]:
@@ -4849,14 +4814,14 @@ por ejemplo, algunos Módulos de Funcionalidad (Feature Modules) con
 Rutas Hijas (Child Routes):
 
 ![Módulos de Funcionalidad expuestos vía Module
-Federation](images/shell-mfe1.png)
+Federation](../manuscript/images/shell-mfe1.png)
 
 O para decirlo de otra manera: **NO** expongas el `AppModule` del Micro
 Frontend. Sin embargo, si esperamos que el `AppModule` proporcione
 algunos servicios globales como el `HttpClient`, también debemos hacerlo
 en el `AppModule` del shell:
 
-``` typescript
+```typescript
 // AppModule del Shell
 @NgModule({
   imports: [
@@ -4874,7 +4839,7 @@ export class AppModule { }
 En un escenario muy simple, podrías intentar simplemente exponer el
 `AppModule` del Micro Frontend.
 
-![AppModule carga AppModule expuesto](images/appmod-appmod.png)
+![AppModule carga AppModule expuesto](../manuscript/images/appmod-appmod.png)
 
 Como ves aquí, ahora, el `AppModule` del shell usa el `AppModule` del
 Micro Frontend. Si usas el enrutador, obtendrás algunos problemas
@@ -4895,7 +4860,7 @@ servicios y esto es algo que nadie espera.
 Una **solución simple pero también no preferible** es poner tus
 servicios compartidos en el ámbito `platform`:
 
-``` typescript
+```typescript
 // ¡No hagas esto en casa!
 @Injectable({
   providedIn: "platform",
@@ -4915,7 +4880,7 @@ usan en modo autónomo.
 
 Otro obstáculo menos obvio con el que puedes encontrarte es este:
 
-``` json
+```json
 node_modules_angular_core___ivy_ngcc___fesm2015_core_js.js:6850 ERROR Error: Uncaught (in promise): Error: inject() must be called from an injection context
 Error: inject() must be called from an injection context
     at pr (node_modules_angular_core___ivy_ngcc___fesm2015_core_js.2fc3951af86e4bae0c59.js:1)
@@ -4944,7 +4909,7 @@ que hay varias versiones de Angular cargadas a la vez.
 Para provocar este error, ajusta el `webpack.config.js` de tu shell de
 la siguiente manera:
 
-``` typescript
+```typescript
 shared: share({
   "@angular/core": { requiredVersion: "auto" },
   "@angular/common": { requiredVersion: "auto" },
@@ -4958,7 +4923,7 @@ singletons. Por lo tanto, Module Federation permite cargar varias
 versiones de ellas si no hay una versión compatible más alta.
 
 Además, debes saber que el `package.json` del shell apunta a Angular
-12.0.0 *sin* \^ o \~, por lo que necesitamos exactamente esta versión.
+12.0.0 _sin_ \^ o \~, por lo que necesitamos exactamente esta versión.
 
 Si cargamos un Micro Frontend que usa una versión diferente de Angular,
 Module Federation recurre a cargar Angular dos veces, una vez la versión
@@ -4966,7 +4931,7 @@ para el shell y otra vez la versión para el Micro Frontend. Puedes
 probar esto actualizando el `app.routes.ts` del shell de la siguiente
 manera:
 
-``` typescript
+```typescript
 {
   path: 'flights',
   loadChildren: () => loadRemoteModule({
@@ -5001,7 +4966,7 @@ está totalmente bien. Quizás ya hayas visto que a veces Module
 Federation genera bundles duplicados con nombres ligeramente diferentes:
 
 ![Bundles duplicados generados por Module
-Federation](images/duplicate-bundles.png)
+Federation](../manuscript/images/duplicate-bundles.png)
 
 La razón de esta duplicación es que Module Federation genera un bundle
 **por biblioteca compartida por consumidor**. El consumidor en este
@@ -5021,25 +4986,25 @@ detalles automáticamente y compensar los desajustes de versión. Sin
 embargo, solo puede ser tan bueno como los metadatos que recibe. Para
 evitar salirse del camino, debes recordar lo siguiente:
 
--   **requiredVersion**: Asigna la `requiredVersion` manualmente,
-    especialmente cuando trabajas con puntos de entrada secundarios y
-    cuando tienes advertencias de dependencias peer. El plugin
-    `@angular-architects/module-federation` te cubre con su función
-    auxiliar `share` que permite la opción `requiredVersion: 'auto'`, la
-    cual toma el número de versión del `package.json` de tu proyecto.
--   **Comparte también las dependencias de las bibliotecas
-    compartidas**, especialmente si también se usan en otro lugar.
-    Piensa también en los puntos de entrada secundarios.
--   Haz que el **shell proporcione los servicios globales** que
-    necesitan los Micro Frontends cargados, por ejemplo, el `HttpClient`
-    a través del `HttpClientModule`.
--   Nunca expongas el `AppModule` a través de Module Federation.
-    Prefiere exponer módulos de Funcionalidad (Feature modules) cargados
-    de forma diferida.
--   Usa `singleton:true` para Angular y otras bibliotecas o frameworks
-    con estado.
--   No te preocupes por los **bundles duplicados** siempre y cuando solo
-    uno de ellos se cargue en tiempo de ejecución.
+- **requiredVersion**: Asigna la `requiredVersion` manualmente,
+  especialmente cuando trabajas con puntos de entrada secundarios y
+  cuando tienes advertencias de dependencias peer. El plugin
+  `@angular-architects/module-federation` te cubre con su función
+  auxiliar `share` que permite la opción `requiredVersion: 'auto'`, la
+  cual toma el número de versión del `package.json` de tu proyecto.
+- **Comparte también las dependencias de las bibliotecas
+  compartidas**, especialmente si también se usan en otro lugar.
+  Piensa también en los puntos de entrada secundarios.
+- Haz que el **shell proporcione los servicios globales** que
+  necesitan los Micro Frontends cargados, por ejemplo, el `HttpClient`
+  a través del `HttpClientModule`.
+- Nunca expongas el `AppModule` a través de Module Federation.
+  Prefiere exponer módulos de Funcionalidad (Feature modules) cargados
+  de forma diferida.
+- Usa `singleton:true` para Angular y otras bibliotecas o frameworks
+  con estado.
+- No te preocupes por los **bundles duplicados** siempre y cuando solo
+  uno de ellos se cargue en tiempo de ejecución.
 
 # Federación de Módulos con Componentes Independientes de Angular
 
@@ -5056,7 +5021,7 @@ Componente Independiente individual. Para esto, he actualizado mi
 ejemplo para que funcione completamente sin NgModules:
 
 ![El ejemplo fue actualizado para usar completamente Componentes
-Independientes](images/new-result.png)
+Independientes](../manuscript/images/new-result.png)
 
 > [Código
 > fuente](https://github.com/manfredsteyer/module-federation-plugin-example/tree/standalone-solution)
@@ -5081,7 +5046,7 @@ configuraciones del enrutador.
 El Micro Frontend utilizado aquí es una aplicación Angular simple que
 inicializa un Componente Independiente:
 
-``` typescript
+```typescript
 // projects/mfe1/src/main.ts
 
 import { environment } from "./environments/environment";
@@ -5104,7 +5069,7 @@ Al inicializar, la aplicación registra su configuración de enrutador
 `MFE1_ROUTES` a través de proveedores de servicios. Esta configuración
 de enrutador apunta a varios Componentes Independientes:
 
-``` typescript
+```typescript
 // projects/mfe1/src/app/mfe1.routes.ts
 
 import { Routes } from "@angular/router";
@@ -5144,7 +5109,7 @@ haremos que haga referencia al Micro Frontend en tiempo de ejecución.
 Para comenzar, instalemos el plugin de Federación de Módulos y activemos
 la Federación de Módulos para el Micro Frontend:
 
-``` bash
+```bash
 npm i @angular-architects/module-federation
 
 ng g @angular-architects/module-federation:init \
@@ -5154,7 +5119,7 @@ ng g @angular-architects/module-federation:init \
 Este comando genera un `webpack.config.js`. Para nuestro propósito,
 tenemos que modificar la sección `exposes` de la siguiente manera:
 
-``` javascript
+```javascript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -5200,7 +5165,7 @@ mapear las rutas que apuntan a nuestros Micro Frontends en el
 Para habilitar la Federación de Módulos para el shell, ejecutemos este
 comando:
 
-``` bash
+```bash
 ng g @angular-architects/module-federation:init \
     --project shell --port 4200 --type host
 ```
@@ -5208,7 +5173,7 @@ ng g @angular-architects/module-federation:init \
 El `webpack.config.js` generado para el shell necesita apuntar al Micro
 Frontend:
 
-``` javascript
+```javascript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -5233,7 +5198,7 @@ Como vamos con federación estática, también necesitamos tipos (typings)
 para todas las rutas configuradas (módulos EcmaScript) que hacen
 referencia a Micro Frontends:
 
-``` typescript
+```typescript
 // projects/shell/src/decl.d.ts
 
 declare module "mfe1/*";
@@ -5243,7 +5208,7 @@ Ahora, todo lo que se necesita es una ruta de carga diferida (lazy
 route) en el shell, que apunte a las rutas y al Componente Independiente
 expuesto por el Micro Frontend:
 
-``` javascript
+```javascript
 // projects/shell/src/app/app.routes.ts
 
 import { Routes } from '@angular/router';
@@ -5288,7 +5253,7 @@ que no queremos definir nuestro remoto por adelantado en el
 `webpack.config.js` del shell. Por lo tanto, comentemos la sección
 `remotes` allí:
 
-``` javascript
+```javascript
 const {
   shareAll,
   withModuleFederationPlugin,
@@ -5313,7 +5278,7 @@ Además, en la configuración del enrutador del shell, necesitamos cambiar
 los `imports` dinámicos usados anteriormente por llamadas a
 `loadRemoteModule`:
 
-``` typescript
+```typescript
 // projects/shell/src/app/app.routes.ts
 
 import { Routes } from '@angular/router';
@@ -5370,7 +5335,7 @@ forma programática. Para esto, necesitamos un marcador de posición
 (placeholder) marcado con una variable de plantilla para el componente
 en cuestión:
 
-``` html
+```html
 <h1>Carga Programática</h1>
 
 <div>
@@ -5383,7 +5348,7 @@ en cuestión:
 Obtenemos el `ViewContainer` de este marcador de posición a través del
 decorador `ViewChild`:
 
-``` typescript
+```typescript
 // projects/shell/src/app/programmatic-loading/programmatic-loading.component.ts
 
 import { Component, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
@@ -5424,7 +5389,7 @@ eventos.
 Si quisiéramos cambiar a Federación Dinámica, usaríamos nuevamente
 `loadRemoteModule` en lugar del `import` dinámico:
 
-``` typescript
+```typescript
 async load(): Promise<void> {
 
     const m = await loadRemoteModule({
@@ -5479,7 +5444,7 @@ real en el proceso de compilación. Es por eso que no importa qué
 empaquetador se utilice realmente:
 
 ![Native Federation extiende los scripts de compilación
-existentes](images/native-federation.png)
+existentes](../manuscript/images/native-federation.png)
 
 Dado que Native Federation también necesita crear algunos paquetes
 (bundles), delega en el empaquetador de elección. Los empaquetadores
@@ -5488,9 +5453,7 @@ individuales se conectan a través de adaptadores intercambiables.
 La siguiente imagen muestra un ejemplo construido con Angular, esbuild y
 Native Federation:
 
-::: {width="66%"}
-![Shell con micro frontend desplegado por separado](images/example.png)
-:::
+![Shell con micro frontend desplegado por separado](../manuscript/images/example.png)
 
 El shell que se muestra aquí ha cargado un Micro Frontend desarrollado y
 desplegado por separado en su espacio de trabajo utilizando Native
@@ -5505,7 +5468,7 @@ también podrían ser creados por otras herramientas. La información sobre
 estos paquetes se coloca en archivos de metadatos:
 
 ![Native Federation en tiempo de
-ejecución](images/native-federation-runtime.png)
+ejecución](../manuscript/images/native-federation-runtime.png)
 
 Estos archivos de metadatos son la base para un Mapa de Importación
 (Import Map) conforme a estándares que informa al navegador desde dónde
@@ -5518,14 +5481,14 @@ Para su uso con Angular y la CLI, Native Federation ofrece un esquema
 Angular `mfe1` y lo configura como un `remote` que actúa como un Micro
 Frontend:
 
-``` bash
+```bash
 ng add @angular-architects/native-federation --project mfe1 --port 4201 --type remote
 ```
 
 El esquema `ng-add` también crea un `federation.config.js` que controla
 el comportamiento de Native Federation:
 
-``` javascript
+```javascript
 const {
   withNativeFederation,
   shareAll,
@@ -5574,7 +5537,7 @@ remoto quiere compartir con otros remotos y el anfitrión. Para evitar
 una lista exhaustiva de todos los paquetes npm requeridos, se utiliza la
 función de ayuda `shareAll`. Incluye todos los paquetes que están en el
 `package.json` bajo `dependencies`. Los detalles sobre los parámetros
-pasados a *shareAll* se pueden encontrar en uno de los capítulos
+pasados a _shareAll_ se pueden encontrar en uno de los capítulos
 anteriores sobre Module Federation.
 
 Los paquetes que `shareAll` no debería compartir se ingresan en `skip`.
@@ -5588,14 +5551,14 @@ uso en el navegador.
 El anfitrión (host) que actúa como un Shell de Micro Frontend también se
 puede configurar con `ng add`:
 
-``` bash
+```bash
 ng add @angular-architects/native-federation --project shell --port 4200 --type dynamic-host
 ```
 
 El tipo `dynamic-host` indica que los remotos a cargar se definen en un
 archivo de configuración:
 
-``` json
+```json
 {
   "mfe1": "http://localhost:4201/remoteEntry.json"
 }
@@ -5615,7 +5578,7 @@ que no son remotos.
 El comando `ng add` también genera un `federation.config.js` para los
 anfitriones:
 
-``` javascript
+```javascript
 const {
   withNativeFederation,
   shareAll,
@@ -5649,7 +5612,7 @@ anfitriones, no hay nada de malo en agregar esta entrada.
 El archivo `main.ts`, también modificado por `ng add`, inicializa Native
 Federation usando el manifiesto:
 
-``` typescript
+```typescript
 import { initFederation } from "@angular-architects/native-federation";
 
 initFederation("/assets/federation.manifest.json")
@@ -5668,7 +5631,7 @@ Todos los archivos considerados hasta ahora fueron configurados usando
 `ng add`. Para cargar una parte del programa publicada por un remoto, el
 anfitrión debe expandirse para incluir la carga perezosa (lazy loading):
 
-``` typescript
+```typescript
 […]
 import { loadRemoteModule } from '@angular-architects/native-federation';
 
@@ -5699,7 +5662,7 @@ TypeScript/EcmaScript. En el caso de funcionalidades de grano grueso
 optamos por Componentes Autónomos (Standalone Components), simplemente
 una configuración de enrutamiento. Aquí, este último es el caso:
 
-``` typescript
+```typescript
 import { Routes } from "@angular/router";
 import { FlightComponent } from "./flight/flight.component";
 import { HolidayPackagesComponent } from "./holiday-packages/holiday-packages.component";
@@ -5724,7 +5687,7 @@ export const APP_ROUTES: Routes = [
 Esta configuración de enrutamiento debe agregarse a la sección `exposes`
 en el `federation.config.js` del Micro Frontend:
 
-``` typescript
+```typescript
 const {
   withNativeFederation,
   shareAll,
@@ -5761,7 +5724,7 @@ module.exports = withNativeFederation({
 En el shell, puedes enrutar directamente a esta configuración de
 enrutamiento:
 
-``` typescript
+```typescript
 [...]
 import { loadRemoteModule } from '@angular-architects/native-federation';
 
@@ -5783,7 +5746,7 @@ export const APP_ROUTES: Routes = [
 
 Además, necesitamos ajustar las rutas en la navegación del shell:
 
-``` html
+```html
 <ul>
   <li><img src="../assets/angular.png" width="50" /></li>
   <li><a routerLink="/">Home</a></li>
@@ -5811,7 +5774,7 @@ compartida. Esta biblioteca puede ser un paquete npm desarrollado por
 separado o una biblioteca dentro del proyecto Angular actual. Esta
 última se puede generar con:
 
-``` bash
+```bash
 ng g lib auth
 ```
 
@@ -5820,7 +5783,7 @@ compartir datos, esta biblioteca recibe un servicio con estado (stateful
 service). En aras de la brevedad, estoy usando el servicio con estado
 más simple que se me ocurre:
 
-``` typescript
+```typescript
 @Injectable({
   providedIn: "root",
 })
@@ -5840,7 +5803,7 @@ subjects de RxJS.
 Si se utilizan bibliotecas internas de Monorepo, deben hacerse
 accesibles mediante mapeo de rutas (path mapping) en el `tsconfig.json`:
 
-``` json
+```json
 "compilerOptions": {
     "paths": {
       "@demo/auth": [
@@ -5896,20 +5859,20 @@ presenta 3+1 sabores diferentes de usarlo.
 Para instalar el Signal Store, solo necesitas agregar el paquete
 `@ngrx/signals` a tu aplicación:
 
-``` bash
+```bash
 npm i @ngrx/signals
 ```
 
 ## Sabor 1: Ligero con signalState
 
-*Rama:* `arc-signal-store`
+_Rama:_ `arc-signal-store`
 
 Una forma muy ligera de gestionar Señales con el Signal Store es su
 función `signalState` (no confundir con la función `signalStore`). Crea
 un contenedor simple para gestionar el estado pasado usando Señales.
 Este contenedor está representado por el tipo `SignalState`:
 
-``` typescript
+```typescript
 @Injectable({ providedIn: 'root' })
 
 import { signalState } from '@ngrx/signals';
@@ -5954,7 +5917,7 @@ Además, los objetos anidados como el proporcionado por la propiedad
 puede recuperar todo el objeto `preferences` como una Señal, pero
 también sus propiedades:
 
-``` typescript
+```typescript
 const ps = this.state.preferences();
 const direct = this.state.preferences.directConnection();
 ```
@@ -5968,7 +5931,7 @@ creando una Señal para cada elemento iterado.
 Como el Signal Store proporciona el estado como Señales, podemos usar
 directamente la función `computed` de Angular:
 
-``` typescript
+```typescript
 selected = computed(() => this.flights().filter((f) => this.basket()[f.id]));
 ```
 
@@ -5983,7 +5946,7 @@ menos una de las señales subyacentes cambia.
 Para actualizar el `SignalState`, Signal Store nos proporciona una
 función `patchState`:
 
-``` typescript
+```typescript
 import { patchState } from '@ngrx/signals';
 
 [...]
@@ -5997,7 +5960,7 @@ Aquí, pasamos el contenedor de estado y un estado parcial. Como
 alternativa, se puede pasar una función que tome el estado actual y lo
 transforme en el nuevo estado:
 
-``` typescript
+```typescript
 updateBasket(id: number, selected: boolean): void {
   patchState(this.state, state => ({
     basket: {
@@ -6013,7 +5976,7 @@ updateBasket(id: number, selected: boolean): void {
 Además de actualizar el estado, los métodos también pueden desencadenar
 efectos secundarios como cargar y guardar objetos:
 
-``` typescript
+```typescript
 async load() {
   if (!this.from() || !this.to()) return;
 
@@ -6034,7 +5997,7 @@ proporcionar Actualizadores (Updaters). Los Actualizadores son solo
 funciones que toman un estado actual y devuelven una versión actualizada
 del mismo:
 
-``` typescript
+```typescript
 type BasketSlice = { basket: Record<number, boolean> };
 type BasketUpdateter = (state: BasketSlice) => BasketSlice;
 
@@ -6055,7 +6018,7 @@ export function updateBasket(
 También está bien devolver solo un estado parcial. Se aplicará sobre el
 estado actual:
 
-``` typescript
+```typescript
 type BasketSlice = { basket: Record<number, boolean> };
 type BasketUpdateter = (state: BasketSlice) => BasketSlice;
 
@@ -6076,7 +6039,7 @@ Si no necesitas proyectar el estado actual, devolver solo un estado
 parcial también está bien. En este caso, puedes omitir la función
 interna:
 
-``` typescript
+```typescript
 export function updateFlights(flights: Flight[]) {
   return { flights };
 }
@@ -6085,7 +6048,7 @@ export function updateFlights(flights: Flight[]) {
 Los Actualizadores pueden definirse en el \"territorio soberano\" del
 Store (de `signalState`). Para el consumidor, es solo una caja negra:
 
-``` typescript
+```typescript
 patchState(updateBasket(id, selected));
 ```
 
@@ -6097,7 +6060,7 @@ que quien llama pase directamente sus propios Actualizadores. Por esta
 
 ## Sabor 2: Potente con signalStore
 
-*Rama:* `arc-signal-store-2`
+_Rama:_ `arc-signal-store-2`
 
 Similar a `signalState`, la función `signalStore` crea un contenedor que
 gestiona el estado con Señales. Sin embargo, ahora, este contenedor es
@@ -6109,7 +6072,7 @@ de crear una fachada a mano, como se mostró anteriormente.
 Técnicamente, el Store es un servicio de Angular que está compuesto por
 varias características preexistentes:
 
-``` typescript
+```typescript
 export const FlightBookingStore = signalStore(
   { providedIn: 'root' },
   withState({
@@ -6137,7 +6100,7 @@ configuración de enrutador, o a nivel de componente.
 La característica `withComputed` toma el store con sus Señales de estado
 y define un objeto con señales calculadas:
 
-``` typescript
+```typescript
 withComputed((store) => ({
   selected: computed(() => store.flights().filter((f) => store.basket()[f.id])),
   criteria: computed(() => ({ from: store.from(), to: store.to() })),
@@ -6148,7 +6111,7 @@ Las señales computadas devueltas se convierten en parte del store. Una
 versión más compacta podría implicar desestructurar directamente el
 store pasado:
 
-``` typescript
+```typescript
 withComputed(({ flights, basket, from, to }) => ({
   selected: selectSignal(() => flights().filter((f) => basket()[f.id])),
   criteria: selectSignal(() => ({ from: from(), to: to() })),
@@ -6160,7 +6123,7 @@ withComputed(({ flights, basket, from, to }) => ({
 Similar a `withComputed`, `withMethods` también toma el store y devuelve
 un objeto con métodos:
 
-``` typescript
+```typescript
 withMethods((state) => {
   const { basket, flights, from, to, initialized } = state;
   const flightService = inject(FlightService);
@@ -6206,7 +6169,7 @@ Desde la perspectiva de quien llama, el store se parece mucho a la
 fachada mostrada anteriormente. Podemos inyectarlo en un componente
 consumidor:
 
-``` typescript
+```typescript
 @Component([...])
 export class FlightSearchComponent {
   private store = inject(FlightBookingStore);
@@ -6241,7 +6204,7 @@ La función `withHooks` proporciona otra característica que permite
 configurar hooks de ciclo de vida para que se ejecuten cuando el store
 se inicializa o se destruye:
 
-``` typescript
+```typescript
 withHooks({
   onInit({ load }) {
     load()
@@ -6257,7 +6220,7 @@ puedes enfocarte en un subconjunto de los miembros del store.
 
 ### rxMethod
 
-*Rama:* `arc-signal-store-rx`
+_Rama:_ `arc-signal-store-rx`
 
 Aunque las Señales son fáciles de usar, no son un reemplazo completo
 para RxJS. Para aprovechar RxJS y sus potentes operadores, el Signal
@@ -6266,7 +6229,7 @@ Store proporciona un punto de entrada secundario
 Permite trabajar con un Observable que representa efectos secundarios
 que se ejecutan automáticamente cuando cambian valores específicos:
 
-``` typescript
+```typescript
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 
 [...]
@@ -6296,7 +6259,7 @@ Observable.
 Después de definir `rxMethod`, en otro lugar de la aplicación, p. ej.,
 en un hook o un método regular, puedes llamar a este efecto:
 
-``` typescript
+```typescript
 withHooks({
   onInit({ loadBy, criteria }) {
     connectCriteria(criteria);
@@ -6310,7 +6273,7 @@ ejecutar.
 
 ## Características Personalizadas - n Sabores Adicionales
 
-*Rama:* `arc-signal-store-custom`
+_Rama:_ `arc-signal-store-custom`
 
 Además de configurar el Store con características incorporadas,
 cualquiera puede escribir sus propias características para automatizar
@@ -6325,7 +6288,7 @@ CallState](https://github.com/markostanimirovic/ngrx-signal-store-playground/blo
 que define una propiedad de estado que informa sobre el estado de la
 llamada HTTP actual:
 
-``` typescript
+```typescript
 export type CallState = "init" | "loading" | "loaded" | { error: string };
 ```
 
@@ -6337,7 +6300,7 @@ proporcionar características personalizadas.
 Una característica generalmente se crea llamando a `signalStoreFeature`.
 Esta función construye una nueva característica sobre las existentes.
 
-``` typescript
+```typescript
 // Tomado de: https://github.com/markostanimirovic/ngrx-signal-store-playground/blob/main/src/app/shared/call-state.feature.ts
 
 import { computed } from "@angular/core";
@@ -6363,7 +6326,7 @@ export function withCallState() {
 Para las propiedades de estado agregadas por la característica, se
 pueden proporcionar `Actualizadores`:
 
-``` typescript
+```typescript
 export function setLoading(): { callState: CallState } {
   return { callState: "loading" };
 }
@@ -6385,7 +6348,7 @@ característica sin saber realmente cómo está estructurado.
 Para usar Características Personalizadas, simplemente llama a la
 factoría proporcionada al configurar el store:
 
-``` typescript
+```typescript
 export const FlightBookingStore = signalStore(
   { providedIn: 'root' },
   withState({ [...] }),
@@ -6402,7 +6365,7 @@ export const FlightBookingStore = signalStore(
 Las propiedades, métodos y Actualizadores proporcionados se pueden usar
 en los métodos del Store:
 
-``` typescript
+```typescript
 load: async () => {
   if (!this.from() || !this.to()) return;
 
@@ -6420,7 +6383,7 @@ load: async () => {
 El consumidor del store también ve las propiedades proporcionadas por la
 característica:
 
-``` typescript
+```typescript
 private store = inject(FlightBookingStore);
 
 flights = this.store.flightEntities;
@@ -6434,7 +6397,7 @@ que ser llamado antes que `withMethods`.
 
 ## Sabor 3: Características Incorporadas como Gestión de Entidades
 
-*Rama:* `arc-signal-store-entities`
+_Rama:_ `arc-signal-store-entities`
 
 El Signal Store de NGRX ya viene con una extensión conveniente para
 gestionar entidades. Se puede encontrar en el punto de entrada
@@ -6445,7 +6408,7 @@ insertar entidades o para actualizar una entidad única por id.
 Para configurar la gestión de entidades, simplemente llama a la función
 `withEntities`:
 
-``` typescript
+```typescript
 import { withEntities } from '@ngrx/signals/entities';
 
 const BooksStore = signalStore(
@@ -6491,17 +6454,17 @@ ej., `flightEntities`.
 
 Hay una cantidad considerable de Actualizadores listos para usar:
 
--   `addEntity`
--   `addEntities`
--   `removeEntity`
--   `removeEntities`
--   `removeAllEntities`
--   `setEntity`
--   `setEntities`
--   `setAllEntities`
--   `updateEntity`
--   `updateEntities`
--   `updateAllEntities`
+- `addEntity`
+- `addEntities`
+- `removeEntity`
+- `removeEntities`
+- `removeAllEntities`
+- `setEntity`
+- `setEntities`
+- `setAllEntities`
+- `updateEntity`
+- `updateEntities`
+- `updateAllEntities`
 
 Similar a `@ngrx/entities`, internamente, las entidades se almacenan de
 forma normalizada. Esto significa que se almacenan en un diccionario,
@@ -6523,7 +6486,7 @@ necesitan saber cómo se llama el id de la entidad. Por defecto, asume
 una propiedad `id`. Si el id se llama de manera diferente, puedes
 indicarle al Actualizador usando la propiedad `idKey`:
 
-``` typescript
+```typescript
 patchState(
   state,
   setAllEntities(flights, {
@@ -6582,21 +6545,21 @@ Fuente](https://github.com/manfredsteyer/standalone-example-cli/tree/arc-signal-
 El objetivo de este capítulo es mostrar cómo implementar funcionalidades
 personalizadas para el Signal Store que permitan lo siguiente:
 
--   Buscar entidades
--   Seleccionar varias entidades
--   Mostrar las entidades seleccionadas
--   Deshacer/Rehacer
+- Buscar entidades
+- Seleccionar varias entidades
+- Mostrar las entidades seleccionadas
+- Deshacer/Rehacer
 
 Así es como se ve la aplicación de demostración que he construido sobre
 estas funcionalidades personalizadas:
 
-![Aplicación de Demostración](images/result.png)
+![Aplicación de Demostración](../manuscript/images/result.png)
 
 Y este es todo el código que necesitamos para configurar el store,
 incluyendo Deshacer/Rehacer y conectarlo a un Servicio de Datos que
 obtiene las entidades del backend:
 
-``` typescript
+```typescript
 export const FlightBookingStore = signalStore(
   { providedIn: "root" },
   withEntities<Flight>(),
@@ -6626,7 +6589,7 @@ Para hacer genérica la funcionalidad `DataService`, necesitamos algunos
 tipos generales que describan todo con lo que la funcionalidad
 interactúa:
 
-``` typescript
+```typescript
 import { EntityId } from "@ngrx/signals/entities";
 [...]
 
@@ -6654,7 +6617,7 @@ con esta convención.
 
 La función `withDataService` devuelve la funcionalidad `DataService`:
 
-``` typescript
+```typescript
 export function withDataService<E extends Entity, F extends Filter, S extends DataService<E, F>>(dataServiceType: Type<S>, filter: F) {
     [...]
 }
@@ -6665,14 +6628,14 @@ búsqueda correspondiente y el `DataService`. Al llamar a este método
 genérico solo necesitamos pasar el `DataService` y un filtro inicial.
 TypeScript infiere el resto:
 
-``` typescript
+```typescript
 withDataService(FlightService, { from: 'Graz', to: 'Hamburg'} ),
 ```
 
 La función `withDataService` llama a `signalStoreFeature` para
 configurar nuestra funcionalidad personalizada:
 
-``` typescript
+```typescript
 export function withDataService<E extends Entity, F extends Filter, S extends DataService<E, F>>(dataServiceType: Type<S>, filter: F) {
     return signalStoreFeature(
         // Nuestras expectativas para el store:
@@ -6726,7 +6689,7 @@ Las partes restantes de esta funcionalidad personalizada tratan
 simplemente de añadir propiedades de estado, Signals calculadas y
 métodos sobre las funcionalidades esperadas:
 
-``` typescript
+```typescript
 export function withDataService<
   E extends Entity,
   F extends Filter,
@@ -6790,7 +6753,7 @@ personalizada, necesitan implementar la interfaz `DataService`
 mencionada anteriormente, que debe ser tipada con la Entidad en cuestión
 y un filtro de búsqueda esperado por el método `load`:
 
-``` typescript
+```typescript
 export type FlightFilter = {
     from: string;
     to: string;
@@ -6818,7 +6781,7 @@ La funcionalidad de Deshacer/Rehacer se implementa de manera muy
 similar. Internamente, gestiona dos pilas: una pila de deshacer y una
 pila de rehacer. Las pilas son básicamente arrays con `StackItem`s:
 
-``` typescript
+```typescript
 export type StackItem = {
   filter: Filter;
   entityMap: Record<EntityId, Entity>;
@@ -6832,7 +6795,7 @@ actual y la información que utiliza la funcionalidad de entidad
 
 Para configurar la funcionalidad, se utiliza un tipo `UndoRedoOptions`:
 
-``` typescript
+```typescript
 export type UndoRedoOptions = {
   maxStackSize: number;
 };
@@ -6849,7 +6812,7 @@ Primero en Salir (FIFO) si la pila crece demasiado.
 La función `withUndoRedo` añade la funcionalidad. Se estructura de la
 siguiente manera:
 
-``` typescript
+```typescript
 export function withUndoRedo(options = defaultUndoRedoOptions) {
 
     let previous: StackItem | null = null;
@@ -6915,7 +6878,7 @@ funcionalidad en el Signal Store, por favor mira la rama
 Para usar nuestro signal-store de 7 líneas de código en un componente,
 simplemente inyéctalo y delega a sus signals y métodos:
 
-``` typescript
+```typescript
 @Component( [...] )
 export class FlightSearchComponent {
   private store = inject(FlightBookingStore);
@@ -7007,7 +6970,7 @@ Fuente](https://github.com/manfredsteyer/standalone-example-cli/tree/arc-signal-
 Usemos la característica `CallState` del capítulo anterior como punto de
 partida:
 
-``` typescript
+```typescript
 import {
   SignalStoreFeature,
   signalStoreFeature,
@@ -7043,7 +7006,7 @@ discutidas basándose en ella.
 Los Updaters (Actualizadores) proporcionados por la característica solo
 devuelven un objeto de estado parcial con la propiedad a actualizar:
 
-``` typescript
+```typescript
 export function setLoading(): { callState: CallState } {
   return { callState: "loading" };
 }
@@ -7092,7 +7055,7 @@ calculadas como `loading`. Respectivamente, nuestros tipos `Input` y
 `Output` se ven así:
 
 ![Extensiones Personalizadas desde la perspectiva del sistema de
-tipos](images/extensions-type-system-01.png)
+tipos](../manuscript/images/extensions-type-system-01.png)
 
 Debe tenerse en cuenta que `state` describe la señal a introducir, y la
 propiedad `signals` representa las señales calculadas a partir de ella.
@@ -7106,7 +7069,7 @@ interna tiene dos salidas, que se combinan usando un tipo auxiliar
 (helper type).
 
 ![Extensiones Personalizadas desde la perspectiva del sistema de
-tipos](images/extensions-type-system-02.png)
+tipos](../manuscript/images/extensions-type-system-02.png)
 
 Por simplicidad, la imagen anterior llama al tipo auxiliar
 `Merged Result`. Sin embargo, la verdad es que Signal Store tiene varios
@@ -7123,7 +7086,7 @@ Store: una combinación de una sobrecarga de función con la vista externa
 y una implementación de función que usa `SignalStoreFeature` en lugar de
 `SignalStoreFeature<Input, Output>` para la vista interna:
 
-``` typescript
+```typescript
 // Sobrecarga con Vista Externa
 export function withCallState(): SignalStoreFeature<
   {
@@ -7170,7 +7133,7 @@ extenderla con nombres de propiedad configurables. Siguiendo el ejemplo
 de `@ngrx/signals/entity`, los consumidores deberían tener la opción de
 definir un prefijo al activar la característica:
 
-``` typescript
+```typescript
 export const FlightBookingStore = signalStore(
   { providedIn: 'root' },
 
@@ -7188,17 +7151,17 @@ Este prefijo ahora debería incluirse en los nombres de propiedad
 definidos por la característica. Por ejemplo, la primera llamada a
 `withCallState` debería producir las siguientes propiedades:
 
--   `flightsCallState` (estado)
--   `flightsLoading` (calculada)
--   `flightsLoaded` (calculada)
--   `flightsError` (calculada)
+- `flightsCallState` (estado)
+- `flightsLoading` (calculada)
+- `flightsLoaded` (calculada)
+- `flightsError` (calculada)
 
 La segunda llamada análogamente conduce a estas propiedades:
 
--   `passengersCallState` (estado)
--   `passengersLoading` (calculada)
--   `passengersLoaded` (calculada)
--   `passengersError` (calculada)
+- `passengersCallState` (estado)
+- `passengersLoading` (calculada)
+- `passengersLoaded` (calculada)
+- `passengersError` (calculada)
 
 Configurar estas propiedades en tiempo de ejecución no es un gran
 problema en el mundo de TypeScript, especialmente porque JavaScript
@@ -7210,7 +7173,7 @@ Para esta tarea, primero necesitas encontrar una manera de expresar el
 prefijo en una declaración de tipo. En este punto, nos beneficiamos del
 hecho de que los literales también pueden usarse como tipos de datos:
 
-``` typescript
+```typescript
 export type BoxStatus = "open" | "closed";
 const candyBox: BoxStatus = "open";
 ```
@@ -7222,7 +7185,7 @@ clave `enum` de TypeScript. Curiosamente, nadie nos obliga a ofrecer
 múltiples opciones. Es por eso que esta variante es completamente
 correcta:
 
-``` typescript
+```typescript
 export type BoxStatusAfterHolidays = "closed";
 ```
 
@@ -7231,7 +7194,7 @@ valor de cadena. Usamos este patrón exacto para informar al sistema de
 tipos sobre nuestro prefijo. Primero, creamos un tipo que define el
 nombre de la señal a introducir basándose en el prefijo:
 
-``` typescript
+```typescript
 export type NamedCallState<Prop extends string> = {
   [K in Prop as `${K}CallState`]: CallState;
 };
@@ -7249,7 +7212,7 @@ propiedades del tipo original.
 Podemos proceder de manera análoga para las señales calculadas a
 introducir:
 
-``` typescript
+```typescript
 export type NamedCallStateComputed<Prop extends string> = {
   [K in Prop as `${K}Loading`]: Signal<boolean>;
 } & {
@@ -7264,7 +7227,7 @@ utilizan varios tipos mapeados. Se combinan con el operador `&`
 (operador de intersección). Con estos dos tipos ahora podemos
 especificar el tipado de nuestra función `withCallState`:
 
-``` typescript
+```typescript
 export function withCallState<Prop extends string>(config: {
   prop: Prop;
 }): SignalStoreFeature<
@@ -7287,7 +7250,7 @@ Además, ahora es importante configurar estas propiedades en tiempo de
 ejecución. Una función auxiliar `getCallStateKeys` se utiliza para este
 propósito:
 
-``` typescript
+```typescript
 function getCallStateKeys(config: { prop: string }) {
   return {
     callStateKey: `${config.prop}CallState`,
@@ -7303,7 +7266,7 @@ que los tipos introducidos previamente durante el tiempo de compilación.
 La implementación actualizada de `withCallState` recoge estos nombres y
 configura las propiedades correspondientes:
 
-``` typescript
+```typescript
 […]
 export function withCallState<Prop extends string>(config: {
   prop: Prop;
@@ -7333,7 +7296,7 @@ export function withCallState<Prop extends string>(config: {
 Para que los actualizadores (updaters) puedan manejar las propiedades
 dinámicas, también reciben un parámetro correspondiente:
 
-``` typescript
+```typescript
 export function setLoading<Prop extends string>(
   prop: Prop
 ): NamedCallState<Prop> {
@@ -7344,7 +7307,7 @@ export function setLoading<Prop extends string>(
 Esta idea también se puede encontrar en `@ngrx/signals/entity`. El
 actualizador (updater) se usa entonces de la siguiente manera:
 
-``` typescript
+```typescript
 load: async () => {
   patchState(state, setLoading('flights'));
   […]
@@ -7373,12 +7336,12 @@ que hemos puesto varias extensiones para Signal Store en el paquete npm
 De fábrica (Out of the box), proporciona varias características
 personalizadas:
 
--   Soporte para Redux Dev Tools
--   Uso del patrón Redux con Signal Store
--   Conexión de Servicios de Datos a Signal Store como se muestra en el
-    capítulo anterior pero con propiedades dinámicas y soporte CRUD
-    completo
--   Soporte para Deshacer/Rehacer (Undo/Redo)
+- Soporte para Redux Dev Tools
+- Uso del patrón Redux con Signal Store
+- Conexión de Servicios de Datos a Signal Store como se muestra en el
+  capítulo anterior pero con propiedades dinámicas y soporte CRUD
+  completo
+- Soporte para Deshacer/Rehacer (Undo/Redo)
 
 ## Conclusión
 
@@ -7423,14 +7386,14 @@ nuestra arquitectura de referencia divide una interfaz de usuario
 delimitados) que constan de varias capas técnicas:
 
 ![Arquitectura de Referencia con dominios y capas
-desacoplados](images/matrix.png)
+desacoplados](../manuscript/images/matrix.png)
 
 Esta arquitectura, que a menudo actúa como punto de partida y puede
 adaptarse a los requisitos individuales, se describe en los primeros
 capítulos de este libro.
 
 Cuando optamos por el **Store NGRX tradicional basado en Redux,**
-subdividimos el estado en *slices* de funcionalidad. Si bien pueden
+subdividimos el estado en _slices_ de funcionalidad. Si bien pueden
 asociarse con la capa de funcionalidad, a menudo los empujamos hacia el
 nivel de dominio, ya que el mismo estado se necesita con frecuencia en
 varias funcionalidades del mismo dominio.
@@ -7438,7 +7401,7 @@ varias funcionalidades del mismo dominio.
 > Al hablar de esta arquitectura de referencia, también debemos tener en
 > cuenta que existen varias variantes. Por ejemplo, algunos equipos
 > tienen una capa de datos o una capa de estado donde colocan los
-> *slices* de funcionalidad necesarios para varias funcionalidades.
+> _slices_ de funcionalidad necesarios para varias funcionalidades.
 > Estas capas pueden ser una alternativa, pero también una adición a la
 > capa de dominio.
 
@@ -7446,37 +7409,35 @@ Cuando incorporamos un **store ligero como el NGRX Signals Store,** nos
 encontramos con **reglas diferentes:** En general, los stores ligeros se
 pueden encontrar en todas las capas técnicas:
 
-::: {width="33%"}
-![](images/signal-store-arc-02.png)
-:::
+![](../manuscript/images/signal-store-arc-02.png)
 
--   **Capa de Funcionalidad:** Podemos usar un store a nivel de
-    componente para gestionar el estado del componente o a nivel de
-    funcionalidad para que varios componentes de la misma funcionalidad
-    puedan acceder a él. En este último caso, un ejemplo es un asistente
-    (wizard) que delega en diferentes componentes.
--   **IU:** Los componentes de la IU ciertamente tienen estado. Algunos
-    de ellos tienen estados bastante extensos que necesitan ser
-    compartidos con componentes hijos. Un ejemplo es un planificador
-    sofisticado con diferentes vistas que requieren varios componentes
-    hijos. Dicho estado puede ser gestionado por un store ligero
-    conectado directamente al componente.
--   **Dominio:** El estado que es necesario para varias funcionalidades
-    en el mismo dominio se define aquí. Un store ligero utilizado para
-    esto es expuesto por esta capa para que la capa de funcionalidad
-    pueda acceder a él.
--   **Utilidad**: Con bastante frecuencia, las utilidades no tienen
-    estado: piensa en funciones que validan entradas o calculan fechas.
-    Sin embargo, también hay algunas bibliotecas de utilidad con estado
-    donde un store puede ser útil. Un ejemplo es una biblioteca de
-    autenticación genérica que gestiona algunos datos sobre el usuario
-    actual o una biblioteca de traducción que contiene textos de
-    traducción.
+- **Capa de Funcionalidad:** Podemos usar un store a nivel de
+  componente para gestionar el estado del componente o a nivel de
+  funcionalidad para que varios componentes de la misma funcionalidad
+  puedan acceder a él. En este último caso, un ejemplo es un asistente
+  (wizard) que delega en diferentes componentes.
+- **IU:** Los componentes de la IU ciertamente tienen estado. Algunos
+  de ellos tienen estados bastante extensos que necesitan ser
+  compartidos con componentes hijos. Un ejemplo es un planificador
+  sofisticado con diferentes vistas que requieren varios componentes
+  hijos. Dicho estado puede ser gestionado por un store ligero
+  conectado directamente al componente.
+- **Dominio:** El estado que es necesario para varias funcionalidades
+  en el mismo dominio se define aquí. Un store ligero utilizado para
+  esto es expuesto por esta capa para que la capa de funcionalidad
+  pueda acceder a él.
+- **Utilidad**: Con bastante frecuencia, las utilidades no tienen
+  estado: piensa en funciones que validan entradas o calculan fechas.
+  Sin embargo, también hay algunas bibliotecas de utilidad con estado
+  donde un store puede ser útil. Un ejemplo es una biblioteca de
+  autenticación genérica que gestiona algunos datos sobre el usuario
+  actual o una biblioteca de traducción que contiene textos de
+  traducción.
 
 Un Store utilizado a nivel de componente es provisto directamente por el
 componente en cuestión:
 
-``` typescript
+```typescript
 @Component({
     [...],
     providers: [MySignalStore]
@@ -7493,7 +7454,7 @@ cuando se destruye el componente.
 Para los otros casos de uso, podemos proveer el Store a través del
 inyector raíz:
 
-``` typescript
+```typescript
 export const MySignalStore = signalStore(
     { providedIn: 'root'},
     withState([...]),
@@ -7547,10 +7508,10 @@ encontrarás una en nuestro paquete npm
 ## ¿Qué Tan Grande Debería Ser un Signal Store?
 
 Viniendo del Store NGRX tradicional, como regla general, un Signal Store
-puede tener la granularidad de un *slice* de funcionalidad. Sin embargo,
+puede tener la granularidad de un _slice_ de funcionalidad. Sin embargo,
 dado que un Signal Store es solo un servicio, también deberíamos
 alinearnos con el principio de responsabilidad única. Por lo tanto,
-dividir un *slice* de funcionalidad en otros más específicos puede ser
+dividir un _slice_ de funcionalidad en otros más específicos puede ser
 una buena idea.
 
 ## ¿Puede un Signal Store Acceder a Otros Signal Stores?
@@ -7564,9 +7525,7 @@ es gestionar sus propiedades de estado. Además, queremos evitar ciclos.
 Afortunadamente, hay una alternativa. Opta por un servicio (de
 funcionalidad) que orqueste los stores:
 
-::: {width="66%"}
-![](images/signal-store-arc-03.png)
-:::
+![](../manuscript/images/signal-store-arc-03.png)
 
 Dicho servicio es similar a las fachadas (facades) que se usan a menudo
 para la gestión del estado. Pero como es parte de la funcionalidad y no
@@ -7578,7 +7537,7 @@ La estructuración en capas introducida con nuestra arquitectura de
 referencia y la regla de que los stores no pueden accederse entre sí
 previenen los ciclos. En general, nuestros diferentes stores pueden
 volverse redundantes y, por lo tanto, inconsistentes si no tenemos
-cuidado. Sin embargo, el mismo riesgo existe con diferentes *slices* de
+cuidado. Sin embargo, el mismo riesgo existe con diferentes _slices_ de
 funcionalidad independientes cuando se opta por el Store NGRX
 tradicional.
 
@@ -7662,7 +7621,7 @@ También viene con numerosos métodos de ayuda que apoyan el desarrollo de
 plugins. Puedes usar las siguientes instrucciones para crear un nuevo
 espacio de trabajo Nx con un plugin:
 
-``` bash
+```bash
 npx create-nx-workspace@latest plugin-demo
 
 cd plugin-demo # Corrección: el original dice 'cd my plugin-demo', pero el workspace se llama 'plugin-demo'
@@ -7678,19 +7637,19 @@ valores predeterminados.
 
 Después de eso, añade un generador a tu plugin:
 
-``` bash
+```bash
 nx generate @nx/plugin:generator my-generator --directory libs/my-plugin/src/generators/my-generator
 ```
 
 ## Plantillas para Generadores
 
 Los generadores a menudo usan plantillas que usualmente se colocan en la
-subcarpeta *files*. Las plantillas son archivos con marcadores de
+subcarpeta _files_. Las plantillas son archivos con marcadores de
 posición (placeholders) que el generador copia en el proyecto destino.
 Por ejemplo, la siguiente plantilla usa un marcador de posición
-*projectName* y genera diez constantes:
+_projectName_ y genera diez constantes:
 
-``` typescript
+```typescript
 <% /* Nombre de archivo: libs\my-plugin\src\generators\my-generator\files\src\index.ts.template */ %>
 
 <% for (let i=0; i<10; i++) { %>
@@ -7714,7 +7673,7 @@ recibe dos parámetros: un objeto `Tree` que representa el sistema de
 archivos y un objeto `options` con los parámetros pasados al llamar al
 generador en la línea de comandos:
 
-``` typescript
+```typescript
 // libs/my-plugin/src/generators/my-generator/generator.ts
 
 import {
@@ -7759,17 +7718,17 @@ export default async function (
 Este ejemplo ilustra algunas tareas típicas que realizan los
 generadores:
 
--   El método `tree.write` crea un nuevo archivo.
--   El método `libraryGenerator` del paquete `@nrwl/angular/generators`
-    representa el generador que dispara la instrucción `ng g lib`. La
-    llamada mostrada, por lo tanto, genera una nueva biblioteca en el
-    espacio de trabajo actual.
--   Con `generateFiles`, el generador copia todas las plantillas de la
-    carpeta `files` al directorio raíz del nuevo proyecto. Los valores
-    para los marcadores de posición están en el objeto
-    `templateOptions`.
--   La llamada a `formatFiles` formatea los archivos generados con
-    Prettier. Esto simplifica la estructura de las plantillas.
+- El método `tree.write` crea un nuevo archivo.
+- El método `libraryGenerator` del paquete `@nrwl/angular/generators`
+  representa el generador que dispara la instrucción `ng g lib`. La
+  llamada mostrada, por lo tanto, genera una nueva biblioteca en el
+  espacio de trabajo actual.
+- Con `generateFiles`, el generador copia todas las plantillas de la
+  carpeta `files` al directorio raíz del nuevo proyecto. Los valores
+  para los marcadores de posición están en el objeto
+  `templateOptions`.
+- La llamada a `formatFiles` formatea los archivos generados con
+  Prettier. Esto simplifica la estructura de las plantillas.
 
 Lo que es particularmente útil es el hecho de que los generadores son
 simplemente funciones que pueden llamarse en otros generadores. Esto
@@ -7788,18 +7747,18 @@ Además de los métodos utilizados aquí, el paquete `@nrwl/devkit` ofrece
 otras construcciones auxiliares útiles para desarrollar generadores.
 Aquí hay una selección de métodos que se usan a menudo en la práctica:
 
--   `readJson` y `updateJson`: Leer y actualizar un archivo JSON.
--   `readNxJson`: Lee el archivo `nx.json`, el archivo de control de Nx.
--   `readWorkspaceConfiguration`: Lee la configuración del espacio de
-    trabajo (originalmente parte de `angular.json`, ahora parte de
-    `nx.json`).
--   `readProjectConfiguration` y `updateProjectConfiguration`: Lee o
-    actualiza la configuración de un proyecto específico desde el
-    `project.json` respectivo.
--   `applyChangesToString`: Realiza múltiples inserciones y
-    eliminaciones en un archivo.
--   `names`: Formatea cadenas para ajustarse a las convenciones para
-    nombres de archivo (kebab case) o nombres de clase (pascal case).
+- `readJson` y `updateJson`: Leer y actualizar un archivo JSON.
+- `readNxJson`: Lee el archivo `nx.json`, el archivo de control de Nx.
+- `readWorkspaceConfiguration`: Lee la configuración del espacio de
+  trabajo (originalmente parte de `angular.json`, ahora parte de
+  `nx.json`).
+- `readProjectConfiguration` y `updateProjectConfiguration`: Lee o
+  actualiza la configuración de un proyecto específico desde el
+  `project.json` respectivo.
+- `applyChangesToString`: Realiza múltiples inserciones y
+  eliminaciones en un archivo.
+- `names`: Formatea cadenas para ajustarse a las convenciones para
+  nombres de archivo (kebab case) o nombres de clase (pascal case).
 
 Si es necesario cambiar archivos TypeScript existentes, la [API del
 Compilador de
@@ -7819,12 +7778,12 @@ que se encuentran en un archivo.
 El generador mostrado ahora se puede ejecutar en la consola con
 `nx generate`:
 
-``` bash
+```bash
 nx g @plugin-demo/my-plugin:my-generator my-lib
 ```
 
-Aquí, `@plugin-demo` es el *scope* del plugin (generalmente el nombre
-del espacio de trabajo o un *scope* npm si estuviera publicado) y
+Aquí, `@plugin-demo` es el _scope_ del plugin (generalmente el nombre
+del espacio de trabajo o un _scope_ npm si estuviera publicado) y
 `my-plugin` es el nombre de la biblioteca con nuestro plugin de espacio
 de trabajo. El nombre `my-generator` se refiere al generador que hemos
 añadido al plugin. `my-lib` es el valor para el parámetro `name`. En
@@ -7836,18 +7795,18 @@ Si todo va según lo planeado, el generador crea una nueva biblioteca y
 un archivo basado en la plantilla mostrada. También genera un
 `readme.txt`:
 
-![](images/ng-g-generator.png)
+![](../manuscript/images/ng-g-generator.png)
 
 ## Probando Generadores
 
 Nx también simplifica las pruebas automatizadas de los generadores.
-También ofrece construcciones auxiliares, como un objeto *Tree*, que
+También ofrece construcciones auxiliares, como un objeto _Tree_, que
 solo simula un sistema de archivos en la memoria principal y no lo
 escribe en el disco. Además, Nx también genera la estructura básica para
 una prueba unitaria por generador. Para que se ajuste a nuestra
 implementación mostrada arriba, actualicémoslo de la siguiente manera:
 
-``` typescript
+```typescript
 // libs/my-plugin/src/generators/my-generator/generator.spec.ts
 
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
@@ -7883,7 +7842,7 @@ esta tiene el archivo generado.
 
 Para ejecutar esta prueba unitaria, llama a:
 
-``` bash
+```bash
 nx test my-plugin
 ```
 
@@ -7893,7 +7852,7 @@ Si quieres usar tu plugin no solo en el espacio de trabajo actual de Nx,
 sino también en otros proyectos, todo lo que tienes que hacer es
 construirlo y desplegarlo vía npm:
 
-``` bash
+```bash
 nx build my-plugin # Corrección: el original dice 'nx build my plugin', debe ser 'my-plugin'
 
 npm publish dist/libs/my-plugin --registry http://localhost:4873 # Corrección: el original usa '\' en la ruta, debe ser '/' para consistencia
@@ -7906,17 +7865,17 @@ localmente en el puerto 4873. Sin especificar el interruptor
 El paquete npm simplemente necesita instalarse en el espacio de trabajo
 consumidor. Después de eso, puedes usar tu generador como de costumbre:
 
-``` bash
+```bash
 npm i @plugin-demo/my-plugin --registry http://localhost:4873 # Asumiendo que el paquete se publica con el scope @plugin-demo
 
 nx g @plugin-demo/my-plugin:my-generator my-lib # Ajustado para reflejar un nombre de paquete con scope
 ```
 
-*Nota: El texto original usa `@my-workspace` como un placeholder para el
+_Nota: El texto original usa `@my-workspace` como un placeholder para el
 scope del paquete npm. Si el paquete `my-plugin` se publica sin un
 scope, el comando de instalación sería `npm i my-plugin` y el de
 generación `nx g my-plugin:my-generator`. Sin embargo, es común usar
-scopes, como `@plugin-demo` si ese es el nombre del workspace.*
+scopes, como `@plugin-demo` si ese es el nombre del workspace._
 
 ## Conclusión
 
@@ -7949,10 +7908,10 @@ sobre el núcleo de este enfoque.
 
 Mi objetivo es
 
--   arrojar algo de luz sobre el enfoque del DDD,
--   por qué hay impresiones erróneas al respecto,
--   su relación con la orientación a objetos,
--   y si puede adaptarse a otros paradigmas.
+- arrojar algo de luz sobre el enfoque del DDD,
+- por qué hay impresiones erróneas al respecto,
+- su relación con la orientación a objetos,
+- y si puede adaptarse a otros paradigmas.
 
 Para ello, cito principalmente entrevistas y presentaciones de Eric
 Evans. Para proporcionar ejemplos adicionales, también cito otras
@@ -7995,7 +7954,7 @@ ellos tiene su propia visión sobre el concepto de producto y, por lo
 tanto, su propia representación:
 
 ![Ventas y Facturación son dos contextos delimitados diferentes con su
-propia representación de un producto](images/contexts.png)
+propia representación de un producto](../manuscript/images/contexts.png)
 
 ### Diseño Táctico
 
@@ -8069,14 +8028,14 @@ También añade:
 Su definición de DDD se centra principalmente en un conjunto de
 principios rectores:
 
--   Enfocarse en el dominio central.
--   Explorar modelos en colaboración entre profesionales del dominio y
-    profesionales del software.
--   Hablar un lenguaje ubicuo dentro de un contexto explícitamente
-    delimitado.
+- Enfocarse en el dominio central.
+- Explorar modelos en colaboración entre profesionales del dominio y
+  profesionales del software.
+- Hablar un lenguaje ubicuo dentro de un contexto explícitamente
+  delimitado.
 
 ![Eric Evans proporcionando una definición para DDD en Explore DDD
-2018](images/explore-ddd.png)
+2018](../manuscript/images/explore-ddd.png)
 
 ## ¿Cuándo Podemos Llamarlo DDD?
 
@@ -8185,7 +8144,7 @@ En varias ocasiones (p. ej.
 [aquí](https://www.youtube.com/watch?v=GogQor9WG-c) y
 [aquí](https://www.youtube.com/watch?v=R2IAgnpkBck)) al discutir la
 adaptación del Diseño Táctico para ajustarse a otras ideas y paradigmas,
-Eric Evans menciona el *event sourcing* y CQRS. Inicialmente, ninguno de
+Eric Evans menciona el _event sourcing_ y CQRS. Inicialmente, ninguno de
 los dos formaba parte de DDD, pero han sido incorporados por la
 comunidad. Otro ejemplo de una adaptación de los patrones de Diseño
 Táctico mencionado [aquí](https://www.youtube.com/watch?v=GogQor9WG-c)
@@ -8199,8 +8158,8 @@ Esta discusión también encaja con la charla recientemente destacada
 Aggregate!\"](https://www.youtube.com/watch?v=Q89patz4lgU) por Milan
 Savić y Sara Pellegrini. Esta charla, presentada en varias conferencias,
 discute algunas críticas a la implementación tradicional de Agregados y
-propone una implementación alternativa usando mensajería y *event
-sourcing*.
+propone una implementación alternativa usando mensajería y _event
+sourcing_.
 
 De manera más general, tales enfoques se correlacionan con la [charla
 magistral de Eric Evans de
@@ -8212,8 +8171,8 @@ En [DDD Europe 2016](https://www.youtube.com/watch?v=dnUFEg68ESM), Eric
 Evans mencionó otros dos paradigmas que pueden usarse para crear modelos
 en DDD:
 
--   Relacional
--   Grafos
+- Relacional
+- Grafos
 
 El modelado relacional podría sorprender. Sin embargo, no se refiere a
 un esquema normalizado completo (generalizado) que es lo opuesto a
@@ -8246,29 +8205,27 @@ para subdividir un sistema a lo largo de los límites del dominio.
 
 # Literatura
 
--   [Evans, Diseño Guiado por Dominio: Abordando la Complejidad en el
-    Corazón del Software](https://www.amazon.com/dp/0321125215)
--   [Wlaschin, Modelado de Dominio Hecho
-    Funcional](https://pragprog.com/book/swdddf/domain-modeling-made-functional)
--   [Ghosh, Modelado de Dominio Funcional y
-    Reactivo](https://www.amazon.com/dp/1617292249)
--   [Nrwl, Desarrollo Angular estilo
-    Monorepo](https://go.nrwl.io/angular-enterprise-monorepo-patterns-new-book)
--   [Jackson, Micro
-    Frontends](https://martinfowler.com/articles/micro-frontends.html)
--   [Burleson, Arquitecturas Basadas en Empuje (Push-based) usando
-    RxJS + Fachadas
-    (Facades)](https://medium.com/@thomasburlesonIA/push-based-architectures-with-rxjs-81b327d7c32d)
--   [Burleson, NgRx + Fachadas (Facades): Mejor Gestión de
-    Estado](https://medium.com/@thomasburlesonIA/ngrx-facades-better-state-management-82a04b9a1e39)
--   [Steyer, Componentes Web con Angular Elements (serie de artículos, 5
-    partes)](https://www.softwarearchitekt.at/aktuelles/angular-elements-part-i/)
+- [Evans, Diseño Guiado por Dominio: Abordando la Complejidad en el
+  Corazón del Software](https://www.amazon.com/dp/0321125215)
+- [Wlaschin, Modelado de Dominio Hecho
+  Funcional](https://pragprog.com/book/swdddf/domain-modeling-made-functional)
+- [Ghosh, Modelado de Dominio Funcional y
+  Reactivo](https://www.amazon.com/dp/1617292249)
+- [Nrwl, Desarrollo Angular estilo
+  Monorepo](https://go.nrwl.io/angular-enterprise-monorepo-patterns-new-book)
+- [Jackson, Micro
+  Frontends](https://martinfowler.com/articles/micro-frontends.html)
+- [Burleson, Arquitecturas Basadas en Empuje (Push-based) usando
+  RxJS + Fachadas
+  (Facades)](https://medium.com/@thomasburlesonIA/push-based-architectures-with-rxjs-81b327d7c32d)
+- [Burleson, NgRx + Fachadas (Facades): Mejor Gestión de
+  Estado](https://medium.com/@thomasburlesonIA/ngrx-facades-better-state-management-82a04b9a1e39)
+- [Steyer, Componentes Web con Angular Elements (serie de artículos, 5
+  partes)](https://www.softwarearchitekt.at/aktuelles/angular-elements-part-i/)
 
 # Acerca del Autor
 
-::: {width="66%"}
-![Manfred Steyer](images/Steyer_HiRes.png)
-:::
+![Manfred Steyer](../manuscript/images/Steyer_HiRes.png)
 
 Manfred Steyer es formador, consultor y arquitecto de programación
 especializado en Angular.
@@ -8305,7 +8262,7 @@ Angular y soluciones empresariales de gran escala, así como soluciones
 industriales, en nuestro [Taller Online
 avanzado](https://www.angulararchitects.io/en/angular-workshops/advanced-angular-enterprise-architecture-incl-ivy/):
 
-![Taller Avanzado de Angular](images/ad.png)
+![Taller Avanzado de Angular](../manuscript/images/ad.png)
 
 ¡Reserve su
 [entrada](https://www.angulararchitects.io/en/angular-workshops/advanced-angular-enterprise-architecture-incl-ivy/)
@@ -8317,12 +8274,12 @@ empresas](https://www.angulararchitects.io/en/angular-workshops/)
 Además de esto, ofrecemos los siguientes temas como parte de nuestras
 capacitaciones o talleres de consultoría:
 
--   Fundamentos de Angular: Bloques de Construcción y Conceptos
--   Angular Avanzado: Soluciones Empresariales y Arquitectura
--   Taller de Pruebas en Angular (Cypress, Jest, etc.)
--   Arquitecturas Reactivas con Angular (RxJS y NGRX)
--   Taller de Revisión de Angular
--   Taller de Actualización de Angular
+- Fundamentos de Angular: Bloques de Construcción y Conceptos
+- Angular Avanzado: Soluciones Empresariales y Arquitectura
+- Taller de Pruebas en Angular (Cypress, Jest, etc.)
+- Arquitecturas Reactivas con Angular (RxJS y NGRX)
+- Taller de Revisión de Angular
+- Taller de Actualización de Angular
 
 Encuentre [la lista completa de nuestras ofertas
 aquí](https://www.angulararchitects.io/en/angular-workshops/).

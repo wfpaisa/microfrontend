@@ -1,9 +1,7 @@
 Traducción del libro al español. (Autogenerada con IA)
 (más información en la carpeta: convert)
 
-- Enterprise Angular: Micro Frontends and
-- Moduliths with Angular
-- Module Federation - Nx - DDD
+- Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
 - Manfred Steyer
 - Compra este libro en: http://leanpub.com/enterprise-angular
 
