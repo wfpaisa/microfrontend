@@ -5010,7 +5010,7 @@ evitar salirse del camino, debes recordar lo siguiente:
 - No te preocupes por los **bundles duplicados** siempre y cuando solo
   uno de ellos se cargue en tiempo de ejecución.
 
-# 12. Federación de Módulos con Componentes Independientes de Angular {#12-federación-de-módulos-con-componentes-independientes-de-angular}
+# 12. Federación de Módulos con Componentes Independientes de Angular
 
 La mayoría de los tutoriales sobre Federación de Módulos y Angular
 exponen Micro Frontends en forma de NgModules. Sin embargo, con la
@@ -5407,7 +5407,7 @@ async load(): Promise<void> {
 }
 ```
 
-# 12a. De Module Federation a esbuild y Native Federation {#12a-de-module-federation-a-esbuild-y-native-federation}
+# 12a. De Module Federation a esbuild y Native Federation
 
 A partir de la versión 17, la CLI de Angular utiliza `esbuild` en lugar
 de `webpack` para los nuevos proyectos. Como resultado, tanto `ng serve`
@@ -5838,7 +5838,7 @@ posibles. Además, utiliza estándares web como los módulos EcmaScript y
 los Mapas de Importación. Esto también permite diferentes
 implementaciones y lo convierte en una solución confiable a largo plazo.
 
-# 12b. El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 + n Sabores {#12b-el-nuevo-store-de-señales-signal-store-de-ngrx-para-angular-3--n-sabores}
+# 12b. El nuevo Store de Señales (Signal Store) de NGRX para Angular: 3 + n Sabores
 
 La mayoría de las aplicaciones Angular necesitan preservar algún estado
 para que los mismos datos no tengan que ser recuperados una y otra vez
@@ -6525,7 +6525,7 @@ implementar características personalizadas para facilitar tareas
 repetitivas. De fábrica (Out of the box), el Signal Store viene con una
 característica bastante útil para gestionar entidades.
 
-# 12c. Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando tu Aplicación Con NGRX Signal Store y Funcionalidades Personalizadas {#12c-trabajar-de-forma-más-inteligente-no-más-esfuerzo-simplificando-tu-aplicación-con-ngrx-signal-store-y-funcionalidades-personalizadas}
+# 12c. Trabajar de Forma Más Inteligente, No Más Esfuerzo: Simplificando tu Aplicación Con NGRX Signal Store y Funcionalidades Personalizadas
 
 ¿Qué dirías si pudieras implementar un Signal Store para un caso de uso
 **CRUD** (repetitivo) incluyendo **Deshacer/Rehacer** en **solo 7 (!)
@@ -6943,7 +6943,7 @@ viene con el Signal Store soporta tales propiedades dinámicas sin
 comprometer la seguridad de tipos. En el próximo capítulo, mostraré cómo
 usar esta idea también para nuestras funcionalidades personalizadas.
 
-# 12d. Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas Flexibles y con Seguridad de Tipos {#12d-análisis-profundo-de-ngrx-signal-store-extensiones-personalizadas-flexibles-y-con-seguridad-de-tipos}
+# 12d. Análisis Profundo de NGRX Signal Store: Extensiones Personalizadas Flexibles y con Seguridad de Tipos
 
 El NGRX Signal Store, lanzado poco después de Angular 17, ofrece una
 solución muy ligera para la gestión de estado. Sin dependencias directas
@@ -7369,7 +7369,7 @@ reutilizables. Tan pronto como volvemos al rol de desarrollador de
 aplicaciones, tenemos una solución con seguridad de tipos que es cómoda
 de usar.
 
-# 12e. El NGRX Signal Store y Tu Arquitectura {#12e-el-ngrx-signal-store-y-tu-arquitectura}
+# 12e. El NGRX Signal Store y Tu Arquitectura
 
 El NGRX Signal Store es una solución de gestión de estado moderna y
 ligera. Sin embargo, al añadirlo a tu aplicación, surgen varias
