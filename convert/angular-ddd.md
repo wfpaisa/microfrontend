@@ -1185,7 +1185,7 @@ compilaciones individuales. Debido a que Nx analiza el código del
 programa y reconoce las dependencias entre aplicaciones y bibliotecas
 individuales, estas opciones a menudo no requieren configuración manual.
 
-# Nx & Sheriff - Amigos para toda la vida {#nx--sheriff---amigos-para-toda-la-vida}
+# Nx & Sheriff - Amigos para toda la vida
 
 Nx ofrece muchas características (no solo) para equipos de Angular: Una
 CI rápida gracias a la caché de compilación y la paralelización,
