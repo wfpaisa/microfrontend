@@ -1,4 +1,8 @@
-# 1. Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
+# Module federation / Native federation en Angular
+
+Referencias y traducciones de contenido sobre federación en Angular.
+
+## 1. Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
 
 - [Traducción](https://github.com/wfpaisa/ddd-Angular/blob/master/manuscript/_render-all.md)
 - [Original repo](https://github.com/manfredsteyer/ddd-bk)
@@ -32,7 +36,7 @@ pandoc \
          $(awk '{print "manuscript/"$0}' manuscript/book.txt)
 ```
 
-2. Micro Frontends with Angular and Native Federation
+## 2. Micro Frontends with Angular and Native Federation
 
 - [Original article](https://blog.angular.dev/micro-frontends-with-angular-and-native-federation-7623cfc5f413)
 - [Traducción](articles/extra/micro-frontends-with-angular-and-native-federation.md)
