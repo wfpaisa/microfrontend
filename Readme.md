@@ -1,7 +1,9 @@
+# 1. Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
+
 Traducción del libro al español. (Autogenerada con IA)
 (más información en la carpeta: convert) [Ver online](https://github.com/wfpaisa/ddd-Angular/blob/master/manuscript/_render-all.md)
 
-- Enterprise Angular: Micro Frontends and Moduliths with Angular Module Federation - Nx - DDD
+- [Original repo](https://github.com/manfredsteyer/ddd-bk)
 - Manfred Steyer
 - Compra este libro en: http://leanpub.com/enterprise-angular
 
@@ -32,3 +34,8 @@ pandoc \
          -o convert/angular-ddd.md \
          $(awk '{print "manuscript/"$0}' manuscript/book.txt)
 ```
+
+2. Micro Frontends with Angular and Native Federation
+
+- [Original article](https://blog.angular.dev/micro-frontends-with-angular-and-native-federation-7623cfc5f413)
+- [Translate article](articles/extra/micro-frontends-with-angular-and-native-federation.md)
