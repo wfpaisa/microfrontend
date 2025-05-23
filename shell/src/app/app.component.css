@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  height: calc(100vh - 2rem - 2px);
+  width: calc(100% - 2rem - 2px);
+  background-color: #f0f0f0;
+  margin: 1rem;
+  border: 1px solid red;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0px;
+  font-size: 14px;
+  color: white;
+  background-color: red;
+  padding: 0.25rem;
+}
