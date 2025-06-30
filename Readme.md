@@ -1,3 +1,11 @@
+# Microfrontends
+
+# Lecturas adicionales
+- [Microfrontends](https://martinfowler.com/articles/micro-frontends.html) by Cam Jackson
+- [Microfrontends org](https://micro-frontends.org)
+- [Demos](https://micro-frontends.org/tractor-store/)
+
+
 # Module federation / Native federation en Angular
 
 Referencias y traducciones de contenido sobre federación en Angular.
